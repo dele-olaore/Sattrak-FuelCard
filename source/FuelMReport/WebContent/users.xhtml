@@ -1,0 +1,236 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Manage Users</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Manage Users')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Manage Users</span><br/>
+									<span style="font-size:16px;">Manage users along with their roles and vehicle, if user is a driver</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<a:commandLink rendered="#{reportMBean.isFunctionAllowed('Manage Users')}" onclick="#{rich:component('newUserMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Add new User</a:commandLink>
+								</li>
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<a:commandLink rendered="#{reportMBean.isFunctionAllowed('Batch Load Users')}" onclick="#{rich:component('bulkLoadUsersMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Load Users</a:commandLink>
+								</li>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:outputPanel id="tablePanel">
+					<rich:dataTable id="users" value="#{userMBean.allusers}" var="obj" rows="20" width="100%" rendered="#{userMBean.allusers.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available users" />
+					</f:facet>
+					<rich:column sortBy="#{obj.id}" filterBy="#{obj.id}">
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{obj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.username}" filterBy="#{obj.username}">
+						<f:facet name="header">Username</f:facet>
+						<h:outputText value="#{obj.username}" rendered="#{obj.id != userMBean.userObj.id}"/>
+						<h:inputText value="#{userMBean.userObj.username}" rendered="#{obj.id == userMBean.userObj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.fullname}" filterBy="#{obj.fullname}">
+						<f:facet name="header">Full name</f:facet>
+						<h:outputText value="#{obj.fullname}" rendered="#{obj.id != userMBean.userObj.id}"/>
+						<h:inputText value="#{userMBean.userObj.fullname}" rendered="#{obj.id == userMBean.userObj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.role.name}">
+						<f:facet name="header">Role</f:facet>
+						<h:outputText value="#{obj.role.name}" rendered="#{obj.role != null and obj.id != userMBean.userObj.id}"/>
+						<h:selectOneMenu value="#{userMBean.role_id}" defaultLabel="Select a role..." rendered="#{obj.id == userMBean.userObj.id}">
+							<f:selectItems value="#{dropdownMBean.roles}" var="robj" itemLabel="#{robj.name}" itemValue="#{robj.id}" />
+						</h:selectOneMenu>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Vehicle</f:facet>
+						<h:outputText value="#{obj.regNumber}" />
+					</rich:column>
+					<rich:column align="center">
+						<f:facet name="header">Update</f:facet>
+						<h:outputText value="Can't update" rendered="#{obj.username == 'administrator'}" />
+						<a4j:commandLink reRender="users,tablePanel" value="Update" rendered="#{obj.id != userMBean.userObj.id and obj.username != 'administrator'}">
+							<f:setPropertyActionListener value="#{obj}" target="#{userMBean.userObj}"/>
+						</a4j:commandLink>
+						
+						<a4j:commandLink reRender="users,tablePanel,messagepanel" action="#{userMBean.updateUser}" value="SAVE" rendered="#{obj.id == userMBean.userObj.id}" />
+						
+						<h:outputText value=" - " rendered="#{obj.id == userMBean.userObj.id}" />
+						
+						<a4j:commandLink reRender="users,tablePanel" action="#{userMBean.setUserObj(null)}" value="CANCEL" rendered="#{obj.id == userMBean.userObj.id}" />
+						
+					</rich:column>
+					<rich:column align="center">
+						<f:facet name="header">Delete</f:facet>
+						<h:outputText value="Can't delete" rendered="#{obj.username == 'administrator'}" />
+						<a4j:commandLink reRender="users,tablePanel,messagepanel" value="Delete" action="#{userMBean.deletedUser}" rendered="#{obj.username != 'administrator'}">
+							<f:setPropertyActionListener value="#{obj}" target="#{userMBean.userObj}"/>
+						</a4j:commandLink>
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No user found" rendered="#{empty userMBean.allusers}"/>
+					<rich:datascroller id="dsusers" for="users" renderIfSinglePage="false" reRender="tablePanel" />
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</h:form>
+	
+	<rich:modalPanel id="bulkLoadUsersMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Batch load Users"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('bulkLoadUsersMP')">X</a>
+		</f:facet>
+		<h:form id="buckLoadUserForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Upload excel file"/>
+			</f:facet>
+			<a4j:outputPanel id="uploadmessagepanel">
+				<h:messages styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+			</a4j:outputPanel>
+			<div class="dialog">
+				<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+					<h:outputLabel for="bfile">File </h:outputLabel>
+					<rich:fileUpload id="bfile" acceptedTypes="xls" allowFlash="auto" autoclear="false" maxFilesQuantity="1" immediateUpload="true" 
+						fileUploadListener="#{userMBean.xlslisterner}">
+						<a:support event="onuploadcomplete" reRender="uploadmessagepanel" ajaxSingle="true" />
+					</rich:fileUpload>
+					<rich:message for="bfile" style="color: red;"/>
+				</h:panelGrid>
+			</div>
+			
+		</rich:panel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+				<h:commandButton value="Read / Save Users" action="#{userMBean.buckLoadUsers}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+				<a:commandButton value="Cancel" onclick="#{rich:component('bulkLoadUsersMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+	</rich:modalPanel>
+	
+	<rich:modalPanel id="newUserMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Create new User"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('newUserMP')">X</a>
+		</f:facet>
+		<div style="width:100%;height:350px;overflow:auto;">
+		<h:form id="newUserForm">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="User details"/>
+			</f:facet>
+			<div class="dialog">
+			<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+				<h:outputLabel for="uname">Username </h:outputLabel>
+				<h:inputText id="uname" value="#{userMBean.userObj.username}" required="true">
+				</h:inputText>
+				<rich:message for="uname" style="color: red;"/>
+				
+				<h:outputLabel for="password">Password </h:outputLabel>
+				<h:inputSecret id="password" value="#{userMBean.userObj.password}" required="true">
+				</h:inputSecret>
+				<rich:message for="password" style="color: red;"/>
+				
+				<h:outputLabel for="cpassword">Confirm Password </h:outputLabel>
+				<h:inputSecret id="cpassword" value="#{userMBean.cpassword}" required="true">
+				</h:inputSecret>
+				<rich:message for="cpassword" style="color: red;"/>
+				
+				<h:outputLabel for="fname">Full name </h:outputLabel>
+				<h:inputText id="fname" value="#{userMBean.userObj.fullname}" required="true">
+				</h:inputText>
+				<rich:message for="fname" style="color: red;"/>
+				
+				<h:outputLabel for="role">Role </h:outputLabel>
+				<h:selectOneMenu id="role" value="#{userMBean.role_id}" defaultLabel="Select a role...">
+					<f:selectItems value="#{dropdownMBean.roles}" var="robj" itemLabel="#{robj.name}" itemValue="#{robj.id}" />
+					<a4j:support event="onchange" reRender="carsPanel" ajaxSingle="true" />
+				</h:selectOneMenu>
+				<rich:message for="role" style="color: red;"/>
+				
+				<h:outputLabel for="car">Vehicle </h:outputLabel>
+				<a4j:outputPanel id="carsPanel">
+				<h:selectOneMenu id="car" value="#{userMBean.car_id}" defaultLabel="Select a car..." rendered="#{userMBean.selectedRole != null and userMBean.selectedRole.driverRole}">
+					<f:selectItem itemLabel="" itemValue="0" />
+					<f:selectItems value="#{dropdownMBean.cars}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+				</h:selectOneMenu>
+				<h:inputText value="N/A" rendered="#{userMBean.selectedRole == null or (userMBean.selectedRole != null and not userMBean.selectedRole.driverRole)}" />
+				</a4j:outputPanel>
+				<rich:message for="car" style="color: red;"/>
+				
+			</h:panelGrid>
+			</div>
+			<div class="actionButtons">
+				<rich:toolBar>
+					<rich:toolBarGroup>
+					<h:commandButton value="Save" action="#{userMBean.createUser}" />
+					</rich:toolBarGroup>
+					<rich:toolBarGroup location="right">
+					<a:commandButton value="Cancel" onclick="#{rich:component('newUserMP')}.hide();" />
+					</rich:toolBarGroup>
+				</rich:toolBar>
+			</div>
+		</rich:panel>
+		</h:form>
+		</div>
+	</rich:modalPanel>
+	
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

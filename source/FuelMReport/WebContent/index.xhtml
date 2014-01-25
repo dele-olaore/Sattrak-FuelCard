@@ -1,0 +1,157 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Dashboard</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel">
+	<h:form id="loginForm" rendered="#{not reportMBean.authenticated}">
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Authentication</span><br/>
+									<span style="font-size:16px;">Please sign in with the demo details</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<!-- <a href="#" onclick="history.back(-1);return false;"><img src="images/mtn_logo.jpg" height="100px" style="float: right;" /></a> -->
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:panel>
+						<div class="dialog">
+							<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+								<h:outputLabel for="uname">Username </h:outputLabel>
+								<h:inputText id="uname" value="#{reportMBean.username}" required="true">
+								</h:inputText>
+								<rich:message for="uname" style="color: red;"/>
+								
+								<h:outputLabel for="password">Password </h:outputLabel>
+								<h:inputSecret id="password" value="#{reportMBean.password}" required="true">
+								</h:inputSecret>
+								<rich:message for="password" style="color: red;"/>
+							</h:panelGrid>
+						</div>
+						<div class="actionButtons">
+							<rich:toolBar>
+								<rich:toolBarGroup>
+								<h:commandButton value="Sign In" action="#{reportMBean.authenticate}" />
+								</rich:toolBarGroup>
+							</rich:toolBar>
+						</div>
+					</rich:panel>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</h:form>
+	
+	<h:form id="logsForm" rendered="#{reportMBean.authenticated}">
+		<div style="width: 800px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Welcome</span><br/>
+									<span style="font-size:16px;">Dashboard</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<!-- <a href="#" onclick="history.back(-1);return false;"><img src="images/mtn_logo.jpg" height="100px" style="float: right;" /></a> -->
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<span style="width:100%;float:right;margin:0 0 0 0;padding:0;font-size:16px;">
+								<rich:dropDownMenu style="font-size:16px;float:right;" value="#{reportMBean.activeUser.fullname}">
+									<rich:menuItem submitMode="none">
+										<h:commandLink onclick="alert('Under Construction!');return false;" id="chPass" value="Change Password" />
+									</rich:menuItem>
+									<rich:menuItem submitMode="none">
+										<h:commandLink id="logout" action="#{reportMBean.logout}" value="Sign Out" />
+									</rich:menuItem>
+								</rich:dropDownMenu>
+								</span>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="localMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<fieldset>
+						<legend>Maintenance</legend>
+						<h:panelGrid columns="4">
+							<s:link view="/roles.xhtml" rendered="#{reportMBean.isFunctionAllowed('Manage Roles')}">
+								<h:graphicImage url="/images/roles.png" alt="Roles" />
+							</s:link>
+						
+							<s:link view="/settings.xhtml" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles') or reportMBean.isFunctionAllowed('Batch Load Vehicles') or reportMBean.isFunctionAllowed('Manage Card Threshold')}">
+								<h:graphicImage url="/images/settings_brd.png" alt="Settings" />
+							</s:link>
+							
+							<s:link view="/users.xhtml" rendered="#{reportMBean.isFunctionAllowed('Manage Users') or reportMBean.isFunctionAllowed('Batch Load Users')}">
+								<h:graphicImage url="/images/Human_brd.png" alt="Users" />
+							</s:link>
+							
+							<s:link view="/logs.xhtml" rendered="#{reportMBean.isFunctionAllowed('View Audit') or reportMBean.isFunctionAllowed('Clear Audit')}">
+								<h:graphicImage url="/images/logs.png" alt="Logs" />
+							</s:link>
+						</h:panelGrid>
+					</fieldset>
+					<br/><br/>
+					<fieldset>
+						<legend>Reports</legend>
+						<h:panelGrid columns="1">
+							<s:link view="/reports.xhtml" rendered="#{reportMBean.isFunctionAllowed('Daily Fuel Log Sheet') or reportMBean.isFunctionAllowed('Fuel Purchase Report') or reportMBean.isFunctionAllowed('Highest Fuel Consumption')}">
+								<h:graphicImage url="/images/finance_brd.png" alt="Reports" />
+							</s:link>
+						</h:panelGrid>
+					</fieldset>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

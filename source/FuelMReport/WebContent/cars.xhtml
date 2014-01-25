@@ -1,0 +1,261 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Manage Vehicles</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Vehicles</span><br/>
+									<span style="font-size:16px;">Manage vehicles along with their fuel types</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<a:commandLink onclick="#{rich:component('newCarMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Add new Vehicle</a:commandLink>
+								</li>
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<a:commandLink rendered="#{reportMBean.isFunctionAllowed('Batch Load Vehicles')}" onclick="#{rich:component('bulkLoadCarsMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Load Vehicles</a:commandLink>
+								</li>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:outputPanel id="tablePanel">
+					<rich:dataTable id="cars" value="#{carMBean.cars}" var="obj" rows="20" width="100%" rendered="#{carMBean.cars.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available vehicles" />
+					</f:facet>
+					<rich:column sortBy="#{obj.id}" filterBy="#{obj.id}">
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{obj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.regNumber}" filterBy="#{obj.regNumber}">
+						<f:facet name="header">Registration Number</f:facet>
+						<h:outputText value="#{obj.regNumber}" rendered="#{obj.id != carMBean.car.id}"/>
+						<h:inputText value="#{carMBean.car.regNumber}" rendered="#{obj.id == carMBean.car.id}" />
+					</rich:column>
+					<rich:column sortBy="#{obj.fuelType}" filterBy="#{obj.fuelType}">
+						<f:facet name="header">Fuel Type</f:facet>
+						<h:outputText value="#{obj.fuelType}" rendered="#{obj.id != carMBean.car.id}"/>
+						<h:selectOneMenu value="#{carMBean.car.fuelType}" defaultLabel="Select a fuel type..." rendered="#{obj.id == carMBean.car.id}">
+							<f:selectItem itemLabel="DIESEL" itemValue="DIESEL" />
+							<f:selectItem itemLabel="PETROL" itemValue="PETROL" />
+						</h:selectOneMenu>
+					</rich:column>
+					<rich:column sortBy="#{obj.assigned}">
+						<f:facet name="header">Assigned?</f:facet>
+						<h:outputText value="Yes to #{obj.assignedUser.fullname} " rendered="#{obj.assigned}" />
+						<a4j:commandLink reRender="cars,tablePanel,messagepanel" action="#{carMBean.unassignCar}" value="Un Assign" rendered="#{obj.assigned}">
+							<f:setPropertyActionListener value="#{obj}" target="#{carMBean.car}"/>
+						</a4j:commandLink>
+						<h:outputText value="No " rendered="#{not obj.assigned}" />
+						<a4j:commandLink value="Assign" reRender="assignPanel,cars,tablePanel" rendered="#{not obj.assigned}" onclick="#{rich:component('assignMP')}.show();">
+							<f:setPropertyActionListener value="#{obj}" target="#{carMBean.car}"/>
+						</a4j:commandLink>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Update</f:facet>
+						<a4j:commandLink reRender="cars,tablePanel" value="Update" rendered="#{obj.id != carMBean.car.id}">
+							<f:setPropertyActionListener value="#{obj}" target="#{carMBean.car}"/>
+						</a4j:commandLink>
+						
+						<a4j:commandLink reRender="cars,tablePanel,messagepanel" action="#{carMBean.updateCar}" value="SAVE" rendered="#{obj.id == carMBean.car.id}" />
+						
+						<h:outputText value=" - " rendered="#{obj.id == carMBean.car.id}" />
+						
+						<a4j:commandLink reRender="cars,tablePanel" action="#{carMBean.setCar(null)}" value="CANCEL" rendered="#{obj.id == carMBean.car.id}" />
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No vehicle found" rendered="#{empty carMBean.cars}"/>
+					<rich:datascroller id="dscars" for="cars" renderIfSinglePage="false" reRender="tablePanel" />
+					</a4j:outputPanel>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</h:form>
+	
+	<rich:modalPanel id="bulkLoadCarsMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Buck Load Vehicles"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('bulkLoadCarsMP')">X</a>
+		</f:facet>
+		<h:form id="buckLoadCarForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Upload excel file"/>
+			</f:facet>
+			<a4j:outputPanel id="uploadmessagepanel">
+				<h:messages styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+			</a4j:outputPanel>
+			<div class="dialog">
+				<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+					<h:outputLabel for="bfile">File </h:outputLabel>
+					<rich:fileUpload id="bfile" acceptedTypes="xls" allowFlash="auto" autoclear="false" maxFilesQuantity="1" immediateUpload="true" 
+						fileUploadListener="#{carMBean.xlslisterner}">
+						<a:support event="onuploadcomplete" reRender="uploadmessagepanel" ajaxSingle="true" />
+					</rich:fileUpload>
+					<rich:message for="bfile" style="color: red;"/>
+				</h:panelGrid>
+			</div>
+			
+		</rich:panel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+				<h:commandButton value="Read / Save Vehicles" action="#{carMBean.buckLoadCars}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+				<a:commandButton value="Cancel" onclick="#{rich:component('bulkLoadCarsMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+	</rich:modalPanel>
+	
+	<rich:modalPanel id="newCarMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Create new Vehicle"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('newCarMP')">X</a>
+		</f:facet>
+		<h:form id="newCarForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Vehicle details"/>
+			</f:facet>
+			<div class="dialog">
+			<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+				<h:outputLabel for="regNumber">Registration Number </h:outputLabel>
+				<h:inputText id="regNumber" value="#{carMBean.car.regNumber}" required="true">
+				</h:inputText>
+				<rich:message for="regNumber" style="color: red;"/>
+				
+				<h:outputLabel for="ftype">Fuel type </h:outputLabel>
+				<h:selectOneMenu id="ftype" value="#{carMBean.car.fuelType}" defaultLabel="Select a fuel type...">
+					<f:selectItem itemLabel="DIESEL" itemValue="DIESEL" />
+					<f:selectItem itemLabel="PETROL" itemValue="PETROL" />
+				</h:selectOneMenu>
+				<rich:message for="ftype" style="color: red;"/>
+				
+				<h:outputLabel for="cuser">Assigned To </h:outputLabel>
+				<h:selectOneMenu id="cuser" value="#{carMBean.user_id}" defaultLabel="Select a driver...">
+					<f:selectItem itemLabel="N/A" itemValue="0" />
+					<f:selectItems value="#{dropdownMBean.drivers}" var="robj" itemLabel="#{robj.fullname}" itemValue="#{robj.id}" />
+				</h:selectOneMenu>
+				<rich:message for="cuser" style="color: red;"/>
+				
+			</h:panelGrid>
+			</div>
+		</rich:panel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+				<h:commandButton value="Save" action="#{carMBean.createCar}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+				<a:commandButton value="Cancel" onclick="#{rich:component('newCarMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+		
+	</rich:modalPanel>
+	
+	<rich:modalPanel id="assignMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Assign Vehicle"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('assignMP')">X</a>
+		</f:facet>
+		<h:form id="assignCarForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<a4j:outputPanel id="assignPanel">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Driver details"/>
+			</f:facet>
+			<div class="dialog">
+			<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+				<h:outputLabel for="regNumber">Registration Number </h:outputLabel>
+				<h:outputText id="regNumber" value="#{carMBean.car.regNumber}" />
+				<rich:message for="regNumber" style="color: red;"/>
+				
+				<h:outputLabel for="ftype">Fuel type </h:outputLabel>
+				<h:outputText id="ftype" value="#{carMBean.car.fuelType}" />
+				<rich:message for="ftype" style="color: red;"/>
+				
+				<h:outputLabel for="cuser">Assigned To </h:outputLabel>
+				<h:selectOneMenu id="cuser" value="#{carMBean.user_id}" defaultLabel="Select a driver...">
+					<f:selectItem itemLabel="N/A" itemValue="0" />
+					<f:selectItems value="#{dropdownMBean.drivers}" var="robj" itemLabel="#{robj.fullname}" itemValue="#{robj.id}" />
+				</h:selectOneMenu>
+				<rich:message for="cuser" style="color: red;"/>
+				
+			</h:panelGrid>
+			</div>
+		</rich:panel>
+		</a4j:outputPanel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+				<h:commandButton value="Save" action="#{carMBean.assignCar}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+				<a:commandButton value="Cancel" onclick="#{rich:component('assignMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+	</rich:modalPanel>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

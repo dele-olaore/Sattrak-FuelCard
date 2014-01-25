@@ -1,0 +1,71 @@
+<e:workbook xmlns:e="http://jboss.com/products/seam/excel"
+			xmlns:f="http://java.sun.com/jsf/core">
+	<e:worksheet value="#{reportMBean.records}" var="obj">
+		<e:column rendered="#{reportMBean.recordsFields[0]}">
+			<f:facet name="header">
+				<e:cell value="Transaction Date"/>
+			</f:facet>
+			<e:cell value="#{obj[0]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[1]}">
+			<f:facet name="header">
+				<e:cell value="Location"/>
+			</f:facet>
+			<e:cell value="#{obj[1]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[2]}">
+			<f:facet name="header">
+				<e:cell value="Amount on Card"/>
+			</f:facet>
+			<e:cell value="#{obj[2]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[3]}">
+			<f:facet name="header">
+				<e:cell value="Previous Km Reading"/>
+			</f:facet>
+			<e:cell value="#{obj[3]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[4]}">
+			<f:facet name="header">
+				<e:cell value="Current Km Reading"/>
+			</f:facet>
+			<e:cell value="#{obj[4]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[5]}">
+			<f:facet name="header">
+				<e:cell value="Kilometres Covered"/>
+			</f:facet>
+			<e:cell value="#{obj[5]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[6]}">
+			<f:facet name="header">
+				<e:cell value="Fuel Amount"/>
+			</f:facet>
+			<e:cell value="#{obj[6]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[9]}">
+			<f:facet name="header">
+				<e:cell value="Initial Fuel Lvl"/>
+			</f:facet>
+			<e:cell value="#{obj[9]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[10]}">
+			<f:facet name="header">
+				<e:cell value="Final Fuel Lvl"/>
+			</f:facet>
+			<e:cell value="#{obj[10]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[7]}">
+			<f:facet name="header">
+				<e:cell value="Total Litres Bought"/>
+			</f:facet>
+			<e:cell value="#{obj[7]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsFields[8]}">
+			<f:facet name="header">
+				<e:cell value="Balance on Card"/>
+			</f:facet>
+			<e:cell value="#{obj[8]}"/>
+		</e:column>
+	</e:worksheet>
+</e:workbook>

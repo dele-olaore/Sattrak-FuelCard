@@ -1,0 +1,125 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Application Logs</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('View Audit') or reportMBean.isFunctionAllowed('Clear Audit')}">
+	<h:form id="logsForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 600px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Application Logs</span><br/>
+									<span style="font-size:16px;">View application audit logs</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<h:commandLink rendered="#{reportMBean.isFunctionAllowed('Clear Audit')}" action="#{auditMBean.clearLogs}" onclick="return confirm('Are you sure?')" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Clear logs</h:commandLink>
+								</li>
+								<a4j:outputPanel id="dload_link" rendered="#{auditMBean.audits.size() > 0}">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<h:commandLink action="#{excelExporter.export('logsForm:logs')}" styleClass="image-command-link" style="color:#fff;text-decoration:none;"><h:outputText value="Download"/></h:commandLink><!-- view="/logs_download.xhtml" -->
+								</li>
+								</a4j:outputPanel>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:outputPanel id="tablePanel" rendered="#{reportMBean.isFunctionAllowed('View Audit')}">
+					<rich:dataTable id="logs" value="#{auditMBean.audits}" var="obj" rows="10" width="100%" rendered="#{auditMBean.audits.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying audit logs" />
+					</f:facet>
+					<rich:column sortBy="#{obj.username}" filterBy="#{obj.username}">
+						<f:facet name="header">User</f:facet>
+						<h:outputText value="#{obj.username}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.auditTime}">
+						<f:facet name="header">Time</f:facet>
+						<h:outputText value="#{obj.auditTime}">
+							<f:convertDateTime type="both" dateStyle="long"/>
+						</h:outputText>
+					</rich:column>
+					<rich:column filterBy="#{obj.actionPerformed}">
+						<f:facet name="header">Action Performed</f:facet>
+						<h:outputText value="#{obj.actionPerformed}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.success}">
+						<f:facet name="header">Success</f:facet>
+						<h:outputText value="#{(obj.success) ? 'Yes' : 'No'}"/>
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No audit log found" rendered="#{empty auditMBean.audits}"/>
+					<rich:datascroller id="dslogs" for="logs" renderIfSinglePage="false" reRender="tablePanel" />
+					</a4j:outputPanel>
+					
+					<div class="dialog">
+						<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+							<h:outputLabel for="actP">Action performed </h:outputLabel>
+							<h:inputText id="actP" value="#{auditMBean.actP}" />
+							<rich:message for="actP" style="color: red;"/>
+							
+							<h:outputLabel for="uname">Username </h:outputLabel>
+							<h:inputText id="uname" value="#{auditMBean.uname}" />
+							<rich:message for="uname" style="color: red;"/>
+							
+							<h:outputLabel for="succ">Success </h:outputLabel>
+							<h:selectOneMenu id="succ" value="#{auditMBean.succ}">
+								<f:selectItem itemLabel="All" itemValue="" />
+								<f:selectItem itemLabel="Yes" itemValue="true" />
+								<f:selectItem itemLabel="No" itemValue="false" />
+							</h:selectOneMenu>
+							<rich:message for="succ" style="color: red;"/>
+						</h:panelGrid>
+					</div>
+					<div class="actionButtons">
+						<rich:toolBar>
+							<rich:toolBarGroup>
+							<h:commandButton value="Search" action="#{auditMBean.filterAudit}" />
+							</rich:toolBarGroup>
+						</rich:toolBar>
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

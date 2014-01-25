@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Use this file to deploy some handlers/chains and services      --><!-- Two ways to do this:                                           --><!--   java org.apache.axis.client.AdminClient deploy.wsdd          --><!--      after the axis server is running                          --><!-- or                                                             --><!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   --><!--      from the same directory that the Axis engine runs         --><deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from ReceiveDataWSService WSDL service -->
+
+  <service name="ReceiveDataWS" provider="java:RPC" style="wrapped" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://ws.fmr.dexter.com"/>
+      <parameter name="wsdlServiceElement" value="ReceiveDataWSService"/>
+      <parameter name="schemaQualified" value="http://ws.fmr.dexter.com"/>
+      <parameter name="wsdlServicePort" value="ReceiveDataWS"/>
+      <parameter name="className" value="com.dexter.fmr.ws.ReceiveDataWS"/>
+      <parameter name="wsdlPortType" value="ReceiveDataWS"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <operation xmlns:operNS="http://ws.fmr.dexter.com" xmlns:retNS="http://ws.fmr.dexter.com" xmlns:rtns="http://www.w3.org/2001/XMLSchema" name="receiveData" qname="operNS:receiveData" returnQName="retNS:receiveDataReturn" returnType="rtns:string" soapAction="">
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerName" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:customerPhone" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:transactionDate" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:transactionType" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:transactionAmount" type="tns:double"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:transactionFee" type="tns:double"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:transactionStatus" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cardPan" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cardStatus" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:schemeOwnerName" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cardAcceptorId" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cardAcceptorLocation" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:retRefNumber" type="tns:string"/>
+        <parameter xmlns:pns="http://ws.fmr.dexter.com" xmlns:tns="http://www.w3.org/2001/XMLSchema" qname="pns:cardBalance" type="tns:double"/>
+      </operation>
+      <parameter name="allowedMethods" value="receiveData"/>
+
+  </service>
+</deployment>

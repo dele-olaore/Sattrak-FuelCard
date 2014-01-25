@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<f:view xmlns="http://www.w3.org/1999/xhtml"
+   xmlns:ui="http://java.sun.com/jsf/facelets"
+   xmlns:f="http://java.sun.com/jsf/core"
+   xmlns:h="http://java.sun.com/jsf/html"
+   xmlns:a="http://richfaces.org/a4j"
+   contentType="text/html">
+<f:loadBundle basename="resources.messages" var="bundle"/>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		<title><h:outputText value="#{bundle.title}" /> - <ui:insert name="pageTitle"/></title>
+		<link rel="shortcut icon" href="#{request.contextPath}/favicon.ico"/>
+		<a:loadStyle src="resource:///stylesheet/theme.xcss"/>
+		<a:loadStyle src="/stylesheet/theme.css"/>
+		<ui:insert name="head"/>
+	</head>
+	<body><!-- style="background:url(#{request.contextPath}/images/Billboardmtn.png);" -->
+		<ui:include src="../../headerToolbar.xhtml">
+		</ui:include>
+	
+		<div class="body" align="center">
+			<img src="#{request.contextPath}/images/bgtop-mtn.jpg" height="150px" width="600px" style="float: center;" /><!-- 550px -->
+			<h:messages id="messages" globalOnly="true" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg" 
+				rendered="#{showGlobalMessages != 'false'}" />
+			<ui:insert name="body"/>
+		</div>
+		
+		<ui:include src="../../footerToolbar.xhtml">
+		</ui:include>
+	</body>
+</html>
+
+</f:view>

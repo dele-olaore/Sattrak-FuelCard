@@ -1,0 +1,101 @@
+<e:workbook xmlns:e="http://jboss.com/products/seam/excel"
+			xmlns:f="http://java.sun.com/jsf/core">
+	<e:worksheet value="#{reportMBean.recordsEX}" var="obj">
+		<e:column rendered="#{reportMBean.recordsEXFields[0]}">
+			<f:facet name="header">
+				<e:cell value="Purchase Date"/>
+			</f:facet>
+			<e:cell value="#{obj[0]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[1]}">
+			<f:facet name="header">
+				<e:cell value="VIN"/>
+			</f:facet>
+			<e:cell value="#{obj[1]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[2]}">
+			<f:facet name="header">
+				<e:cell value="Created By"/>
+			</f:facet>
+			<e:cell value="#{obj[2]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[3]}">
+			<f:facet name="header">
+				<e:cell value="Driver Km1"/>
+			</f:facet>
+			<e:cell value="#{obj[3]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.showTracker}">
+			<f:facet name="header">
+				<e:cell value="Tracker Km1"/>
+			</f:facet>
+			<e:cell value="#{obj[4]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[4]}">
+			<f:facet name="header">
+				<e:cell value="Driver Km2"/>
+			</f:facet>
+			<e:cell value="#{obj[5]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.showTracker}">
+			<f:facet name="header">
+				<e:cell value="Tracker Km2"/>
+			</f:facet>
+			<e:cell value="#{obj[6]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[5]}">
+			<f:facet name="header">
+				<e:cell value="Distance"/>
+			</f:facet>
+			<e:cell value="#{obj[7]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[6]}">
+			<f:facet name="header">
+				<e:cell value="Fuel Qty"/>
+			</f:facet>
+			<e:cell value="#{obj[8]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[7]}">
+			<f:facet name="header">
+				<e:cell value="Amount"/>
+			</f:facet>
+			<e:cell value="#{obj[9]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[12]}">
+			<f:facet name="header">
+				<e:cell value="Initial Fuel Lvl"/>
+			</f:facet>
+			<e:cell value="#{obj[14]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[13]}">
+			<f:facet name="header">
+				<e:cell value="Final Fuel Lvl"/>
+			</f:facet>
+			<e:cell value="#{obj[15]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[8]}">
+			<f:facet name="header">
+				<e:cell value="Fuel Efficiency"/>
+			</f:facet>
+			<e:cell value="#{obj[13]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[9]}">
+			<f:facet name="header">
+				<e:cell value="Fuel Brand"/>
+			</f:facet>
+			<e:cell value="#{obj[10]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[10]}">
+			<f:facet name="header">
+				<e:cell value="Fuel Dealer"/>
+			</f:facet>
+			<e:cell value="#{obj[11]}"/>
+		</e:column>
+		<e:column rendered="#{reportMBean.recordsEXFields[11]}">
+			<f:facet name="header">
+				<e:cell value="Purchase by"/>
+			</f:facet>
+			<e:cell value="#{obj[12]}"/>
+		</e:column>
+	</e:worksheet>
+</e:workbook>

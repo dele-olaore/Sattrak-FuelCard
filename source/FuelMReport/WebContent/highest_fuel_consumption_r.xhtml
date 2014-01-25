@@ -1,0 +1,110 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Highest Fuel Consumption Report</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Highest Fuel Consumption Report</span><br/>
+									<span style="font-size:16px;">View report of highest fuel consuming vehicles by date range</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<a4j:outputPanel id="dload_link" rendered="#{reportMBean.recordsHC.size() > 0}">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<!-- <s:link view="/highest_fuel_consumption_r_download.xhtml" styleClass="image-command-link" style="color:#fff;text-decoration:none;"><h:outputText value="Download"/></s:link> -->
+									<h:commandLink action="#{excelExporter.export('usersForm:records')}" styleClass="image-command-link" style="color:#fff;text-decoration:none;"><h:outputText value="Download"/></h:commandLink><!-- view="/logs_download.xhtml" -->
+								</li>
+								</a4j:outputPanel>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+				
+					<a4j:outputPanel id="recordsPanel">
+					<rich:dataTable id="records" value="#{reportMBean.recordsHC}" var="obj" rows="10" width="100%" rendered="#{reportMBean.recordsHC.size() > 0}">
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">Reg Number</f:facet>
+							<h:outputText value="#{obj[5]}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">Driver</f:facet>
+							<h:outputText value="#{obj[6]}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">Quantity</f:facet>
+							<h:outputText value="#{obj[2]}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">Cost</f:facet>
+							<h:outputText value="#{obj[1]}" />
+						</rich:column>
+					</rich:dataTable>
+					<rich:datascroller id="dsrecords" for="records" renderIfSinglePage="false" reRender="recordsPanel" />
+					</a4j:outputPanel>
+				
+					<div class="dialog">
+						<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+							<h:outputLabel for="dt">Start date</h:outputLabel>
+							<rich:calendar id="dt" value="#{reportMBean.tranDate}" locale="us" datePattern="yyyy-MM-dd"/>
+							<rich:message for="dt" style="color: red;"/>
+							
+							<h:outputLabel for="dt2">End date</h:outputLabel>
+							<rich:calendar id="dt2" value="#{reportMBean.tranDate2}" locale="us" datePattern="yyyy-MM-dd"/>
+							<rich:message for="dt2" style="color: red;"/>
+						</h:panelGrid>
+					</div>
+					<div class="actionButtons">
+						<rich:toolBar>
+							<rich:toolBarGroup>
+								<h:commandButton value="Search" action="#{reportMBean.searchHighestFuelConsumption}" />
+							</rich:toolBarGroup>
+						</rich:toolBar>
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

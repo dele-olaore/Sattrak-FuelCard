@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.fmr.dexter.com" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://ws.fmr.dexter.com" xmlns:intf="http://ws.fmr.dexter.com" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://ws.fmr.dexter.com" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="receiveData">
+    <complexType>
+     <sequence>
+      <element name="customerName" type="xsd:string"/>
+      <element name="customerPhone" type="xsd:string"/>
+      <element name="transactionDate" type="xsd:string"/>
+      <element name="transactionType" type="xsd:string"/>
+      <element name="transactionAmount" type="xsd:double"/>
+      <element name="transactionFee" type="xsd:double"/>
+      <element name="transactionStatus" type="xsd:string"/>
+      <element name="cardPan" type="xsd:string"/>
+      <element name="cardStatus" type="xsd:string"/>
+      <element name="schemeOwnerName" type="xsd:string"/>
+      <element name="cardAcceptorId" type="xsd:string"/>
+      <element name="cardAcceptorLocation" type="xsd:string"/>
+      <element name="retRefNumber" type="xsd:string"/>
+      <element name="cardBalance" type="xsd:double"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="receiveDataResponse">
+    <complexType>
+     <sequence>
+      <element name="receiveDataReturn" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="receiveDataRequest">
+
+      <wsdl:part element="impl:receiveData" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="receiveDataResponse">
+
+      <wsdl:part element="impl:receiveDataResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ReceiveDataWS">
+
+      <wsdl:operation name="receiveData">
+
+         <wsdl:input message="impl:receiveDataRequest" name="receiveDataRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:receiveDataResponse" name="receiveDataResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ReceiveDataWSSoapBinding" type="impl:ReceiveDataWS">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="receiveData">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="receiveDataRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="receiveDataResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ReceiveDataWSService">
+
+      <wsdl:port binding="impl:ReceiveDataWSSoapBinding" name="ReceiveDataWS">
+
+         <wsdlsoap:address location="http://localhost:8088/FuelMReport/services/ReceiveDataWS"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>

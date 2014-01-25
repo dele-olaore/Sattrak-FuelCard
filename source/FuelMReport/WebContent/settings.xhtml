@@ -1,0 +1,73 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Settings</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isModuleAllowed('SETTINGS')}">
+	<h:form id="settingsForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+		<table width="100%" cellspacing="2" cellpadding="2">
+		<tr>
+			<td align="left">
+				<table>
+					<tr>
+						<td valign="top" align="left">
+							<p>
+								<span style="font-size:30px;font-weight:bold;color:#888;">Settings</span><br/>
+								<span style="font-size:16px;">Various application settings</span>
+							</p>
+						</td>
+						<td valign="bottom" align="right">
+							<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<rich:spacer height="2" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center" width="100%">
+				<table width="100%" align="center" cellspacing="50" cellpadding="2">
+					<tr valign="top" align="left">
+						<td width="50%">
+							<p>
+								<s:link view="/cars.xhtml" value="Vehicles" style="font-size:22px;font-weight:bold;" />
+								<br/>
+								<span style="font-size:12px;text-align:justify;">Manage vehicles along with their fuel types</span>
+							</p>
+						</td>
+						<td width="50%">
+							<p>
+								<s:link view="/card_balance.xhtml" value="Card Balance Threshold" style="font-size:22px;font-weight:bold;" />
+								<br/>
+								<span style="font-size:12px;text-align:justify;">Set card balance threshold and notification email</span>
+							</p>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

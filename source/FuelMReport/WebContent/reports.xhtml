@@ -1,0 +1,108 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Reports</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isModuleAllowed('REPORT')}">
+	<h:form id="reportsForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+		<table width="100%" cellspacing="2" cellpadding="2">
+		<tr>
+			<td align="left">
+				<table>
+					<tr>
+						<td valign="top" align="left">
+							<p>
+								<span style="font-size:30px;font-weight:bold;color:#888;">Reports</span><br/>
+								<span style="font-size:16px;">Various reports</span>
+							</p>
+						</td>
+						<td valign="bottom" align="right">
+							<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<rich:spacer height="2" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center" width="100%">
+				<h:panelGrid columns="2" width="100%">
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Daily Fuel Log Sheet')}">
+						<p>
+							<s:link view="/daily_r.xhtml" value="Daily Fuel Log Sheet" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View daily fuel usage for a specific vehicle for a month duration</span>
+						</p>
+					</a4j:outputPanel>
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}">
+						<p>
+							<s:link view="/fuel_purchase_r.xhtml" value="Fuel Purchase Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View purchase report by date range</span>
+						</p>
+					</a4j:outputPanel>
+					
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Exception Report')}">
+						<p>
+							<s:link view="/exception_purchase_r.xhtml" value="Exception Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View exception purchases report by date range</span>
+						</p>
+					</a4j:outputPanel>
+					
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Highest Fuel Consumption')}">
+						<p>
+							<s:link view="/highest_fuel_consumption_r.xhtml" value="Highest Fuel Consumption Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View report of highest fuel consuming vehicles by date range</span>
+						</p>
+					</a4j:outputPanel>
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Highest Fuel Purchase')}">
+						<p>
+							<s:link view="/highest_fuel_purchase_r.xhtml" value="Highest Fuel Purchase Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View report of highest fuel purchases by date range</span>
+						</p>
+					</a4j:outputPanel>
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Longest Distance')}">
+						<p>
+							<s:link view="/longest_distance_r.xhtml" value="Longest Distance Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View report of longest distance covered vehicles by date range</span>
+						</p>
+					</a4j:outputPanel>
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Best Efficiency')}">
+						<p>
+							<s:link view="/best_efficency_r.xhtml" value="Best Efficiency Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View report of best efficient fuel vehicles by date range</span>
+						</p>
+					</a4j:outputPanel>
+				</h:panelGrid>
+			</td>
+		</tr>
+		</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

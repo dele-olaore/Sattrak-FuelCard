@@ -1,0 +1,83 @@
+<rich:toolBar xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:c="http://java.sun.com/jstl/core"
+    itemSeparator="square">
+<f:loadBundle basename="resources.messages" var="bundle"/>
+
+	<rich:toolBarGroup location="left" rendered="#{reportMBean.authenticated}">
+		<h:form id="dashForm">
+			<s:link view="/index.xhtml" value="Dashboard" />
+		</h:form>
+		<h:form>
+			<rich:dropDownMenu value="Roles" rendered="#{reportMBean.isFunctionAllowed('Manage Roles')}">
+				<rich:menuItem submitMode="none">
+					<s:link view="/roles.xhtml" value="Manage Roles" rendered="#{reportMBean.isFunctionAllowed('Manage Roles')}" />
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+		<h:form>
+			<rich:dropDownMenu value="Settings" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles') or reportMBean.isFunctionAllowed('Batch Load Vehicles') or reportMBean.isFunctionAllowed('Manage Card Threshold')}">
+				<rich:menuItem submitMode="none">
+					<s:link view="/cars.xhtml" value="Vehicles" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles') or reportMBean.isFunctionAllowed('Batch Load Vehicles')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/card_balance.xhtml" value="Card Balance Threshold" rendered="#{reportMBean.isFunctionAllowed('Manage Card Threshold')}" />
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+		<h:form>
+			<rich:dropDownMenu value="Human Resource" rendered="#{reportMBean.isFunctionAllowed('Manage Users') or reportMBean.isFunctionAllowed('Batch Load Users')}">
+				<rich:menuItem submitMode="none">
+					<s:link view="/users.xhtml" value="Manage Users" rendered="#{reportMBean.isFunctionAllowed('Manage Users') or reportMBean.isFunctionAllowed('Batch Load Users')}"/>
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+		<h:form>
+			<rich:dropDownMenu value="Logs" rendered="#{reportMBean.isFunctionAllowed('View Audit') or reportMBean.isFunctionAllowed('Clear Audit')}">
+				<rich:menuItem submitMode="none">
+					<s:link view="/logs.xhtml" value="Application Logs" rendered="#{reportMBean.isFunctionAllowed('View Audit') or reportMBean.isFunctionAllowed('Clear Audit')}" />
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form><s:link view="/reports.xhtml" />
+		<h:form>
+			<rich:dropDownMenu value="Reports" rendered="#{reportMBean.isModuleAllowed('REPORT')}">
+				<rich:menuItem submitMode="none">
+					<s:link view="/daily_r.xhtml" value="Daily Fuel Log Sheet" rendered="#{reportMBean.isFunctionAllowed('Daily Fuel Log Sheet')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/fuel_purchase_r.xhtml" value="Fuel Purchase Report" rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/exception_purchase_r.xhtml" value="Exception Report" rendered="#{reportMBean.isFunctionAllowed('Exception Report')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/highest_fuel_consumption_r.xhtml" value="Highest Fuel Consumption Report" rendered="#{reportMBean.isFunctionAllowed('Highest Fuel Consumption')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/highest_fuel_purchase_r.xhtml" value="Highest Fuel Purchase Report" rendered="#{reportMBean.isFunctionAllowed('Highest Fuel Purchase')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/longest_distance_r.xhtml" value="Longest Distance Report" rendered="#{reportMBean.isFunctionAllowed('Longest Distance')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/best_efficency_r.xhtml" value="Best Efficiency Report" rendered="#{reportMBean.isFunctionAllowed('Best Efficiency')}" />
+				</rich:menuItem>
+			</rich:dropDownMenu>
+		</h:form>
+	</rich:toolBarGroup>
+	
+	<rich:toolBarGroup location="center" rendered="#{reportMBean.authenticated}">
+		<h:outputText value="#{reportMBean.activeUser.fullname}(#{reportMBean.activeUser.username} - #{reportMBean.activeUser.role.name})" />
+	</rich:toolBarGroup>
+	
+	<rich:toolBarGroup location="right" rendered="#{reportMBean.authenticated}">
+		<h:form id="logoutForm">
+			<h:commandLink id="logout" action="#{reportMBean.logout}" value="Sign Out" />
+		</h:form>
+	</rich:toolBarGroup>
+
+</rich:toolBar>

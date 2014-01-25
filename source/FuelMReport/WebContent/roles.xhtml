@@ -1,0 +1,170 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Manage Roles</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Manage Roles')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Manage Roles</span><br/>
+									<span style="font-size:16px;">Create and manage roles and assign functions to roles</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<a:commandLink onclick="#{rich:component('newRoleMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Add new Role</a:commandLink>
+								</li>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:outputPanel id="tablePanel">
+					<rich:dataTable id="roles" value="#{userMBean.allroles}" var="obj" rows="20" width="100%" rendered="#{userMBean.allroles.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available users" />
+					</f:facet>
+					<rich:column sortBy="#{obj.id}" filterBy="#{obj.id}">
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{obj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.name}" filterBy="#{obj.name}">
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{obj.name}" rendered="#{obj.id != userMBean.role.id}"/>
+						<h:inputText value="#{userMBean.role.name}" rendered="#{obj.id == userMBean.role.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.description}" filterBy="#{obj.description}">
+						<f:facet name="header">Description</f:facet>
+						<h:outputText value="#{obj.description}" rendered="#{obj.id != userMBean.role.id}"/>
+						<h:inputText value="#{userMBean.role.description}" rendered="#{obj.id == userMBean.role.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.driverRole}">
+						<f:facet name="header">Driver Role?</f:facet>
+						<h:outputText value="#{(obj.driverRole) ? 'Yes' : 'No'}" rendered="#{obj.id != userMBean.role.id}"/>
+						<h:selectBooleanCheckbox value="#{userMBean.role.driverRole}" rendered="#{obj.id == userMBean.role.id}"/>
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Functions</f:facet>
+						<h:outputText value="#{obj.functions.size()} function(s) " />
+						<a4j:commandLink reRender="roleFormPanel,roles,tablePanel" value="Modify" action="#{userMBean.loadRoleFunctions}" onclick="#{rich:component('newRoleMP')}.show();">
+							<f:setPropertyActionListener value="#{obj}" target="#{userMBean.role}"/>
+						</a4j:commandLink>
+					</rich:column>
+					<rich:column align="center">
+						<f:facet name="header">Update</f:facet>
+						<a4j:commandLink reRender="roles,tablePanel" value="Update" rendered="#{obj.id != userMBean.role.id}">
+							<f:setPropertyActionListener value="#{obj}" target="#{userMBean.role}"/>
+						</a4j:commandLink>
+						
+						<a4j:commandLink reRender="roles,tablePanel,messagepanel" action="#{userMBean.updateRole}" value="SAVE" rendered="#{obj.id == userMBean.role.id}">
+							
+						</a4j:commandLink>
+						
+						<h:outputText value=" - " rendered="#{obj.id == userMBean.role.id}" />
+						
+						<a4j:commandLink reRender="roles,tablePanel" action="#{userMBean.setRole(null)}" value="CANCEL" rendered="#{obj.id == userMBean.role.id}" />
+						
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No role found" rendered="#{empty userMBean.allroles}"/>
+					<rich:datascroller id="dsroles" for="roles" renderIfSinglePage="false" reRender="tablePanel" />
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</h:form>
+	
+	<rich:modalPanel id="newRoleMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Create new Role"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('newRoleMP')">X</a>
+		</f:facet>
+		<h:form id="newRoleForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<a4j:outputPanel id="roleFormPanel">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Role details"/>
+			</f:facet>
+			<div class="dialog">
+			<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+				<h:outputLabel for="uname">Name </h:outputLabel>
+				<h:inputText id="uname" value="#{userMBean.role.name}" required="true">
+				</h:inputText>
+				<rich:message for="uname" style="color: red;"/>
+				
+				<h:outputLabel for="desc">Description </h:outputLabel>
+				<h:inputText id="desc" value="#{userMBean.role.description}" required="true">
+				</h:inputText>
+				<rich:message for="desc" style="color: red;"/>
+				
+				<h:outputLabel for="drvrole">Is Role for Drivers? </h:outputLabel>
+				<h:selectBooleanCheckbox id="drvrole" value="#{userMBean.role.driverRole}" />
+				<rich:message for="drvrole" style="color: red;"/>
+			</h:panelGrid>
+			<rich:dataGrid value="#{userMBean.allFunctions}" var="func" columns="1" width="100%">
+				<a4j:outputPanel>
+				<h:selectBooleanCheckbox value="#{func.selected}" /> <h:outputText value="#{func.name}" /> <br/>
+				(<h:outputText value="#{func.description}" />)
+				</a4j:outputPanel>
+			</rich:dataGrid>
+			</div>
+		</rich:panel>
+		</a4j:outputPanel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+					<h:commandButton value="Save" action="#{userMBean.createRole}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+					<a:commandButton value="Cancel" action="#{userMBean.setRole(null)}" reRender="roleFormPanel,roles,tablePanel" onclick="#{rich:component('newRoleMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+	</rich:modalPanel>
+	
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>
