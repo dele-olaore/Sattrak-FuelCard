@@ -44,6 +44,9 @@ public class BankRecord implements Serializable
 	@ManyToOne
 	private Car vehicle;
 	
+	@Temporal(value=TemporalType.TIMESTAMP)
+	private Date crt_dt;
+	
 	public BankRecord()
 	{}
 
@@ -181,6 +184,14 @@ public class BankRecord implements Serializable
 
 	public void setVehicle(Car vehicle) {
 		this.vehicle = vehicle;
+	}
+
+	public Date getCrt_dt() {
+		return crt_dt;
+	}
+
+	public void setCrt_dt(Date crt_dt) {
+		this.crt_dt = crt_dt;
 	}
 	
 }

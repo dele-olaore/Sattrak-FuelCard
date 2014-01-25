@@ -104,6 +104,7 @@ public class InterfaceMBean implements java.io.Serializable
 					            for(UnitEvent e : unitEvents)
 								{
 					            	TrackerRecord tr = new TrackerRecord();
+					            	tr.setCrt_dt(new Date());
 					            	
 					            	Query q = em.createQuery("Select e from Car e where e.zonControlId = :zonControlId");
 					            	q.setParameter("zonControlId", e.getUnitID());
@@ -210,6 +211,7 @@ public class InterfaceMBean implements java.io.Serializable
 									max = new BigDecimal(t.getTransID().doubleValue());
 								
 								BankRecord br = new BankRecord();
+								br.setCrt_dt(new Date());
 								
 								Query q = em.createQuery("Select e from Car e where e.regNumber = :regNumber");
 				            	q.setParameter("regNumber", t.getPan());
