@@ -1,0 +1,178 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Vehicle Models
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Vehicle Models" outcome="vehicle_models" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="types" title="Vehicle Types">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Vehicle Types</h4>
+							<div class="widgetcontent">
+								<p:dataTable id="typesTable" var="obj" value="#{userMBean.vtypes}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+			       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+									
+									<p:column sortBy="#{obj.name}" headerText="Name" filterBy="#{obj.name}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.name}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vtname_edt" value="#{obj.name}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column headerText="" style="width:32px">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								
+								<p>
+									<label>Name: *</label>
+									<p:inputText id="vtname1" value="#{userMBean.vtype.name}" styleClass="input-xlarge" />
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createVType}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+					<p:tab id="makes" title="Vehicle Makes">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Vehicle Makes</h4>
+							<div class="widgetcontent">
+								<p:dataTable id="makesTable" var="obj" value="#{userMBean.vmakes}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+			       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+									
+									<p:column sortBy="#{obj.name}" headerText="Name" filterBy="#{obj.name}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.name}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vmname_edt" value="#{obj.name}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column headerText="" style="width:32px">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								
+								<p>
+									<label>Name: *</label>
+									<p:inputText id="vmname1" value="#{userMBean.vmake.name}" styleClass="input-xlarge" />
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createVMake}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+					<p:tab id="models" title="Vehicle Models">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Vehicle Models</h4>
+							<div class="widgetcontent">
+								<p:dataTable id="modelsTable" var="obj" value="#{userMBean.vmodels}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+			       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+									
+									<p:column sortBy="#{obj.name}" headerText="Name" filterBy="#{obj.name}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.name}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vmlname_edt" value="#{obj.name}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.type.name}" headerText="Type" filterBy="#{obj.type.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.type.name}" />
+									</p:column>
+									<p:column sortBy="#{obj.make.name}" headerText="Make" filterBy="#{obj.make.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.make.name}" />
+									</p:column>
+									<p:column sortBy="#{obj.year}" headerText="Year" filterBy="#{obj.year}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.year}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vmlyear_edt" value="#{obj.year}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.kmpl}" headerText="KM/Liter">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.kmpl}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vmlkmpl_edt" value="#{obj.kmpl}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column headerText="" style="width:32px">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								
+								<p>
+									<label>Name: *</label>
+									<p:inputText id="vmlname" value="#{userMBean.vmodel.name}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Year: </label>
+									<p:inputText id="vmlyear" value="#{userMBean.vmodel.year}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>KM/Liter: *</label>
+									<p:inputText id="vmlkmpl" value="#{userMBean.vmodel.kmpl}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Type: </label>
+									<p:selectOneMenu id="vmltype" value="#{userMBean.vtype_id}">
+							  			<f:selectItems value="#{userMBean.vtypes}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</p>
+								<p>
+									<label>Make: *</label>
+									<p:selectOneMenu id="vmlmake" value="#{userMBean.vmake_id}">
+							  			<f:selectItems value="#{userMBean.vmakes}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createVModel}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

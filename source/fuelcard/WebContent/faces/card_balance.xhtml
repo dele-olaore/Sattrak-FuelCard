@@ -1,0 +1,121 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Notifications
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Notifications" outcome="card_balance" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<div class="widgetbox login-information">
+					<h4 class="widgettitle">Manage Notifications</h4>
+					<div class="widgetcontent">
+						<p:scrollPanel mode="native" style="width:100%;height:300px">
+						<p:dataTable id="objsTable" var="obj" value="#{userMBean.cardBals}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="20,50,100" style="width:150%" resizableColumns="true"
+							editable="true">
+							
+							<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+	       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+							
+							<p:column sortBy="#{obj.region.name}" headerText="Region" filterBy="#{obj.region.name}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.region.name}" /></f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu id="vregion_edt" value="#{obj.new_region_id}">
+							  			<f:selectItems value="#{userMBean.regions}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.transactionAlertEmail}" headerText="Transaction Alert Email(s)" filterBy="#{obj.transactionAlertEmail}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.transactionAlertEmail}" /></f:facet>
+								<f:facet name="input"><p:inputText id="emails1_edt" value="#{obj.transactionAlertEmail}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.alertMobileNumbers}" headerText="Transaction Alert Phone(s)" filterBy="#{obj.alertMobileNumbers}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.alertMobileNumbers}" /></f:facet>
+								<f:facet name="input"><p:inputText id="phones1_edt" value="#{obj.alertMobileNumbers}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.minbalance}" headerText="Threshold Notification Balance">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.minbalance}" /></f:facet>
+								<f:facet name="input"><p:inputText id="minbal_edt" value="#{obj.minbalance}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.thresholdAlertEmail}" headerText="Threshold Alert Email(s)" filterBy="#{obj.thresholdAlertEmail}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.thresholdAlertEmail}" /></f:facet>
+								<f:facet name="input"><p:inputText id="emails_edt" value="#{obj.thresholdAlertEmail}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.expectionAlertEmail}" headerText="Exception Alert Email(s)" filterBy="#{obj.expectionAlertEmail}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.expectionAlertEmail}" /></f:facet>
+								<f:facet name="input"><p:inputText id="emails2_edt" value="#{obj.expectionAlertEmail}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="" style="width:32px">
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+						</p:scrollPanel>
+						
+						<p>
+							<label>Region: *</label>
+							<p:selectOneMenu id="vregion" value="#{userMBean.region_id}">
+					  			<f:selectItems value="#{userMBean.regions}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+					  		</p:selectOneMenu>
+						</p>
+						<p>
+							<label>Transaction Alert Email(s): *</label>
+							<p:inputText id="emails1" value="#{userMBean.cardBal.transactionAlertEmail}" styleClass="input-xlarge" />
+							<h:outputText value="Seperate multiple emails with commas" />
+						</p>
+						<p>
+							<label>Transaction Alert Phone(s): *</label>
+							<p:inputText id="phones1" value="#{userMBean.cardBal.alertMobileNumbers}" styleClass="input-xlarge" />
+							<h:outputText value="Use 234 prefix and seperate multiple phone numbers with commas" />
+						</p>
+						<p>
+							<label>Threshold Notification Balance: *</label>
+							<p:inputText id="minbal" value="#{userMBean.cardBal.minbalance}" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>Threshold Alert Email(s): *</label>
+							<p:inputText id="emails" value="#{userMBean.cardBal.thresholdAlertEmail}" styleClass="input-xlarge" />
+							<h:outputText value="Seperate multiple emails with commas" />
+						</p>
+						<p>
+							<label>Exception Alert Email(s): *</label>
+							<p:inputText id="emails2" value="#{userMBean.cardBal.expectionAlertEmail}" styleClass="input-xlarge" />
+							<h:outputText value="Seperate multiple emails with commas" />
+						</p>
+					</div>
+				</div>
+				<p>
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.saveCardBal}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+				</p>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

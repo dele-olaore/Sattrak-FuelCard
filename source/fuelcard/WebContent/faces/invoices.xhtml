@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Invoicing and Payments
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Invoicing and Payments" outcome="invoices" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="first" title="Generate Invoice">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Create New Partner</h4>
+							<div class="widgetcontent">
+								<p>
+									<label>Partner: *</label>
+									<p:selectOneMenu id="pname" value="#{utilMBean.partner_id}" styleClass="input-xlarge">
+										<f:selectItems value="#{utilMBean.partners}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+									</p:selectOneMenu>
+								</p>
+								<p>
+									<label>Year: *</label>
+									<p:inputText id="year" value="#{utilMBean.year}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Month: *</label>
+									<p:selectOneMenu id="month" value="#{utilMBean.month}" styleClass="input-xlarge">
+							  			<f:selectItem itemValue="1" itemLabel="January" />
+							  			<f:selectItem itemValue="2" itemLabel="February" />
+							  			<f:selectItem itemValue="3" itemLabel="March" />
+							  			<f:selectItem itemValue="4" itemLabel="April" />
+							  			<f:selectItem itemValue="5" itemLabel="May" />
+							  			<f:selectItem itemValue="6" itemLabel="June" />
+							  			<f:selectItem itemValue="7" itemLabel="July" />
+							  			<f:selectItem itemValue="8" itemLabel="August" />
+							  			<f:selectItem itemValue="9" itemLabel="September" />
+							  			<f:selectItem itemValue="10" itemLabel="October" />
+							  			<f:selectItem itemValue="11" itemLabel="November" />
+							  			<f:selectItem itemValue="12" itemLabel="December" />
+							  		</p:selectOneMenu>
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{utilMBean.generateInvoice}" styleClass="btn btn-primary" value="Generate and Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+					<p:tab id="second" title="Capture Payment">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Manage Unpaid Invoices</h4>
+							<div class="widgetcontent">
+								<p:dataTable id="invoicesTable" var="obj" value="#{utilMBean.unpaidInvoices}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true">
+									
+									<p:column sortBy="#{obj.invoice_no}" headerText="Invoice No." filterBy="#{obj.invoice_no}" filterMatchMode="contains">
+										<h:outputText value="#{obj.invoice_no}" />
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column sortBy="#{obj.amount}" headerText="Amount">
+										<h:outputText value="#{obj.amount}" />
+									</p:column>
+									<p:column sortBy="#{obj.formatedDate}" headerText="Invoice Month" filterBy="#{obj.formatedDate}" filterMatchMode="contains">
+										<h:outputText value="#{obj.formatedDate}" />
+									</p:column>
+									<p:column sortBy="#{obj.generated_dt}" headerText="Generated">
+										On: <h:outputText value="#{obj.generated_dt}" /><br/>
+										By: <h:outputText value="#{obj.createdBy.fullname}" />
+									</p:column>
+									<p:column headerText="Download">
+										<p:commandButton ajax="false" actionListener="#{utilMBean.downloadInvoice(obj.id)}" styleClass="btn btn-primary" icon="ui-icon-disk" style="margin:0"/>
+									</p:column>
+									<p:column headerText="Pay">
+										<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{utilMBean.payInvoice(obj.id)}" styleClass="btn btn-primary" icon="ui-icon-check" style="margin:0"/>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab id="third" title="Payment History">
+						
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

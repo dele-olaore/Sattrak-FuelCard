@@ -1,0 +1,168 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Vehicles
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Vehicles" outcome="cars" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="create" title="Create Vehicle">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Create Vehicle <span style="align:right;float:right;"><p:commandLink ajax="false" action="#{userMBean.gotoPage('batch_vehicles')}"><font color="white">Batch Load Vehicles</font></p:commandLink></span></h4>
+							<div class="widgetcontent">
+								<p>
+									<label>Reg. Number: *</label>
+									<p:inputText id="regnum" value="#{userMBean.vehicle.regNumber}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Model: </label>
+									<p:selectOneMenu id="vmodel" value="#{userMBean.vmodel_id}">
+							  			<f:selectItems value="#{userMBean.vmodels}" var="it" itemLabel="#{it.name} [#{it.year}]" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</p>
+								<p>
+									<label>Unit ID: </label>
+									<p:inputText id="unitid" value="#{userMBean.vehicle.zonControlId}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Fuel Type: </label>
+									<p:selectOneMenu id="fueltype" value="#{userMBean.vehicle.fuelType}">
+							  			<f:selectItem itemLabel="DISEL" itemValue="DISEL" />
+							  			<f:selectItem itemLabel="PETROL" itemValue="PETROL" />
+							  		</p:selectOneMenu>
+								</p>
+								<p>
+									<label>Vehicle Capacity: </label>
+									<p:inputText id="vcapa" value="#{userMBean.vehicle.vehicleCapacity}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Calibrated Capacity: </label>
+									<p:inputText id="calcapa" value="#{userMBean.vehicle.calibratedCapacity}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Fuel Card Pan: </label>
+									<p:inputText id="cardpan" value="#{userMBean.vehicle.cardPan}" styleClass="input-xlarge" />
+								</p>
+								<p>
+									<label>Region: </label>
+									<p:selectOneMenu id="vregion" value="#{userMBean.region_id}">
+							  			<f:selectItems value="#{userMBean.regions}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</p>
+								<p>
+									<label>Department: </label>
+									<p:selectOneMenu id="vdept" value="#{userMBean.department_id}">
+							  			<f:selectItems value="#{userMBean.departments}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</p>
+								<p>
+									<label>Assigned Driver: </label>
+									<p:selectOneMenu id="vassuser" value="#{userMBean.user_id}">
+							  			<f:selectItems value="#{dropdownMBean.unassignedDrivers}" var="it" itemLabel="#{it.fullname}" itemValue="#{it.id}" />
+							  		</p:selectOneMenu>
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createVehicle}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+					<p:tab id="manage" title="Manage Vehicles">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Manage Vehicles</h4>
+							<div class="widgetcontent">
+								<p:scrollPanel mode="native" style="width:100%;height:300px">
+								<p:dataTable id="vehiclesTable" var="obj" value="#{userMBean.vehicles}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:150%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+			       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+									
+									<p:column sortBy="#{obj.regNumber}" headerText="Reg. Number" filterBy="#{obj.regNumber}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.regNumber}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vregnum_edt" value="#{obj.regNumber}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.model.name}" headerText="Model" filterBy="#{obj.model.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.model.name}" />
+									</p:column>
+									<p:column sortBy="#{obj.zonControlId}" headerText="Unit ID">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.zonControlId}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vunitid_edt" value="#{obj.zonControlId}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.fuelType}" headerText="Fuel Type" filterBy="#{obj.fuelType}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.fuelType}" /></f:facet>
+										<f:facet name="input">
+											<p:selectOneMenu id="fueltype_edt" value="#{obj.fuelType}">
+									  			<f:selectItem itemLabel="DISEL" itemValue="DISEL" />
+									  			<f:selectItem itemLabel="PETROL" itemValue="PETROL" />
+									  		</p:selectOneMenu>
+										</f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.vehicleCapacity}" headerText="Vehicle Capacity">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.vehicleCapacity}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vcapa_edt" value="#{obj.vehicleCapacity}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.calibratedCapacity}" headerText="Calibrated Capacity">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.calibratedCapacity}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vcalicapa_edt" value="#{obj.calibratedCapacity}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.cardPan}" headerText="Card Pan" filterBy="#{obj.cardPan}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.cardPan}" /></f:facet>
+										<f:facet name="input"><p:inputText id="vcardPan_edt" value="#{obj.cardPan}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.region.name}" headerText="Region" filterBy="#{obj.region.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.region.name}" />
+									</p:column>
+									<p:column sortBy="#{obj.department.name}" headerText="Department" filterBy="#{obj.department.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.department.name}" />
+									</p:column>
+									<p:column sortBy="#{obj.model.name}" headerText="Model" filterBy="#{obj.model.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.model.name} [#{obj.model.year}]" />
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column headerText="" style="width:32px">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								</p:scrollPanel>
+							</div>
+						</div>
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

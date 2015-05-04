@@ -1,0 +1,20 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/login_layout.xhtml">
+<ui:define name="content">
+	<div class="loginpanel">
+	    <div class="loginpanelinner">
+	        <div class="logo animate0 bounceIn"><img src="#{request.contextPath}/resources/images/logo.png" alt="" /></div>
+	        <h:form id="loginForm">
+	        	<f:facet name="header">Session Timed Out!!!</f:facet>
+	        	<div class="inputwrapper animate1 bounceIn">
+					<p:button outcome="index" ajax="false" value="Start New Session" styleClass="btn btn-primary" />
+				</div>
+	        </h:form>
+	    </div>
+	</div>
+</ui:define>
+</ui:composition>

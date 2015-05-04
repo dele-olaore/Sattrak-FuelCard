@@ -1,0 +1,224 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jstl/core">
+<f:view>
+<ui:insert name="metadata"/>
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>#{message.Title}</title>
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/style.default.css" type="text/css" />
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/style.red.css" type="text/css" />
+<link rel="stylesheet" href="#{request.contextPath}/resources/css/responsive-tables.css" />
+<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-migrate-1.1.1.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-1.9.2.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/modernizr.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.uniform.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/flot/jquery.flot.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/flot/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/responsive-tables.js"></script>
+<script type="text/javascript" src="#{request.contextPath}/resources/js/custom.js"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="#{request.contextPath}/resources/js/excanvas.min.js"></script><![endif]-->
+
+<style type="text/css">
+	.ui-dialog .ui-terminal {
+        border:0;
+    }
+
+    .ui-dialog.terminalDialog .ui-dialog-content {
+        padding:0;
+    }
+     
+    .ui-widget, .ui-widget .ui-widget, .ui-state-default, .ui-widget-content {
+	font-size: 12px !important;
+	}
+</style>
+<ui:insert name="head"/>
+</h:head>
+
+<h:body>
+<p:growl id="glow" sticky="true" showDetail="true" />
+<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+<p:dialog modal="true" widgetVar="statusDialog" header="Status" draggable="false" closable="false" showEffect="explode" hideEffect="explode">
+	<p:graphicImage value="/resources/images/ajax-loader.gif" />
+</p:dialog>
+<ui:include src="/WEB-INF/layout/sessionTimeout.xhtml" />
+<div class="mainwrapper">
+    <div class="header">
+        <div class="logo">
+            <a href="#"><img src="#{request.contextPath}/resources/images/logo.png" alt="" /></a>
+        </div>
+        <div class="headerinner">
+            <ul class="headmenu">
+                <li class="right">
+                    <div class="userloggedinfo">
+                    	<h:form id="loggedOnUserForm">
+                        <img src="#{request.contextPath}/resources/images/photos/thumb1.png" alt="" />
+                        <div class="userinfo">
+                            <h5>
+                            	<h:outputText value="#{userMBean.activeUser.fullname}" rendered="#{userMBean.activeUser != null}" />
+                            	<small>
+                            		<h:outputText value="(#{userMBean.activeUser.partner.name}) - Role: #{userMBean.activeUser.role.name}" rendered="#{userMBean.activeUser != null and userMBean.activeUser.partner != null and userMBean.activeUser.role != null}" />
+                            		<br/>
+                            		<h:outputText value="Account No. #{userMBean.activeUser.partner.zenithAccountNumber}" rendered="#{userMBean.activeUser != null and userMBean.activeUser.partner != null and not userMBean.activeUser.partner.sattrak}" />
+                            	</small>
+                            </h5>
+                            <ul>
+                                <li><p:commandLink value="Change Password" ajax="false" action="#{userMBean.gotoPage('changePassword')}" rendered="#{userMBean.activeUser != null}" /></li>
+                                <li><p:commandLink value="Sign Out" ajax="false" action="#{loginBean.doLogout}" rendered="#{userMBean.activeUser != null}" /></li>
+                            </ul>
+                        </div>
+                        </h:form>
+                    </div>
+                </li>
+            </ul><!--headmenu-->
+        </div>
+    </div>
+    
+    <div class="leftpanel">
+        <div class="leftmenu">
+        <h:form id="leftMenuForm" rendered="#{userMBean.authenticated}">
+            <ul class="nav nav-tabs nav-stacked">
+            	<li class="nav-header">Navigation</li>
+                <li class="active"><p:commandLink ajax="false" action="#{userMBean.gotoPage('home')}"><span class="iconfa-laptop"></span> Dashboard</p:commandLink></li>
+                
+                <c:if test="${userMBean.sattrak}">
+                	<li class="dropdown"><a href=""><span class="iconfa-briefcase"></span> Partners</a>
+	                	<ul>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('partners')}">Manage Partners</p:commandLink></li>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('invoices')}">Invoicing and Payments</p:commandLink></li>
+	                    </ul>
+	                </li>
+	                <li class="dropdown"><a href=""><span class="iconfa-briefcase"></span> Card Management</a>
+	                	<ul>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('order_request')}">Order Request</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('cancel_request')}">Decommission Request</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('load_request')}">Load Request</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('offload_request')}">Offload Request</p:commandLink></li>
+	                	</ul>
+	                </li>
+                </c:if>
+                <c:if test="${not userMBean.sattrak}">
+	                <c:if test="${userMBean.isFunctionAllowed('Manage Roles')}">
+	                <li class="dropdown"><a href=""><span class="iconfa-briefcase"></span> Roles</a>
+	                	<ul>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('roles')}" rendered="#{userMBean.isFunctionAllowed('Manage Roles')}">Manage Roles</p:commandLink></li>
+	                    </ul>
+	                </li>
+	                </c:if>
+	                <c:if test="${userMBean.isFunctionAllowed('Manage Vehicles') or userMBean.isFunctionAllowed('Batch Load Vehicles') or userMBean.isFunctionAllowed('Manage Card Threshold')}">
+	                <li class="dropdown"><a href=""><span class="iconfa-th-list"></span> Settings</a>
+	                	<ul>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('regions')}" rendered="#{userMBean.isFunctionAllowed('Manage Vehicles')}">Regions and Departments</p:commandLink></li>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('vehicle_models')}" rendered="#{userMBean.isFunctionAllowed('Manage Vehicles')}">Vehicle Models</p:commandLink></li>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('cars')}" rendered="#{userMBean.isFunctionAllowed('Manage Vehicles') or userMBean.isFunctionAllowed('Batch Load Vehicles')}">Vehicles</p:commandLink></li>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('card_balance')}" rendered="#{userMBean.isFunctionAllowed('Manage Card Threshold')}">Notifications</p:commandLink></li>
+	                    </ul>
+	                </li>
+	                </c:if>
+	                <c:if test="${userMBean.isFunctionAllowed('Manage Cards')}">
+	                <li class="dropdown"><a href=""><span class="iconfa-th-list"></span> Card Management</a>
+	                	<ul>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('order_cards')}" rendered="#{userMBean.isFunctionAllowed('Manage Cards')}">Order Cards</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('cancel_cards')}" rendered="#{userMBean.isFunctionAllowed('Manage Cards')}">Decommission Cards</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('load_cards')}" rendered="#{userMBean.isFunctionAllowed('Manage Cards')}">Load Cards</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('offload_cards')}" rendered="#{userMBean.isFunctionAllowed('Manage Cards')}">Offload Cards</p:commandLink></li>
+	                	</ul>
+	                </li>
+	                </c:if>
+	                <c:if test="${userMBean.isFunctionAllowed('Manage Users') or userMBean.isFunctionAllowed('Batch Load Users')}">
+	                <li class="dropdown"><a href="#"><span class="iconfa-th-list"></span> Human Resource</a>
+	                	<ul>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('users')}"><span class="iconfa-hand-up"></span> Manage Users</p:commandLink></li>
+	                    </ul>
+	                </li>
+	                </c:if>
+	                <c:if test="${userMBean.isFunctionAllowed('View Audit') or userMBean.isFunctionAllowed('Clear Audit')}">
+	                <li class="dropdown"><a href="#"><span class="iconfa-th-list"></span> Logs</a>
+	                	<ul>
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('logs')}"><span class="iconfa-hand-up"></span> Application Logs</p:commandLink></li>
+	                    </ul>
+	                </li>
+	                </c:if>
+	                <c:if test="${userMBean.isModuleAllowed('REPORT')}">
+	                <li class="dropdown"><a href="#"><span class="iconfa-th-list"></span> Reports</a>
+	                	<ul>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('my_reports')}"><span class="iconfa-hand-up"></span> My Reports</p:commandLink></li>
+	                		<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('vehicles')}"><span class="iconfa-hand-up"></span> Vehicles Report</p:commandLink></li>
+	                		
+	                		<c:if test="${userMBean.isFunctionAllowed('Daily Fuel Log Sheet') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('daily_r')}"><span class="iconfa-hand-up"></span> Daily Fuel Log Sheet</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Fuel Purchase Report') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('fuel_purchase_r')}"><span class="iconfa-hand-up"></span> Fuel Purchase Report</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Fuel Purchase Report') and userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('fuel_purchase_r_2')}"><span class="iconfa-hand-up"></span> Fuel Purchase Report</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Exception Report') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('exception_purchase_r')}"><span class="iconfa-hand-up"></span> Exception Report</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Highest Fuel Consumption') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('highest_fuel_consumption_r')}"><span class="iconfa-hand-up"></span> Highest Fuel Consumption Report</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Highest Fuel Purchase') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('highest_fuel_purchase_r')}"><span class="iconfa-hand-up"></span> Highest Fuel Purchase Report</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Longest Distance') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('longest_distance_r')}"><span class="iconfa-hand-up"></span> Longest Distance Report</p:commandLink></li>
+	                    	</c:if>
+	                    	<c:if test="${userMBean.isFunctionAllowed('Best Efficiency') and not userMBean.activeUser.partner.noTrackerUsed}">
+	                    	<li><p:commandLink ajax="false" action="#{userMBean.gotoPage('best_efficency_r')}"><span class="iconfa-hand-up"></span> Best Efficiency Report</p:commandLink></li>
+	                    	</c:if>
+	                    </ul>
+	                </li>
+	                </c:if>
+                </c:if>
+          </ul>
+          </h:form>
+        </div><!--leftmenu-->
+        
+    </div><!-- leftpanel -->
+    
+    <div class="rightpanel">
+        <h:form id="rightBreadCumForm">
+        <ul class="breadcrumbs">
+            <li><p:commandLink ajax="false" action="#{userMBean.gotoPage('home')}"><i class="iconfa-home"></i></p:commandLink> <span class="separator"></span></li>
+            <li>Dashboard</li>
+            
+        </ul>
+        </h:form>
+        <div class="pageheader">
+            <div class="pageicon"><span class="iconfa-laptop"></span></div>
+            <div class="pagetitle">
+                <h5><ui:insert name="pageShortSummary"/></h5>
+                <h1><ui:insert name="pageTitle"/></h1>
+            </div>
+        </div><!--pageheader-->
+        
+        <div class="maincontent">
+            <div class="maincontentinner">
+                <div class="row-fluid">
+                	<ui:insert name="content"/>
+                </div><!--row-fluid-->
+                <div class="footer">
+                    <div class="footer-left">
+                        <span><h:outputText value="#{message.template_footerMsg} #{message.template_footerMsg2} #{message.template_footerUs}" /> <a href="#" onclick="window.open('');">#{message.template_footerVisitUs}</a></span>
+                    </div>
+                    <div class="footer-right">
+                        <span></span>
+                    </div>
+                </div><!--footer-->
+			</div><!--maincontentinner-->
+		</div><!--maincontent-->
+	</div>
+</div>
+</h:body>
+</f:view>
+</html>

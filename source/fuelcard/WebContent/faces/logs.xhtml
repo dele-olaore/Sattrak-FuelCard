@@ -1,0 +1,92 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Application Logs
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Application Logs" outcome="logs" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<div class="widgetbox login-information">
+				<h4 class="widgettitle">View Application Logs</h4>
+				<div class="widgetcontent">
+					<p:panel header="Export All Data" rendered="#{userMBean.audits != null and userMBean.audits.size() > 0}">
+						<p:commandLink ajax="false">
+							<p:graphicImage value="/resources/images/excel.png" />
+							<p:dataExporter type="xls" target=":form:objsTable"
+								fileName="audittrail_report" />
+						</p:commandLink>
+						
+						<p:commandLink ajax="false">
+							<p:graphicImage value="/resources/images/csv.png" />
+							<p:dataExporter type="csv" target=":form:objsTable"
+								fileName="audittrail_report" />
+						</p:commandLink>
+					</p:panel>
+					<p:dataTable id="objsTable" var="obj" value="#{userMBean.audits}"
+						paginator="true" rows="50"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true">
+						
+						<p:column sortBy="#{obj.auditTime}">
+							<f:facet name="header">
+								<h:outputText value="Date/Time" />
+							</f:facet>
+							<h:outputText value="#{obj.auditTime}" />
+						</p:column>
+						<p:column filterBy="#{obj.actionPerformed}" filterMatchMode="contains">
+							<f:facet name="header">
+								<h:outputText value="Action" />
+							</f:facet>
+							<h:outputText value="#{obj.actionPerformed}" />
+						</p:column>
+						<p:column sortBy="#{obj.username}" filterBy="#{obj.username}" filterMatchMode="contains">
+							<f:facet name="header">
+								<h:outputText value="User" />
+							</f:facet>
+							<h:outputText value="#{obj.username}" />
+						</p:column>
+						<p:column sortBy="#{obj.entity}" filterBy="#{obj.entity}" filterMatchMode="contains">
+							<f:facet name="header">
+								<h:outputText value="Entity" />
+							</f:facet>
+							<h:outputText value="#{obj.entity}" />
+						</p:column>
+						<p:column sortBy="#{obj.success}">
+							<f:facet name="header">
+								<h:outputText value="Status" />
+							</f:facet>
+							<h:outputText value="Successful" rendered="#{obj.success}"/>
+							<h:outputText value="Failed" rendered="#{not obj.success}"/>
+						</p:column>
+					</p:dataTable>
+					
+					<p>
+						<label>Start date: *</label>
+						<p:calendar id="date1" value="#{userMBean.tranDate}" styleClass="input-xlarge" />
+					</p>
+					<p>
+						<label>End date: *</label>
+						<p:calendar id="date2" value="#{userMBean.tranDate2}" styleClass="input-xlarge" />
+					</p>
+				</div>
+			</div>
+			<p>
+				<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.searchAudits}" styleClass="btn btn-primary" value="Search" icon="ui-icon-search" style="margin:0"/>
+			</p>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

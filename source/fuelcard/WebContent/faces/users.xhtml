@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Manage Users
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Manage Users" outcome="users" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<div class="widgetbox login-information">
+					<h4 class="widgettitle">Manage Users <span style="align:right;float:right;"><p:commandLink ajax="false" action="#{userMBean.gotoPage('batch_users')}"><font color="white">Batch Load Users</font></p:commandLink></span></h4>
+					<div class="widgetcontent">
+						<p:dataTable id="objsTable" var="obj" value="#{userMBean.allusers}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+							editable="true">
+							
+							<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+		      				<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+							
+							<p:column sortBy="#{obj.fullname}" headerText="Name" filterBy="#{obj.fullname}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.fullname}" /></f:facet>
+								<f:facet name="input"><p:inputText id="ufullname_edt" value="#{obj.fullname}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.username}"  headerText="Username" filterBy="#{obj.username}" filterMatchMode="contains">
+								<p:cellEditor>
+								<f:facet name="output"><h:outputText value="#{obj.username}" /></f:facet>
+								<f:facet name="input"><p:inputText id="uname_edt" value="#{obj.username}" style="width:100%" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.role.name}" headerText="Role" filterBy="#{obj.role.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.role.name}" />
+							</p:column>
+							<p:column sortBy="#{obj.regNumber}" headerText="Assigned Vehicle" filterBy="#{obj.regNumber}" filterMatchMode="contains">
+								<h:outputText value="#{obj.regNumber}" />
+							</p:column>
+							<p:column sortBy="#{obj.active}" headerText="Active">
+								<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="Yes" rendered="#{obj.active}"/>
+									<h:outputText value="No" rendered="#{not obj.active}"/>
+								</f:facet>
+								<f:facet name="input"><p:selectBooleanCheckbox id="uactive_edt" value="#{obj.active}" styleClass="input-xlarge" /></f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.partner.name}" />
+							</p:column>
+							<p:column headerText="" style="width:32px">
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+						
+						<p>
+							<label>Full name: *</label>
+							<p:inputText id="ufullname" value="#{userMBean.userObj.fullname}" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>Username: *</label>
+							<p:inputText id="uname" value="#{userMBean.userObj.username}" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>Password: *</label>
+							<p:password id="upword" value="#{userMBean.userObj.password}" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>Role: </label>
+							<p:selectOneMenu id="urole" value="#{userMBean.role_id}">
+					  			<f:selectItems value="#{userMBean.allroles}" var="it" itemLabel="#{it.name}" itemValue="#{it.id}" />
+					  		</p:selectOneMenu>
+						</p>
+						<p>
+							<label>Assigned Vehicle: </label>
+							<p:selectOneMenu id="uassvehicle" value="#{userMBean.vehicle_id}">
+								<f:selectItem itemLabel="" itemValue="0" />
+					  			<f:selectItems value="#{userMBean.vehicles}" var="it" itemLabel="#{it.regNumber}" itemValue="#{it.id}" />
+					  		</p:selectOneMenu>
+						</p>
+					</div>
+				</div>
+				<p>
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createUser}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+				</p>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

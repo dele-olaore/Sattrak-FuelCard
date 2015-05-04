@@ -1,0 +1,151 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Order cards requests
+</ui:define>
+<ui:define name="content">
+<script type="text/javascript">
+function start(){
+	PF('statusDialog').show();
+}
+function stop(){
+	PF('statusDialog').hide();
+}
+</script>
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Order Cards Requests" outcome="order_request" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="orderreqstab" title="Order Cards Requests">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Manage pending/processing card order requests</h4>
+							<div class="widgetcontent">
+								<p:scrollPanel mode="native" style="width:100%;height:300px">
+								<p:dataTable id="objsTable" var="obj" value="#{userMBean.pendingCardOrderRequests}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true">
+				      				
+				      				<p:column sortBy="#{obj.requestRefNum}" headerText="Ref. Num." filterBy="#{obj.requestRefNum}" filterMatchMode="contains">
+				      					<h:outputText value="#{obj.requestRefNum}" />
+									</p:column>
+									<p:column sortBy="#{obj.request_dt}" headerText="Request Date">
+										<h:outputText value="#{obj.request_dt}" />
+									</p:column>
+									<p:column headerText="Additional Comment" filterBy="#{obj.additionalComment}" filterMatchMode="contains">
+										<h:outputText value="#{obj.additionalComment}" />
+									</p:column>
+				      				<p:column headerText="Download Excel">
+				      					<p:commandButton ajax="false" action="#{userMBean.downloadRequestExcel}" styleClass="btn btn-primary" icon="ui-icon-disk" style="margin:0">
+				      						<f:setPropertyActionListener value="#{obj}" target="#{userMBean.cardRequest}"/>
+				      					</p:commandButton>
+				      				</p:column>
+				      				
+				      				<p:column sortBy="#{obj.status}" headerText="Status" filterBy="#{obj.status}" filterMatchMode="contains">
+				      					<h:outputText value="#{obj.status}" />
+				      				</p:column>
+				      				
+									<p:column headerText="Details...">
+				      					<p:commandLink update=":form:detailPanel" value="View" oncomplete="detaildlg.show();">
+											<f:setPropertyActionListener value="#{obj}" target="#{userMBean.cardRequest}"/>
+										</p:commandLink>
+				      				</p:column>
+				      				
+				      				<p:column headerText="">
+				      					<p:commandLink update=":form:attendToPanel" value="Attend To" oncomplete="attendTodlg.show();">
+											<f:setPropertyActionListener value="#{obj}" target="#{userMBean.cardRequest}"/>
+										</p:commandLink>
+									</p:column>
+				      				
+				      			</p:dataTable>
+				      			</p:scrollPanel>
+							</div>
+						</div>
+					</p:tab>
+					<p:tab id="orderreqsSearchtab" title="Search Order Cards Requests">
+						
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+		
+		<p:dialog id="attendToDialog" header="Attend to request" widgetVar="attendTodlg" modal="true" dynamic="true">
+			<p:panelGrid id="attendToPanel" columns="2" cellpadding="5" style="margin-bottom:10px;">
+				<f:facet name="header"></f:facet>
+				
+				<h:outputLabel for="rstat">Status: *</h:outputLabel>
+				<p:selectOneMenu id="rstat" value="#{userMBean.responseStatus}">
+		  			<f:selectItem itemLabel="PROCESSING" itemValue="PROCESSING" rendered="#{userMBean.cardRequest.status == 'PENDING'}" />
+		  			<f:selectItem itemLabel="DONE" itemValue="DONE" rendered="#{userMBean.cardRequest.status == 'PROCESSING'}" />
+		  			<f:selectItem itemLabel="CANCELED" itemValue="CANCELED" />
+		  		</p:selectOneMenu>
+		  		
+		  		<h:outputLabel for="rcmt">Comment: </h:outputLabel>
+				<p:inputTextarea id="rcmt" rows="6" cols="40" value="#{userMBean.responseComment}" />
+				
+				<f:facet name="footer">
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" value="Save" action="#{userMBean.attendToRequest}" icon="ui-icon-disk" style="margin:0" />
+				</f:facet>
+			</p:panelGrid>
+		</p:dialog>
+		
+		<p:dialog id="detailDialog" header="Details" widgetVar="detaildlg" modal="true" dynamic="true">
+			<p:panelGrid id="detailPanel" columns="2" cellpadding="5" style="margin-bottom:10px;">
+				<f:facet name="header">Ref. Num. : #{userMBean.cardRequest.requestRefNum}</f:facet>
+				
+				<h:outputText value="Type : " />
+				<h:outputText value="#{userMBean.cardRequest.requestType}" />
+				
+				<h:outputText value="Ref. Num. : " />
+				<h:outputText value="#{userMBean.cardRequest.requestRefNum}" />
+				
+				<h:outputText value="Request Date : " />
+				<h:outputText value="#{userMBean.cardRequest.request_dt}" />
+				
+				<h:outputText value="Additional Comment : " />
+				<h:outputText value="#{userMBean.cardRequest.additionalComment}" />
+				
+				<h:outputText value="Requested By : " />
+				<h:outputText value="#{userMBean.cardRequest.requestedBy.fullname}" />
+				
+				<h:outputText value="Partner : " />
+				<h:outputText value="#{userMBean.cardRequest.partner.name}" />
+				
+				<h:outputText value="Status : " />
+				<h:outputText value="#{userMBean.cardRequest.status}" />
+				
+				<h:outputText value="Response Comment 1 : " />
+				<h:outputText value="#{userMBean.cardRequest.sattrak_response1}" rendered="#{userMBean.cardRequest.sattrak_response1 != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.sattrak_response1 == null}" />
+				
+				<h:outputText value="Response Comment 2 : " />
+				<h:outputText value="#{userMBean.cardRequest.sattrak_response2}" rendered="#{userMBean.cardRequest.sattrak_response2 != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.sattrak_response2 == null}" />
+				
+				<h:outputText value="Last Response Date : " />
+				<h:outputText value="#{userMBean.cardRequest.response_dt}" rendered="#{userMBean.cardRequest.response_dt != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.response_dt == null}" />
+				
+				<h:outputText value="Last Response By : " />
+				<h:outputText value="#{userMBean.cardRequest.respondedBy.fullname}" rendered="#{userMBean.cardRequest.respondedBy != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.respondedBy == null}" />
+				
+			</p:panelGrid>
+		</p:dialog>
+		
+	</h:form>
+</ui:define>
+</ui:composition>

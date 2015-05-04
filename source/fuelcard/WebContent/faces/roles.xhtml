@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jstl/core"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Manage Roles
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Manage Roles" outcome="roles" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<c:if test="${userMBean.isFunctionAllowed('Manage Roles')}">
+			<!-- Body here -->
+			<div class="widgetbox login-information">
+				<h4 class="widgettitle">Manage Roles</h4>
+				<div class="widgetcontent">
+					<p:dataTable id="objsTable" var="obj" value="#{userMBean.allroles}"
+						paginator="true" rows="50"
+						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+						editable="true">
+						
+						<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+						
+						<p:column sortBy="#{obj.id}" headerText="ID" style="width:15px">
+							<h:outputText value="#{obj.id}" />
+						</p:column>
+						<p:column sortBy="#{obj.name}" headerText="Name" filterBy="#{obj.name}" filterMatchMode="contains">
+							<p:cellEditor>
+							<f:facet name="output"><h:outputText value="#{obj.name}" /></f:facet>
+							<f:facet name="input"><p:inputText id="rname_edt" value="#{obj.name}" style="width:100%" /></f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column headerText="Description" filterBy="#{obj.description}" filterMatchMode="contains">
+							<p:cellEditor>
+							<f:facet name="output"><h:outputText value="#{obj.description}" /></f:facet>
+							<f:facet name="input"><p:inputText id="rdesc_edt" value="#{obj.description}" style="width:100%" /></f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column sortBy="#{obj.driverRole}" headerText="Is Driver?">
+							<p:cellEditor>
+							<f:facet name="output">
+							<h:outputText value="Yes" rendered="#{obj.driverRole}" />
+							<h:outputText value="No" rendered="#{not obj.driverRole}" />
+							</f:facet>
+							<f:facet name="input"><p:selectBooleanCheckbox id="drvrole_edt" value="#{obj.driverRole}" /></f:facet>
+							</p:cellEditor>
+						</p:column>
+						<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+							<h:outputText value="#{obj.partner.name}" />
+						</p:column>
+						<p:column headerText="Functions">
+							<h:outputText value="#{obj.functions.size()} function(s) " />
+							<p:commandLink update=":form:updRolePanel" value="Modify" action="#{userMBean.loadRoleFunctions}" oncomplete="updroledlg.show();">
+								<f:setPropertyActionListener value="#{obj}" target="#{userMBean.selectedRole}"/>
+							</p:commandLink>
+						</p:column>
+						<p:column headerText="" style="width:32px">
+							<p:rowEditor />
+						</p:column>
+					</p:dataTable>
+					
+					<p>
+						<label>Name: *</label>
+						<p:inputText id="rname1" value="#{userMBean.role.name}" styleClass="input-xlarge" />
+					</p>
+					<p>
+						<label>Description: *</label>
+						<p:inputText id="rdesc1" value="#{userMBean.role.description}" styleClass="input-xlarge" />
+					</p>
+					<p>
+						<label>Is Role for Drivers?:</label>
+						<p:selectBooleanCheckbox id="drvrole1" value="#{userMBean.role.driverRole}" styleClass="input-xlarge" />
+					</p>
+					<p>
+						<label>Functions: *</label>
+						<p:dataGrid value="#{userMBean.allFunctions}" var="func" columns="2" width="100%">
+							<p:outputPanel>
+							<p:selectBooleanCheckbox value="#{func.selected}" /> <h:outputText value="#{func.name}" />
+							<br/>
+							(<h:outputText value="#{func.description}" />)
+							</p:outputPanel>
+						</p:dataGrid>
+					</p>
+				</div>
+			</div>
+			<p>
+				<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createRole}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+			</p>
+			</c:if>
+		</div>
+		
+		<p:dialog id="newRoleDialog" header="Modify Role" widgetVar="updroledlg" modal="true" dynamic="true">
+			<p:panelGrid id="updRolePanel" columns="2" cellpadding="5" style="margin-bottom:10px;">
+				<f:facet name="header"></f:facet>
+				<h:outputLabel for="rname">Name: *</h:outputLabel>
+				<h:inputText id="rname" value="#{userMBean.selectedRole.name}" />
+				
+				<h:outputLabel for="desc">Description: </h:outputLabel>
+				<p:inputText id="desc" value="#{userMBean.selectedRole.description}" />
+				
+				<h:outputLabel for="drvrole">Is Role for Drivers?: </h:outputLabel>
+				<p:selectBooleanCheckbox id="drvrole" value="#{userMBean.selectedRole.driverRole}" />
+				
+				<h:outputLabel for="rfuncts">Functions: *</h:outputLabel>
+				<p:dataGrid id="rfuncts" value="#{userMBean.allFunctions2}" var="func" columns="2" width="100%">
+					<p:outputPanel>
+					<p:selectBooleanCheckbox value="#{func.selected}" /> <h:outputText value="#{func.name}" />
+					<br/>
+					(<h:outputText value="#{func.description}" />)
+					</p:outputPanel>
+				</p:dataGrid>
+				
+				<f:facet name="footer">
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" value="Save" action="#{userMBean.updateRole}" icon="ui-icon-disk" style="margin:0" />
+				</f:facet>
+			</p:panelGrid>
+		</p:dialog>
+	</h:form>
+</ui:define>
+</ui:composition>

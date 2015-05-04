@@ -1,0 +1,104 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Fuel Purchase Report
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Fuel Purchase Report" outcome="fuel_purchase_r_2" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<div class="widgetbox login-information">
+					<h4 class="widgettitle">Fuel Purchase Report</h4>
+					<div class="widgetcontent">
+						<p:panel header="Export All Data" rendered="#{userMBean.precords.size() > 0}">
+							<p:commandLink ajax="false">
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target=":form:recTable"
+									fileName="fuel_purchase_report" />
+							</p:commandLink>
+							
+							<p:commandLink ajax="false">
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target=":form:recTable"
+									fileName="fuel_purchase_report" />
+							</p:commandLink>
+						</p:panel>
+						<p:scrollPanel mode="native" style="width:100%;height:300px" rendered="#{userMBean.precords.size() > 0}">
+						<p:dataTable id="recTable" var="obj" value="#{userMBean.precords}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="50,100,500" style="width:150%" resizableColumns="true"
+							rendered="#{userMBean.precords.size() > 0}">
+							
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Purchase Date</f:facet>
+								<h:outputText value="#{obj[0]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Reg. Number</f:facet>
+								<h:outputText value="#{obj[1]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Amount</f:facet>
+								<h:outputText value="#{obj[2]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Type</f:facet>
+								<h:outputText value="#{obj[3]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Unit Price</f:facet>
+								<h:outputText value="#{obj[4]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Quantity Purchased</f:facet>
+								<h:outputText value="#{obj[5]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Purchase Location</f:facet>
+								<h:outputText value="#{obj[6]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Driver</f:facet>
+								<h:outputText value="#{obj[7]}" />
+							</p:column>
+						</p:dataTable>
+						</p:scrollPanel>
+						
+						<p>
+							<label>Vehicle: *</label>
+							<p:selectOneMenu id="vehicle" value="#{userMBean.vehicle_id}">
+								<f:selectItems value="#{dropdownMBean.allCars}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+							</p:selectOneMenu>
+						</p>
+						<p>
+							<label>Start Date: *</label>
+							<p:calendar id="sdate" value="#{userMBean.tranDate}" pattern="MM/dd/yyyy HH:mm:ss" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>End Date: *</label>
+							<p:calendar id="edate" value="#{userMBean.tranDate2}" pattern="MM/dd/yyyy HH:mm:ss" styleClass="input-xlarge" />
+						</p>
+					</div>
+				</div>
+				<p>
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.searchFuelPurchase2Transactions}" styleClass="btn btn-primary" value="Search" icon="ui-icon-search" style="margin:0"/>
+				</p>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

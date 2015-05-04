@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Longest Distance
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Longest Distance" outcome="longest_distance_r" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<div class="widgetbox login-information">
+					<h4 class="widgettitle">Longest Distance</h4>
+					<div class="widgetcontent">
+						<p:panel header="Export All Data" rendered="#{userMBean.recordsLD.size() > 0}">
+							<p:commandLink ajax="false">
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target=":form:recTable"
+									fileName="longest_distance_report" />
+							</p:commandLink>
+							
+							<p:commandLink ajax="false">
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target=":form:recTable"
+									fileName="longest_distance_report" />
+							</p:commandLink>
+						</p:panel>
+						<p:dataTable id="recTable" var="obj" value="#{userMBean.recordsLD}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="50,100,500" style="width:100%" resizableColumns="true"
+							rendered="#{userMBean.recordsLD.size() > 0}">
+							
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Reg Number</f:facet>
+								<h:outputText value="#{obj[1]}" />
+							</p:column>
+							<p:column style="vertical-align: top">
+								<f:facet name="header">Distance</f:facet>
+								<h:outputText value="#{obj[2]}" />
+							</p:column>
+							
+						</p:dataTable>
+						
+						<p>
+							<label>Start Date: *</label>
+							<p:calendar id="sdate" value="#{userMBean.tranDate}" pattern="MM/dd/yyyy HH:mm:ss" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>End Date: *</label>
+							<p:calendar id="edate" value="#{userMBean.tranDate2}" pattern="MM/dd/yyyy HH:mm:ss" styleClass="input-xlarge" />
+						</p>
+					</div>
+				</div>
+				<p>
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.searchLongestDistance}" styleClass="btn btn-primary" value="Search" icon="ui-icon-search" style="margin:0"/>
+				</p>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

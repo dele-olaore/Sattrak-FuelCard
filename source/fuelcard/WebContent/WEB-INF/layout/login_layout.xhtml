@@ -1,0 +1,37 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<f:view>
+<ui:insert name="metadata"/>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>#{message.Title}</title>
+	<link rel="stylesheet" href="#{request.contextPath}/resources/css/style.default.css" type="text/css" />
+	<link rel="stylesheet" href="#{request.contextPath}/resources/css/style.red.css" type="text/css" />
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-migrate-1.1.1.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery-ui-1.9.2.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/modernizr.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.cookie.js"></script>
+	<script type="text/javascript" src="#{request.contextPath}/resources/js/custom.js"></script>
+	<ui:insert name="head"/>
+</h:head>
+
+<body class="loginpage">
+
+<p:growl id="glow" sticky="true" showDetail="true" />
+
+<!-- Insert content here. Each page must identify their own content and design accordingly -->
+<ui:insert name="content"/>
+
+<div class="loginfooter">
+    <p style="align:left">#{message.template_footerMsg} #{message.template_footerMsg2} #{message.template_footerUs} <a href="#" onclick="window.open('');">#{message.template_footerVisitUs}</a></p>
+</div>
+
+</body>
+</f:view>
+</html>

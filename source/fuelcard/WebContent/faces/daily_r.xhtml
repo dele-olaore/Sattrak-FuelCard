@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Daily Fuel Log Sheet
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Daily Fuel Log Sheet" outcome="daily_r" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<div class="widgetbox login-information">
+					<h4 class="widgettitle">Daily Fuel Log Sheet</h4>
+					<div class="widgetcontent">
+						<p:panel header="Export All Data" rendered="#{userMBean.records.size() > 0}">
+							<p:commandLink ajax="false">
+								<p:graphicImage value="/resources/images/excel.png" />
+								<p:dataExporter type="xls" target=":form:recTable"
+									fileName="daily_log_sheet_report" />
+							</p:commandLink>
+							
+							<p:commandLink ajax="false">
+								<p:graphicImage value="/resources/images/csv.png" />
+								<p:dataExporter type="csv" target=":form:recTable"
+									fileName="daily_log_sheet_report" />
+							</p:commandLink>
+						</p:panel>
+						<p:scrollPanel mode="native" style="width:100%;height:300px" rendered="#{userMBean.records.size() > 0}">
+						<p:dataTable id="recTable" var="obj" value="#{userMBean.records}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="50,100,500" style="width:150%" resizableColumns="true"
+							rendered="#{userMBean.records.size() > 0}">
+							
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[0]}">
+								<f:facet name="header">Transaction Date</f:facet>
+								<h:outputText value="#{obj[0]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[1]}">
+								<f:facet name="header">Card Location</f:facet>
+								<h:outputText value="#{obj[1]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[1]}">
+								<f:facet name="header">Tracker Location</f:facet>
+								<h:outputText value="#{obj[11]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[2]}">
+								<f:facet name="header">Amount on Card</f:facet>
+								<h:outputText value="#{obj[2]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[3]}">
+								<f:facet name="header">Previous Km Reading</f:facet>
+								<h:outputText value="#{obj[3]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[4]}">
+								<f:facet name="header">Current Km Reading</f:facet>
+								<h:outputText value="#{obj[4]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[5]}">
+								<f:facet name="header">Kilometres Covered</f:facet>
+								<h:outputText value="#{obj[5]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[6]}">
+								<f:facet name="header">Fuel Amount</f:facet>
+								<h:outputText value="#{obj[6]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[9]}">
+								<f:facet name="header">Initial Fuel Lvl</f:facet>
+								<h:outputText value="#{obj[9]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[7]}">
+								<f:facet name="header">Litres Bought</f:facet>
+								<h:outputText value="#{obj[7]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[10]}">
+								<f:facet name="header">Final Fuel Lvl</f:facet>
+								<h:outputText value="#{obj[10]}" />
+							</p:column>
+							<p:column style="vertical-align: top" rendered="#{userMBean.recordsFields[8]}">
+								<f:facet name="header">Balance on Card</f:facet>
+								<h:outputText value="#{obj[8]}" />
+							</p:column>
+						</p:dataTable>
+						</p:scrollPanel>
+						
+						<p>
+							<label>Vehicle: *</label>
+							<p:selectOneMenu id="vehicle" value="#{userMBean.vehicle_id}">
+								<f:selectItems value="#{dropdownMBean.allCars}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+							</p:selectOneMenu>
+						</p>
+						<p>
+							<label>Start Date: *</label>
+							<p:calendar id="sdate" value="#{userMBean.tranDate}" pattern="MM/dd/yyyy HH:mm:ss" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>End Date: *</label>
+							<p:calendar id="edate" value="#{userMBean.tranDate2}" pattern="MM/dd/yyyy HH:mm:ss" styleClass="input-xlarge" />
+						</p>
+						<p>
+							<label>Columns: </label>
+							<p:panelGrid columns="5" id="fields">
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[0]}" />
+									<h:outputText value="Transaction Date" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[1]}" />
+									<h:outputText value="Locations" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[2]}" />
+									<h:outputText value="Amount on Card" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[3]}" />
+									<h:outputText value="Previous Km Reading" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[4]}" />
+									<h:outputText value="Current Km Reading" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[5]}" />
+									<h:outputText value="Kilometres Covered" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[6]}" />
+									<h:outputText value="Fuel Amount" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[9]}" />
+									<h:outputText value="Initial Fuel Level" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[7]}" />
+									<h:outputText value="Litres Bought" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[10]}" />
+									<h:outputText value="Final Fuel Level" />
+								</p:panelGrid>
+								<p:panelGrid columns="2">
+									<p:selectBooleanCheckbox value="#{userMBean.recordsFields[8]}" />
+									<h:outputText value="Balance on Card" />
+								</p:panelGrid>
+							</p:panelGrid>
+						</p>
+					</div>
+				</div>
+				<p>
+					<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.searchDailyTransactions}" styleClass="btn btn-primary" value="Search" icon="ui-icon-search" style="margin:0"/>
+				</p>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

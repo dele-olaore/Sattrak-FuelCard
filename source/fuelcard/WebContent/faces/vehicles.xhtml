@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Vehicles Report
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Vehicles Report" outcome="vehicles" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<div class="widgetbox login-information">
+					<h4 class="widgettitle">Vehicles</h4>
+					<div class="widgetcontent">
+						<p:scrollPanel mode="native" style="width:100%;height:300px">
+						<p:dataTable id="vehiclesTable" var="obj" value="#{userMBean.vehiclesList}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="20,50,100" style="width:180%" resizableColumns="true">
+							
+							<p:column sortBy="#{obj.regNumber}" headerText="Reg. Number" filterBy="#{obj.regNumber}" filterMatchMode="contains">
+								<h:outputText value="#{obj.regNumber}" />
+							</p:column>
+							<p:column sortBy="#{obj.model.name}" headerText="Model" filterBy="#{obj.model.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.model.name}" />
+							</p:column>
+							<p:column sortBy="#{obj.zonControlId}" headerText="Unit ID">
+								<h:outputText value="#{obj.zonControlId}" />
+							</p:column>
+							<p:column sortBy="#{obj.fuelType}" headerText="Fuel Type" filterBy="#{obj.fuelType}" filterMatchMode="contains">
+								<h:outputText value="#{obj.fuelType}" />
+							</p:column>
+							<p:column sortBy="#{obj.vehicleCapacity}" headerText="Vehicle Capacity">
+								<h:outputText value="#{obj.vehicleCapacity}" />
+							</p:column>
+							<p:column sortBy="#{obj.calibratedCapacity}" headerText="Calibrated Capacity">
+								<h:outputText value="#{obj.calibratedCapacity}" />
+							</p:column>
+							<p:column sortBy="#{obj.cardPan}" headerText="Card Pan" filterBy="#{obj.cardPan}" filterMatchMode="contains">
+								<h:outputText value="#{obj.cardPan}" />
+							</p:column>
+							<p:column sortBy="#{obj.card.balance}" headerText="Balance">
+								<h:outputText value="#{obj.card.balance}" rendered="#{obj.card != null}" />
+								<h:outputText value="N/A" rendered="#{obj.card == null}" />
+							</p:column>
+							<p:column sortBy="#{obj.card.lastTranTime}" headerText="Last Tran Time">
+								<h:outputText value="#{obj.card.lastTranTime}" rendered="#{obj.card != null}" />
+								<h:outputText value="N/A" rendered="#{obj.card == null}" />
+							</p:column>
+							<p:column sortBy="#{obj.region.name}" headerText="Region" filterBy="#{obj.region.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.region.name}" />
+							</p:column>
+							<p:column sortBy="#{obj.department.name}" headerText="Department" filterBy="#{obj.department.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.department.name}" />
+							</p:column>
+							<p:column sortBy="#{obj.model.name}" headerText="Model" filterBy="#{obj.model.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.model.name} [#{obj.model.year}]" />
+							</p:column>
+							<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+								<h:outputText value="#{obj.partner.name}" />
+							</p:column>
+						</p:dataTable>
+						</p:scrollPanel>
+					</div>
+				</div>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

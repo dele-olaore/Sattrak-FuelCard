@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/dev/IDEs/Juno/eclipse/plugins/org.apache.axis_1.4.0.v201005080400/lib/axis.jar"/>
+	<classpathentry kind="lib" path="C:/dev/IDEs/Juno/eclipse/plugins/org.apache.commons.discovery_0.2.0.v201004190315/lib/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="C:/dev/IDEs/Juno/eclipse/plugins/javax.xml.rpc_1.1.0.v201005080400/lib/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="C:/dev/IDEs/Juno/eclipse/plugins/javax.xml.soap_1.2.0.v201005080501/lib/saaj.jar"/>
+	<classpathentry kind="lib" path="C:/dev/IDEs/Juno/eclipse/plugins/javax.wsdl_1.6.2.v201012040545.jar"/>
+	<classpathentry kind="lib" path="C:/dev/IDEs/Juno/eclipse/plugins/org.apache.commons.logging_1.1.1.v201005080502.jar"/>
+	<classpathentry kind="lib" path="libs/commons-codec-1.1.jar"/>
+	<classpathentry kind="lib" path="libs/eclipselink.jar"/>
+	<classpathentry kind="lib" path="libs/javax.persistence_2.1.0.v201304241213.jar"/>
+	<classpathentry kind="lib" path="libs/log4j-1.2.14.jar"/>
+	<classpathentry kind="lib" path="libs/mail.jar"/>
+	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.22-bin.jar"/>
+	<classpathentry kind="lib" path="libs/org.eclipse.persistence.jpa.jpql_2.5.0.v20130507-3faac2b.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Batch Load Vehicles
+</ui:define>
+<ui:define name="content">
+<script type="text/javascript">
+						function start(){
+							PF('statusDialog').show();
+						}
+						function stop(){
+							PF('statusDialog').hide();
+						}
+						</script>
+	<h:form id="form" enctype="multipart/form-data">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Vehicles" outcome="cars" ajax="false" />
+    			<p:menuitem value="Batch Load Vehicles" outcome="batch_vehicles" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<div class="widgetbox login-information">
+				<h4 class="widgettitle">Batch Load Vehicles <span style="align:right;float:right;">
+					<p:commandLink id="downloadLink" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)">
+						<p:fileDownload value="#{userMBean.vehiclesExcelTemplate}" />
+						<font color="white">Download Template</font>
+					</p:commandLink></span>
+				</h4>
+				<div class="widgetcontent">
+					<p>
+						<label>Upload Excel Document: </label>
+						<p:fileUpload id="excelFile" value="#{userMBean.vehiclesFile}" mode="simple" />
+					</p>
+				</div>
+			</div>
+			<p>
+				<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.buckLoadVehicles}" styleClass="btn btn-primary" value="Upload and Save" icon="ui-icon-disk" style="margin:0"/>
+			</p>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

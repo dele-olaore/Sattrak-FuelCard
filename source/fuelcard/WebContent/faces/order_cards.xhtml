@@ -1,0 +1,177 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Order cards
+</ui:define>
+<ui:define name="content">
+<script type="text/javascript">
+function start(){
+	PF('statusDialog').show();
+}
+function stop(){
+	PF('statusDialog').hide();
+}
+</script>
+	
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<h:form id="form">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Order Cards" outcome="order_cards" ajax="false" />
+    		</p:breadCrumb>
+    		</h:form>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="ordertab" title="Order Cards">
+					<h:form id="form1" enctype="multipart/form-data">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Order cards <span style="align:left;float:right;">
+								<p:commandLink id="downloadLink" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop)">
+									<p:fileDownload value="#{userMBean.ordercardsExcelTemplate}" />
+									<font color="white">Template</font>
+								</p:commandLink></span>
+							</h4>
+							<div class="widgetcontent">
+								<p>
+									<label>Upload Excel Document: </label>
+									<p:fileUpload id="excelFile" value="#{userMBean.uploadItem}" mode="simple" />
+								</p>
+								<p>
+									<label>Comment: </label>
+									<p:inputTextarea rows="6" cols="40" value="#{userMBean.requestComment}" />
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.orderCards}" styleClass="btn btn-primary" value="Upload and Send Request" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</h:form>
+					</p:tab>
+					<p:tab id="orderReqstab" title="Card Order Requests">
+					<h:form id="form2">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Manage your pending requests</h4>
+							<div class="widgetcontent">
+								<p:scrollPanel mode="native" style="width:100%;height:300px">
+								<p:dataTable id="objsTable" var="obj" value="#{userMBean.myPendingCardOrderRequests}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+				      				<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+				      				
+									<p:column sortBy="#{obj.requestRefNum}" headerText="Ref. Num." filterBy="#{obj.requestRefNum}" filterMatchMode="contains">
+				      					<h:outputText value="#{obj.requestRefNum}" />
+									</p:column>
+									<p:column sortBy="#{obj.request_dt}" headerText="Request Date">
+										<h:outputText value="#{obj.request_dt}" />
+									</p:column>
+									<p:column headerText="Additional Comment" filterBy="#{obj.additionalComment}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.additionalComment}" /></f:facet>
+										<f:facet name="input"><p:inputTextarea rows="6" cols="40" value="#{obj.additionalComment}" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+				      				<p:column headerText="Download Excel">
+				      					<p:commandButton ajax="false" action="#{userMBean.downloadRequestExcel}" styleClass="btn btn-primary" icon="ui-icon-disk" style="margin:0">
+				      						<f:setPropertyActionListener value="#{obj}" target="#{userMBean.cardRequest}"/>
+				      					</p:commandButton>
+				      				</p:column>
+				      				
+				      				<p:column sortBy="#{obj.status}" headerText="Status" filterBy="#{obj.status}" filterMatchMode="contains">
+				      					<h:outputText value="#{obj.status}" />
+				      					<br/>
+				      					<p:commandLink ajax="false" value="Cancel Request" action="#{userMBean.cancelMyRequest}" onclick="return confirm('Are you sure?');" rendered="#{obj.status == 'PENDING'}">
+				      						<f:setPropertyActionListener value="#{obj}" target="#{userMBean.cardRequest}"/>
+				      					</p:commandLink>
+				      				</p:column>
+				      				
+									<p:column headerText="Details...">
+				      					<p:commandLink update=":formDetail:detailPanel" value="View" oncomplete="detaildlg.show();">
+											<f:setPropertyActionListener value="#{obj}" target="#{userMBean.cardRequest}"/>
+										</p:commandLink>
+				      				</p:column>
+				      				<p:column headerText="">
+										<p:rowEditor rendered="#{obj.status == 'PENDING'}" />
+										<h:outputText value="N/A" rendered="#{obj.status != 'PENDING'}" />
+									</p:column>
+				      				
+				      			</p:dataTable>
+				      			</p:scrollPanel>
+							</div>
+						</div>
+					</h:form>
+					</p:tab>
+					<p:tab id="orderReqsArchivetab" title="Search Card Order Requests">
+					<h:form id="form3">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Search for requests</h4>
+							<div class="widgetcontent">
+								
+							</div>
+						</div>
+					</h:form>
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+		
+		<h:form id="formDetail">
+		<p:dialog id="detailDialog" header="Details" widgetVar="detaildlg" modal="true" dynamic="true">
+			<p:panelGrid id="detailPanel" columns="2" cellpadding="5" style="margin-bottom:10px;">
+				<f:facet name="header">Ref. Num. : #{userMBean.cardRequest.requestRefNum}</f:facet>
+				
+				<h:outputText value="Type : " />
+				<h:outputText value="#{userMBean.cardRequest.requestType}" />
+				
+				<h:outputText value="Ref. Num. : " />
+				<h:outputText value="#{userMBean.cardRequest.requestRefNum}" />
+				
+				<h:outputText value="Request Date : " />
+				<h:outputText value="#{userMBean.cardRequest.request_dt}" />
+				
+				<h:outputText value="Additional Comment : " />
+				<h:outputText value="#{userMBean.cardRequest.additionalComment}" />
+				
+				<h:outputText value="Requested By : " />
+				<h:outputText value="#{userMBean.cardRequest.requestedBy.fullname}" />
+				
+				<h:outputText value="Partner : " />
+				<h:outputText value="#{userMBean.cardRequest.partner.name}" />
+				
+				<h:outputText value="Status : " />
+				<h:outputText value="#{userMBean.cardRequest.status}" />
+				
+				<h:outputText value="Response Comment 1 : " />
+				<h:outputText value="#{userMBean.cardRequest.sattrak_response1}" rendered="#{userMBean.cardRequest.sattrak_response1 != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.sattrak_response1 == null}" />
+				
+				<h:outputText value="Response Comment 2 : " />
+				<h:outputText value="#{userMBean.cardRequest.sattrak_response2}" rendered="#{userMBean.cardRequest.sattrak_response2 != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.sattrak_response2 == null}" />
+				
+				<h:outputText value="Last Response Date : " />
+				<h:outputText value="#{userMBean.cardRequest.response_dt}" rendered="#{userMBean.cardRequest.response_dt != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.response_dt == null}" />
+				
+				<h:outputText value="Last Response By : " />
+				<h:outputText value="#{userMBean.cardRequest.respondedBy.fullname}" rendered="#{userMBean.cardRequest.respondedBy != null}" />
+				<h:outputText value="N/A" rendered="#{userMBean.cardRequest.respondedBy == null}" />
+				
+			</p:panelGrid>
+		</p:dialog>
+		</h:form>
+	
+</ui:define>
+</ui:composition>

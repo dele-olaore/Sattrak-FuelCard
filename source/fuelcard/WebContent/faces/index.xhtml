@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/login_layout.xhtml">
+<ui:define name="content">
+	<div class="loginpanel">
+	    <div class="loginpanelinner">
+	        <div class="logo animate0 bounceIn"><img src="#{request.contextPath}/resources/images/logo.png" alt="" /></div>
+	        <h:form id="loginForm">
+	        	<f:facet name="header">Sign In</f:facet>
+				<div class="inputwrapper animate1 bounceIn">
+					<p:inputText id="uname" name="uname" label="uname" value="#{loginBean.username}" required="false" />
+					<p:watermark for="loginForm:uname" value="Enter username" />
+				</div>
+				<div class="inputwrapper animate2 bounceIn">
+					<p:password id="pword" value="#{loginBean.password}" required="false" />
+					<p:watermark for="pword" value="Enter password" />
+				</div>
+				<div class="inputwrapper animate3 bounceIn">
+					<p:inputText id="pcode" name="pcode" label="pcode" value="#{loginBean.partnerCode}" required="false" />
+					<p:watermark for="loginForm:pcode" value="Enter partner code" />
+				</div>
+				<div class="inputwrapper animate3 bounceIn">
+					<p:commandButton ajax="false" action="#{loginBean.doLogin}" value="#{message.home_loginAction}" styleClass="btn btn-primary" rendered="#{userMBean.setup}"/>
+					<p:commandButton ajax="false" action="#{userMBean.setupPlatform}" value="Setup Platform" styleClass="btn btn-primary" rendered="#{not userMBean.setup}"/>
+				</div>
+	  		</h:form>
+	  	</div>
+	</div>
+</ui:define>
+</ui:composition>

@@ -1,0 +1,239 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+My Reports
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="My Reports" outcome="my_reports" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="first" title="Setup Report">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Setup Report</h4>
+							<div class="widgetcontent">
+								<p>
+									<label>Report Title: *</label>
+									<p:selectOneMenu id="rtitle" value="#{userMBean.userReport.reportTitle}" styleClass="input-xlarge">
+										<f:selectItem itemLabel="-- Select One --" itemValue="" />
+										<f:selectItem itemLabel="Daily Fuel Log Sheet" itemValue="Daily Fuel Log Sheet" />
+										<f:selectItem itemLabel="Fuel Purchase Report" itemValue="Fuel Purchase Report" />
+										<f:selectItem itemLabel="Exception Report" itemValue="Exception Report" />
+										<f:selectItem itemLabel="Highest Fuel Consumption Report" itemValue="Highest Fuel Consumption Report" />
+										<f:selectItem itemLabel="Highest Fuel Purchase Report" itemValue="Highest Fuel Purchase Report" />
+										<f:selectItem itemLabel="Longest Distance Report" itemValue="Longest Distance Report" />
+										<f:selectItem itemLabel="Best Efficiency Report" itemValue="Best Efficiency Report" />
+										<p:ajax update="vehiclePanel, columnsPanel" />
+									</p:selectOneMenu>
+								</p>
+								
+								<p:outputPanel id="vehiclePanel" style="width:100%;">
+								<p:outputPanel id="vehiclePanelInner" style="width:100%;" rendered="#{userMBean.userReport.reportTitle != null and (userMBean.userReport.reportTitle == 'Daily Fuel Log Sheet' or userMBean.userReport.reportTitle == 'Fuel Purchase Report')}">
+									<p>
+										<label>Vehicle: *</label>
+										<p:selectOneMenu id="vehicle" value="#{userMBean.vehicle_id}">
+											<f:selectItems value="#{dropdownMBean.allCars}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+										</p:selectOneMenu>
+									</p>
+								</p:outputPanel>
+								</p:outputPanel>
+								
+								<p>
+									<label>Columns: *</label>
+									<p:outputPanel id="columnsPanel" style="width:100%;">
+									<h:outputText value="N/A" rendered="#{userMBean.userReport.reportTitle == null or (userMBean.userReport.reportTitle != null and userMBean.userReport.reportTitle != 'Daily Fuel Log Sheet' and userMBean.userReport.reportTitle != 'Fuel Purchase Report')}" />
+									<p:panelGrid columns="5" rendered="#{userMBean.userReport.reportTitle != null and userMBean.userReport.reportTitle == 'Fuel Purchase Report'}">
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[0]}" />
+											<h:outputText value="Purchase Date" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[1]}" />
+											<h:outputText value="VIN" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[2]}" />
+											<h:outputText value="Created By" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[3]}" />
+											<h:outputText value="Driver Km1" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[4]}" />
+											<h:outputText value="Driver Km2" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[5]}" />
+											<h:outputText value="Distance" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[6]}" />
+											<h:outputText value="Fuel Qty" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[7]}" />
+											<h:outputText value="Amount" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[12]}" />
+											<h:outputText value="Initial Fuel Level" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[13]}" />
+											<h:outputText value="Final Fuel Level" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[8]}" />
+											<h:outputText value="Fuel Efficiency" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[9]}" />
+											<h:outputText value="Fuel Brand" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[10]}" />
+											<h:outputText value="Fuel Dealer" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.records2Fields[11]}" />
+											<h:outputText value="Purchase by" />
+										</p:panelGrid>
+									</p:panelGrid>
+									<p:panelGrid columns="5" rendered="#{userMBean.userReport.reportTitle != null and userMBean.userReport.reportTitle == 'Daily Fuel Log Sheet'}">
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[0]}" />
+											<h:outputText value="Transaction Date" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[1]}" />
+											<h:outputText value="Location" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[2]}" />
+											<h:outputText value="Amount on Card" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[3]}" />
+											<h:outputText value="Previous Km Reading" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[4]}" />
+											<h:outputText value="Current Km Reading" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[5]}" />
+											<h:outputText value="Kilometres Covered" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[6]}" />
+											<h:outputText value="Fuel Amount" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[9]}" />
+											<h:outputText value="Initial Fuel Level" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[7]}" />
+											<h:outputText value="Litres Bought" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[10]}" />
+											<h:outputText value="Final Fuel Level" />
+										</p:panelGrid>
+										<p:panelGrid columns="2">
+											<p:selectBooleanCheckbox value="#{userMBean.recordsFields[8]}" />
+											<h:outputText value="Balance on Card" />
+										</p:panelGrid>
+									</p:panelGrid>
+									</p:outputPanel>
+								</p>
+								<p>
+									<label>Report Duration Type: *</label>
+									<p:selectOneMenu id="rdurtype" value="#{userMBean.userReport.durationType}" styleClass="input-xlarge">
+										<f:selectItem itemLabel="Daily" itemValue="1" />
+										<f:selectItem itemLabel="Weekly" itemValue="2" />
+										<f:selectItem itemLabel="Monthly" itemValue="3" />
+									</p:selectOneMenu>
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.setupMyReport}" styleClass="btn btn-primary" value="Save Report Setup" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+					<p:tab id="second" title="Manage My Reports">
+						<p:dataTable id="reportsTable" var="obj" value="#{userMBean.userReports}"
+							paginator="true" rows="50"
+							paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+							rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+							editable="true">
+							
+							<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+	       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+							
+							<p:column sortBy="#{obj.reportTitle}" headerText="Report" filterBy="#{obj.reportTitle}" filterMatchMode="contains">
+								<h:outputText value="#{obj.reportTitle}" />
+							</p:column>
+							<p:column sortBy="#{obj.durationType}" headerText="Duration Type">
+								<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="Daily" rendered="#{obj.durationType == 1}" />
+									<h:outputText value="Weekly" rendered="#{obj.durationType == 2}" />
+									<h:outputText value="Monthly" rendered="#{obj.durationType == 3}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectOneMenu id="rdurtype_edt" value="#{obj.durationType}" styleClass="input-xlarge">
+										<f:selectItem itemLabel="Daily" itemValue="1" />
+										<f:selectItem itemLabel="Weekly" itemValue="2" />
+										<f:selectItem itemLabel="Monthly" itemValue="3" />
+									</p:selectOneMenu>
+								</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column sortBy="#{obj.crt_dt}" headerText="Created Date">
+								<h:outputText value="#{obj.crt_dt}" />
+							</p:column>
+							<p:column sortBy="#{obj.lastDeliveredDate}" headerText="Last Delivered Date">
+								<h:outputText value="#{obj.lastDeliveredDate}" rendered="#{obj.lastDeliveredDate != null}" />
+								<h:outputText value="N/A" rendered="#{obj.lastDeliveredDate == null}" />
+							</p:column>
+							<p:column sortBy="#{obj.nextRunDate}" headerText="Next Run Date">
+								<h:outputText value="#{obj.nextRunDate}" rendered="#{obj.nextRunDate != null}" />
+								<h:outputText value="N/A" rendered="#{obj.nextRunDate == null}" />
+							</p:column>
+							<p:column sortBy="#{obj.active}" headerText="Status">
+								<p:cellEditor>
+								<f:facet name="output">
+									<h:outputText value="Active" rendered="#{obj.active}" />
+									<h:outputText value="In-Active" rendered="#{not obj.active}" />
+								</f:facet>
+								<f:facet name="input">
+									<p:selectBooleanCheckbox id="ractive_edt" value="#{obj.active}" />
+								</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="" style="width:32px">
+								<p:rowEditor />
+							</p:column>
+						</p:dataTable>
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

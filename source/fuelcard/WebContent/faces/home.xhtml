@@ -1,0 +1,34 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Welcome to fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+DASHBOARD
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="float:left">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			
+			<h:panelGrid columns="2" columnClasses="left,right" style="width:100%">
+				<p:barChart id="vmakesChart" value="#{dashMBean.vehMakesModel}" legendPosition="ne"
+					title="Top Makers of your Vehicles" minY="0" maxY="1000" style="height:300px; width:300px;" zoom="true" animate="true"/>
+					
+				<p:barChart id="vtypesChart" value="#{dashMBean.vehTypesModel}" legendPosition="ne"
+					title="Top Types of your Vehicles" minY="0" maxY="1000" style="height:300px; width:300px;" zoom="true" animate="true"/>
+					
+				<p:lineChart id="highcompsChart" value="#{dashMBean.vehTopFuelCompModel}" legendPosition="ne"
+					title="Yesterday's Highest Fuel Usage" minY="0" maxY="10000" style="height:300px; width:300px;" zoom="true" animate="true"/>
+			</h:panelGrid>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>

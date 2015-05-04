@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/layout/other_layout.xhtml">
+<ui:define name="pageShortSummary">
+Fuelcard
+</ui:define>
+<ui:define name="pageTitle">
+Regions and Departments
+</ui:define>
+<ui:define name="content">
+	<h:form id="form">
+		<div id="dashboard-left" class="span8" style="width:95%">
+			<p:breadCrumb width="50%">  
+    			<p:menuitem value="Dashboard" outcome="home" ajax="false" />
+    			<p:menuitem value="Regions and Departments" outcome="regions" ajax="false" />
+    		</p:breadCrumb>
+			<br/>
+			<!-- Body here -->
+			<p:outputPanel id="OPanel" style="width:100%;">
+				<p:tabView id="tabs" dynamic="true" cache="false">
+					<p:tab id="regions" title="Regions">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Manage Regions</h4>
+							<div class="widgetcontent">
+								<p:dataTable id="regionsTable" var="obj" value="#{userMBean.regions}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+			       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+									
+									<p:column sortBy="#{obj.name}" headerText="Name" filterBy="#{obj.name}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.name}" /></f:facet>
+										<f:facet name="input"><p:inputText id="rname_edt" value="#{obj.name}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column headerText="" style="width:32px">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								
+								<p>
+									<label>Name: *</label>
+									<p:inputText id="rname1" value="#{userMBean.region.name}" styleClass="input-xlarge" />
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createRegion}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+					<p:tab id="depts" title="Departments">
+						<div class="widgetbox login-information">
+							<h4 class="widgettitle">Manage Departments</h4>
+							<div class="widgetcontent">
+								<p:dataTable id="deptsTable" var="obj" value="#{userMBean.departments}"
+									paginator="true" rows="50"
+									paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+									rowsPerPageTemplate="20,50,100" style="width:100%" resizableColumns="true"
+									editable="true">
+									
+									<p:ajax event="rowEdit" listener="#{userMBean.onRowEdit}" update=":glow" />
+			       					<p:ajax event="rowEditCancel" listener="#{userMBean.onRowCancel}" update=":glow" />
+									
+									<p:column sortBy="#{obj.name}" headerText="Name" filterBy="#{obj.name}" filterMatchMode="contains">
+										<p:cellEditor>
+										<f:facet name="output"><h:outputText value="#{obj.name}" /></f:facet>
+										<f:facet name="input"><p:inputText id="dname_edt" value="#{obj.name}" style="width:100%" /></f:facet>
+										</p:cellEditor>
+									</p:column>
+									<p:column sortBy="#{obj.partner.name}" headerText="Partner" filterBy="#{obj.partner.name}" filterMatchMode="contains">
+										<h:outputText value="#{obj.partner.name}" />
+									</p:column>
+									<p:column headerText="" style="width:32px">
+										<p:rowEditor />
+									</p:column>
+								</p:dataTable>
+								
+								<p>
+									<label>Name: *</label>
+									<p:inputText id="dname1" value="#{userMBean.department.name}" styleClass="input-xlarge" />
+								</p>
+							</div>
+						</div>
+						<p>
+							<p:commandButton ajax="false" onclick="return confirm('Are you sure?');" action="#{userMBean.createDepartment}" styleClass="btn btn-primary" value="Save" icon="ui-icon-disk" style="margin:0"/>
+						</p>
+					</p:tab>
+				</p:tabView>
+			</p:outputPanel>
+		</div>
+	</h:form>
+</ui:define>
+</ui:composition>
