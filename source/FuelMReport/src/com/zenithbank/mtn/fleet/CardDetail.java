@@ -1,379 +1,258 @@
-/**
- * CardDetail.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
- */
 
 package com.zenithbank.mtn.fleet;
 
-public class CardDetail  implements java.io.Serializable {
-    private java.lang.String lastNames;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-    private java.lang.String otherName;
 
-    private java.lang.String homeAddress;
+/**
+ * <p>Java class for CardDetail complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="CardDetail">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="LastNames" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="OtherName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="HomeAddress" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="PhoneNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Email" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Gender" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Birthdate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Title" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "CardDetail", propOrder = {
+    "lastNames",
+    "otherName",
+    "homeAddress",
+    "phoneNumber",
+    "email",
+    "gender",
+    "birthdate",
+    "title"
+})
+public class CardDetail {
 
-    private java.lang.String phoneNumber;
-
-    private java.lang.String email;
-
-    private java.lang.String gender;
-
-    private java.lang.String birthdate;
-
-    private java.lang.String title;
-
-    public CardDetail() {
-    }
-
-    public CardDetail(
-           java.lang.String lastNames,
-           java.lang.String otherName,
-           java.lang.String homeAddress,
-           java.lang.String phoneNumber,
-           java.lang.String email,
-           java.lang.String gender,
-           java.lang.String birthdate,
-           java.lang.String title) {
-           this.lastNames = lastNames;
-           this.otherName = otherName;
-           this.homeAddress = homeAddress;
-           this.phoneNumber = phoneNumber;
-           this.email = email;
-           this.gender = gender;
-           this.birthdate = birthdate;
-           this.title = title;
-    }
-
+    @XmlElement(name = "LastNames")
+    protected String lastNames;
+    @XmlElement(name = "OtherName")
+    protected String otherName;
+    @XmlElement(name = "HomeAddress")
+    protected String homeAddress;
+    @XmlElement(name = "PhoneNumber")
+    protected String phoneNumber;
+    @XmlElement(name = "Email")
+    protected String email;
+    @XmlElement(name = "Gender")
+    protected String gender;
+    @XmlElement(name = "Birthdate")
+    protected String birthdate;
+    @XmlElement(name = "Title")
+    protected String title;
 
     /**
-     * Gets the lastNames value for this CardDetail.
+     * Gets the value of the lastNames property.
      * 
-     * @return lastNames
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getLastNames() {
+    public String getLastNames() {
         return lastNames;
     }
 
-
     /**
-     * Sets the lastNames value for this CardDetail.
+     * Sets the value of the lastNames property.
      * 
-     * @param lastNames
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setLastNames(java.lang.String lastNames) {
-        this.lastNames = lastNames;
+    public void setLastNames(String value) {
+        this.lastNames = value;
     }
 
-
     /**
-     * Gets the otherName value for this CardDetail.
+     * Gets the value of the otherName property.
      * 
-     * @return otherName
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getOtherName() {
+    public String getOtherName() {
         return otherName;
     }
 
-
     /**
-     * Sets the otherName value for this CardDetail.
+     * Sets the value of the otherName property.
      * 
-     * @param otherName
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setOtherName(java.lang.String otherName) {
-        this.otherName = otherName;
+    public void setOtherName(String value) {
+        this.otherName = value;
     }
 
-
     /**
-     * Gets the homeAddress value for this CardDetail.
+     * Gets the value of the homeAddress property.
      * 
-     * @return homeAddress
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getHomeAddress() {
+    public String getHomeAddress() {
         return homeAddress;
     }
 
-
     /**
-     * Sets the homeAddress value for this CardDetail.
+     * Sets the value of the homeAddress property.
      * 
-     * @param homeAddress
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setHomeAddress(java.lang.String homeAddress) {
-        this.homeAddress = homeAddress;
+    public void setHomeAddress(String value) {
+        this.homeAddress = value;
     }
 
-
     /**
-     * Gets the phoneNumber value for this CardDetail.
+     * Gets the value of the phoneNumber property.
      * 
-     * @return phoneNumber
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-
     /**
-     * Sets the phoneNumber value for this CardDetail.
+     * Sets the value of the phoneNumber property.
      * 
-     * @param phoneNumber
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setPhoneNumber(java.lang.String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setPhoneNumber(String value) {
+        this.phoneNumber = value;
     }
 
-
     /**
-     * Gets the email value for this CardDetail.
+     * Gets the value of the email property.
      * 
-     * @return email
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-
     /**
-     * Sets the email value for this CardDetail.
+     * Sets the value of the email property.
      * 
-     * @param email
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setEmail(java.lang.String email) {
-        this.email = email;
+    public void setEmail(String value) {
+        this.email = value;
     }
 
-
     /**
-     * Gets the gender value for this CardDetail.
+     * Gets the value of the gender property.
      * 
-     * @return gender
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getGender() {
+    public String getGender() {
         return gender;
     }
 
-
     /**
-     * Sets the gender value for this CardDetail.
+     * Sets the value of the gender property.
      * 
-     * @param gender
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setGender(java.lang.String gender) {
-        this.gender = gender;
+    public void setGender(String value) {
+        this.gender = value;
     }
 
-
     /**
-     * Gets the birthdate value for this CardDetail.
+     * Gets the value of the birthdate property.
      * 
-     * @return birthdate
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getBirthdate() {
+    public String getBirthdate() {
         return birthdate;
     }
 
-
     /**
-     * Sets the birthdate value for this CardDetail.
+     * Sets the value of the birthdate property.
      * 
-     * @param birthdate
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setBirthdate(java.lang.String birthdate) {
-        this.birthdate = birthdate;
+    public void setBirthdate(String value) {
+        this.birthdate = value;
     }
 
-
     /**
-     * Gets the title value for this CardDetail.
+     * Gets the value of the title property.
      * 
-     * @return title
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-
     /**
-     * Sets the title value for this CardDetail.
+     * Sets the value of the title property.
      * 
-     * @param title
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setTitle(java.lang.String title) {
-        this.title = title;
-    }
-
-    private java.lang.Object __equalsCalc = null;
-    public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof CardDetail)) return false;
-        CardDetail other = (CardDetail) obj;
-        if (obj == null) return false;
-        if (this == obj) return true;
-        if (__equalsCalc != null) {
-            return (__equalsCalc == obj);
-        }
-        __equalsCalc = obj;
-        boolean _equals;
-        _equals = true && 
-            ((this.lastNames==null && other.getLastNames()==null) || 
-             (this.lastNames!=null &&
-              this.lastNames.equals(other.getLastNames()))) &&
-            ((this.otherName==null && other.getOtherName()==null) || 
-             (this.otherName!=null &&
-              this.otherName.equals(other.getOtherName()))) &&
-            ((this.homeAddress==null && other.getHomeAddress()==null) || 
-             (this.homeAddress!=null &&
-              this.homeAddress.equals(other.getHomeAddress()))) &&
-            ((this.phoneNumber==null && other.getPhoneNumber()==null) || 
-             (this.phoneNumber!=null &&
-              this.phoneNumber.equals(other.getPhoneNumber()))) &&
-            ((this.email==null && other.getEmail()==null) || 
-             (this.email!=null &&
-              this.email.equals(other.getEmail()))) &&
-            ((this.gender==null && other.getGender()==null) || 
-             (this.gender!=null &&
-              this.gender.equals(other.getGender()))) &&
-            ((this.birthdate==null && other.getBirthdate()==null) || 
-             (this.birthdate!=null &&
-              this.birthdate.equals(other.getBirthdate()))) &&
-            ((this.title==null && other.getTitle()==null) || 
-             (this.title!=null &&
-              this.title.equals(other.getTitle())));
-        __equalsCalc = null;
-        return _equals;
-    }
-
-    private boolean __hashCodeCalc = false;
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = 1;
-        if (getLastNames() != null) {
-            _hashCode += getLastNames().hashCode();
-        }
-        if (getOtherName() != null) {
-            _hashCode += getOtherName().hashCode();
-        }
-        if (getHomeAddress() != null) {
-            _hashCode += getHomeAddress().hashCode();
-        }
-        if (getPhoneNumber() != null) {
-            _hashCode += getPhoneNumber().hashCode();
-        }
-        if (getEmail() != null) {
-            _hashCode += getEmail().hashCode();
-        }
-        if (getGender() != null) {
-            _hashCode += getGender().hashCode();
-        }
-        if (getBirthdate() != null) {
-            _hashCode += getBirthdate().hashCode();
-        }
-        if (getTitle() != null) {
-            _hashCode += getTitle().hashCode();
-        }
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
-
-    // Type metadata
-    private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(CardDetail.class, true);
-
-    static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "CardDetail"));
-        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("lastNames");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "LastNames"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("otherName");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "OtherName"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("homeAddress");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "HomeAddress"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("phoneNumber");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "PhoneNumber"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("email");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Email"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("gender");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Gender"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("birthdate");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Birthdate"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("title");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Title"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-    }
-
-    /**
-     * Return type metadata object
-     */
-    public static org.apache.axis.description.TypeDesc getTypeDesc() {
-        return typeDesc;
-    }
-
-    /**
-     * Get Custom Serializer
-     */
-    public static org.apache.axis.encoding.Serializer getSerializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanSerializer(
-            _javaType, _xmlType, typeDesc);
-    }
-
-    /**
-     * Get Custom Deserializer
-     */
-    public static org.apache.axis.encoding.Deserializer getDeserializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanDeserializer(
-            _javaType, _xmlType, typeDesc);
+    public void setTitle(String value) {
+        this.title = value;
     }
 
 }

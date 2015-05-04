@@ -1,6 +1,12 @@
 <e:workbook xmlns:e="http://jboss.com/products/seam/excel"
 			xmlns:f="http://java.sun.com/jsf/core">
 	<e:worksheet value="#{reportMBean.records}" var="obj">
+		<e:column>
+			<f:facet name="header">
+				<e:cell value="Reg. Number"/>
+			</f:facet>
+			<e:cell value="#{obj[12]}"/>
+		</e:column>
 		<e:column rendered="#{reportMBean.recordsFields[0]}">
 			<f:facet name="header">
 				<e:cell value="Transaction Date"/>

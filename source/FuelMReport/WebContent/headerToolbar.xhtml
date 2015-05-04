@@ -22,7 +22,13 @@
 		<h:form>
 			<rich:dropDownMenu value="Settings" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles') or reportMBean.isFunctionAllowed('Batch Load Vehicles') or reportMBean.isFunctionAllowed('Manage Card Threshold')}">
 				<rich:menuItem submitMode="none">
+					<s:link view="/regions.xhtml" value="Regions and Departments" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
 					<s:link view="/cars.xhtml" value="Vehicles" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles') or reportMBean.isFunctionAllowed('Batch Load Vehicles')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/cards.xhtml" value="Cards" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles')}" />
 				</rich:menuItem>
 				<rich:menuItem submitMode="none">
 					<s:link view="/card_balance.xhtml" value="Card Balance Threshold" rendered="#{reportMBean.isFunctionAllowed('Manage Card Threshold')}" />
@@ -50,6 +56,12 @@
 				</rich:menuItem>
 				<rich:menuItem submitMode="none">
 					<s:link view="/fuel_purchase_r.xhtml" value="Fuel Purchase Report" rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/fuel_purchase_r_summary.xhtml" value="Fuel Purchase Summary Report" rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}" />
+				</rich:menuItem>
+				<rich:menuItem submitMode="none">
+					<s:link view="/transactionsnotif.xhtml" value="Transaction Notifications Report" rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}" />
 				</rich:menuItem>
 				<rich:menuItem submitMode="none">
 					<s:link view="/exception_purchase_r.xhtml" value="Exception Report" rendered="#{reportMBean.isFunctionAllowed('Exception Report')}" />

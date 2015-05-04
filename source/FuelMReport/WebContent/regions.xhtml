@@ -1,0 +1,206 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Manage Regions and Departments</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Regions and Departments</span><br/>
+									<span style="font-size:16px;">Manage your regions and departments</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<a:commandLink onclick="#{rich:component('newRegionMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Add new Region</a:commandLink>
+								</li>
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:150px;">
+									<a:commandLink onclick="#{rich:component('newDeptMP')}.show();" styleClass="image-command-link" style="color:#fff;text-decoration:none;">Add new Department</a:commandLink>
+								</li>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:outputPanel id="tablePanel">
+					<rich:dataTable id="regions" value="#{carMBean.regions}" var="obj" rows="20" width="100%" rendered="#{carMBean.regions.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available regions" />
+					</f:facet>
+					
+					<rich:column sortBy="#{obj.id}" filterBy="#{obj.id}">
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{obj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.name}" filterBy="#{obj.name}">
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{obj.name}" rendered="#{obj.id != carMBean.region.id}"/>
+						<h:inputText value="#{carMBean.region.name}" rendered="#{obj.id == carMBean.region.id}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Update</f:facet>
+						<a4j:commandLink reRender="regions,tablePanel" value="Update" rendered="#{obj.id != carMBean.region.id}">
+							<f:setPropertyActionListener value="#{obj}" target="#{carMBean.region}"/>
+						</a4j:commandLink>
+						
+						<a4j:commandLink reRender="regions,tablePanel,messagepanel" action="#{carMBean.updateRegion}" value="SAVE" rendered="#{obj.id == carMBean.region.id}" />
+						
+						<h:outputText value=" - " rendered="#{obj.id == carMBean.region.id}" />
+						
+						<a4j:commandLink reRender="regions,tablePanel" action="#{carMBean.setRegion(null)}" value="CANCEL" rendered="#{obj.id == carMBean.region.id}" />
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No region found" rendered="#{empty carMBean.regions}"/>
+					<rich:datascroller id="dsregions" for="regions" renderIfSinglePage="false" reRender="tablePanel" />
+					
+					<br/><br/>
+					
+					<rich:dataTable id="depts" value="#{carMBean.departments}" var="obj" rows="20" width="100%" rendered="#{carMBean.departments.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available departments" />
+					</f:facet>
+					
+					<rich:column sortBy="#{obj.id}" filterBy="#{obj.id}">
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{obj.id}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.name}" filterBy="#{obj.name}">
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{obj.name}" rendered="#{obj.id != carMBean.department.id}"/>
+						<h:inputText value="#{carMBean.department.name}" rendered="#{obj.id == carMBean.department.id}" />
+					</rich:column>
+					<rich:column>
+						<f:facet name="header">Update</f:facet>
+						<a4j:commandLink reRender="depts,tablePanel" value="Update" rendered="#{obj.id != carMBean.department.id}">
+							<f:setPropertyActionListener value="#{obj}" target="#{carMBean.department}"/>
+						</a4j:commandLink>
+						
+						<a4j:commandLink reRender="depts,tablePanel,messagepanel" action="#{carMBean.updateDepartment}" value="SAVE" rendered="#{obj.id == carMBean.department.id}" />
+						
+						<h:outputText value=" - " rendered="#{obj.id == carMBean.region.id}" />
+						
+						<a4j:commandLink reRender="depts,tablePanel" action="#{carMBean.setDepartment(null)}" value="CANCEL" rendered="#{obj.id == carMBean.department.id}" />
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No department found" rendered="#{empty carMBean.departments}"/>
+					<rich:datascroller id="dsdepts" for="depts" renderIfSinglePage="false" reRender="tablePanel" />
+					
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			</table>
+		</div>
+	</h:form>
+	
+	<rich:modalPanel id="newRegionMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Create new Region"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('newRegionMP')">X</a>
+		</f:facet>
+		<h:form id="newRegionForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Region details"/>
+			</f:facet>
+			<div class="dialog">
+			<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+				<h:outputLabel for="regionName">Name </h:outputLabel>
+				<h:inputText id="regionName" value="#{carMBean.region.name}" required="true">
+				</h:inputText>
+				<rich:message for="regionName" style="color: red;"/>
+			</h:panelGrid>
+			</div>
+		</rich:panel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+				<h:commandButton value="Save" action="#{carMBean.createRegion}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+				<a:commandButton value="Cancel" onclick="#{rich:component('newRegionMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+	</rich:modalPanel>
+	
+	<rich:modalPanel id="newDeptMP" minHeight="500" width="600" autosized="true" moveable="true" resizeable="false">
+		<f:facet name="header">
+			<h:outputText value="Create new Department"/>
+		</f:facet>
+		<f:facet name="controls">
+			<a href="javascript:Richfaces.hideModalPanel('newDeptMP')">X</a>
+		</f:facet>
+		<h:form id="newDepartmentForm">
+		<div style="width:100%;height:350px;overflow:auto;">
+		<rich:panel>
+			<f:facet name="header">
+			<h:outputText value="Department details"/>
+			</f:facet>
+			<div class="dialog">
+			<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+				<h:outputLabel for="deptName">Name </h:outputLabel>
+				<h:inputText id="deptName" value="#{carMBean.department.name}" required="true">
+				</h:inputText>
+				<rich:message for="deptName" style="color: red;"/>
+			</h:panelGrid>
+			</div>
+		</rich:panel>
+		</div>
+		<div class="actionButtons">
+			<rich:toolBar>
+				<rich:toolBarGroup>
+				<h:commandButton value="Save" action="#{carMBean.createDepartment}" />
+				</rich:toolBarGroup>
+				<rich:toolBarGroup location="right">
+				<a:commandButton value="Cancel" onclick="#{rich:component('newDeptMP')}.hide();" />
+				</rich:toolBarGroup>
+			</rich:toolBar>
+		</div>
+		</h:form>
+	</rich:modalPanel>
+	
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

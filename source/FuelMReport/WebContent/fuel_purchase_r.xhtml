@@ -17,10 +17,10 @@
 		<div style="float:left;">
 			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
 		</div>
-		<div style="width: 800px;height: 1000px" align="center">
+		<div style="width:100%;height: 1000px" align="center">
 			<table width="100%" cellspacing="2" cellpadding="2">
 			<tr>
-				<td align="left">
+				<td align="center">
 					<table>
 						<tr>
 							<td valign="top" align="left">
@@ -61,88 +61,125 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-				
 					<a4j:outputPanel id="recordsPanel">
-					<rich:dataTable id="records" value="#{reportMBean.records2}" var="obj" rows="10" width="100%" rendered="#{reportMBean.records2.size() > 0}">
+					<a4j:outputPanel id="recordsSubPanel" rendered="#{reportMBean.records2.size() > 0}">
+					<div style="width:100%;height:350px;overflow:auto;">
+					<rich:dataTable id="records" value="#{reportMBean.records2}" var="obj" rows="50" width="100%" rendered="#{reportMBean.records2.size() > 0}">
 						<f:facet name="header"><h:commandLink value="Export" action="#{excelExporter.export('usersForm:records')}" /></f:facet>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[0]}">
-							<f:facet name="header">Purchase Date</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Purchase Date" />
+							</f:facet>
 							<h:outputText value="#{obj[0]}" />
 						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Region" />
+							</f:facet>
+							<h:outputText value="#{obj[16]}" />
+						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[1]}">
-							<f:facet name="header">VIN</f:facet>
+							<f:facet name="header">
+								<h:outputText value="VIN" />
+							</f:facet>
 							<h:outputText value="#{obj[1]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[2]}">
-							<f:facet name="header">Created By</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Created By" />
+							</f:facet>
 							<h:outputText value="#{obj[2]}" />
 						</rich:column>
-						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[3]}">
-							<f:facet name="header">Driver Km1</f:facet>
-							<h:outputText value="#{obj[3]}" />
-						</rich:column>
-						<rich:column style="vertical-align: top" rendered="#{reportMBean.showTracker}">
-							<f:facet name="header">Tracker Km1</f:facet>
-							<h:outputText value="#{obj[4]}" />
-						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[4]}">
-							<f:facet name="header">Driver Km2</f:facet>
+							<f:facet name="header">
+								<h:outputText value="KM at Fuel Station" />
+							</f:facet>
 							<h:outputText value="#{obj[5]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.showTracker}">
-							<f:facet name="header">Tracker Km2</f:facet>
+							<f:facet name="header">
+								<h:outputText value="KM at Purchase" />
+							</f:facet>
 							<h:outputText value="#{obj[6]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[5]}">
-							<f:facet name="header">Distance</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Distance" />
+							</f:facet>
 							<h:outputText value="#{obj[7]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[6]}">
-							<f:facet name="header">Fuel Qty</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Quantity Purchase" />
+							</f:facet>
 							<h:outputText value="#{obj[8]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[7]}">
-							<f:facet name="header">Amount</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Value" />
+							</f:facet>
 							<h:outputText value="#{obj[9]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[12]}">
-							<f:facet name="header">Initial Fuel Lvl</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Initial Level" />
+							</f:facet>
 							<h:outputText value="#{obj[14]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[13]}">
-							<f:facet name="header">Final Fuel Lvl</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Final Level" />
+							</f:facet>
 							<h:outputText value="#{obj[15]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[8]}">
-							<f:facet name="header">Fuel Efficiency</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Fuel Efficiency" />
+							</f:facet>
 							<h:outputText value="#{obj[13]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[9]}">
-							<f:facet name="header">Fuel Brand</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Fuel Type" />
+							</f:facet>
 							<h:outputText value="#{obj[10]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[10]}">
-							<f:facet name="header">Fuel Dealer</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Fuel Station" />
+							</f:facet>
 							<h:outputText value="#{obj[11]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.records2Fields[11]}">
-							<f:facet name="header">Purchase by</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Purchase by" />
+							</f:facet>
 							<h:outputText value="#{obj[12]}" />
 						</rich:column>
 					</rich:dataTable>
 					<rich:datascroller id="dsrecords" for="records" renderIfSinglePage="false" reRender="recordsPanel" />
 					<rich:spacer height="10" rendered="#{reportMBean.records2.size() > 0}" />
-					<p:linechart title="Daily Fuel Log Sheet Chart" domainAxisLabel="Date" legend="true" rendered="#{reportMBean.records2.size() > 0}">
-						<p:series key="Amount Purchased">
-							<ui:repeat var="_c" value="#{reportMBean.records2}">
-								<p:data key="#{_c[0]}" value="#{_c[9]}"/>
-							</ui:repeat>
-						</p:series>
-					</p:linechart>
+					</div>
 					</a4j:outputPanel>
-				
+					</a4j:outputPanel>
+					
 					<div class="dialog">
 						<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+							<h:outputLabel for="region">Region </h:outputLabel>
+							<h:selectOneMenu id="region" value="#{reportMBean.region_id}" defaultLabel="Select a region...">
+								<f:selectItem itemLabel="All regions" itemValue="0" />
+								<f:selectItems value="#{carMBean.regions}" var="obj" itemLabel="#{obj.name}" itemValue="#{obj.id}" />
+								<a4j:support event="onchange" reRender="car" ajaxSingle="true" />
+							</h:selectOneMenu>
+							<rich:message for="region" style="color: red;"/>
+							
+							<h:outputLabel for="car">Vehicle </h:outputLabel>
+							<h:selectOneMenu id="car" value="#{reportMBean.vehicle_id}" defaultLabel="Select a vehicle...">
+								<f:selectItem itemLabel="All vehicles" itemValue="0" />
+								<f:selectItems value="#{dropdownMBean.RegionCars(reportMBean.region_id)}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+							</h:selectOneMenu>
+							<rich:message for="car" style="color: red;"/>
+						
 							<h:outputLabel for="dt">Start date</h:outputLabel>
 							<rich:calendar id="dt" value="#{reportMBean.tranDate}" locale="us" datePattern="yyyy-MM-dd"/>
 							<rich:message for="dt" style="color: red;"/>
@@ -166,12 +203,8 @@
 									<h:outputText value="Created By" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
-									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[3]}" />
-									<h:outputText value="Driver Km1" />
-								</h:panelGrid>
-								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[4]}" />
-									<h:outputText value="Driver Km2" />
+									<h:outputText value="KM at Fuel Station" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[5]}" />
@@ -179,19 +212,19 @@
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[6]}" />
-									<h:outputText value="Fuel Qty" />
+									<h:outputText value="Quantity Purchase" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[7]}" />
-									<h:outputText value="Amount" />
+									<h:outputText value="Value" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[12]}" />
-									<h:outputText value="Initial Fuel Level" />
+									<h:outputText value="Initial Level" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[13]}" />
-									<h:outputText value="Final Fuel Level" />
+									<h:outputText value="Final Level" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[8]}" />
@@ -199,11 +232,11 @@
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[9]}" />
-									<h:outputText value="Fuel Brand" />
+									<h:outputText value="Fuel Type" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[10]}" />
-									<h:outputText value="Fuel Dealer" />
+									<h:outputText value="Fuel Station" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.records2Fields[11]}" />

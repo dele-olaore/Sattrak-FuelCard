@@ -17,10 +17,10 @@
 		<div style="float:left;">
 			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
 		</div>
-		<div style="width: 800px;height: 1000px" align="center">
+		<div style="width:100%;height:1000px" align="center">
 			<table width="100%" cellspacing="2" cellpadding="2">
 			<tr>
-				<td align="left">
+				<td align="center">
 					<table>
 						<tr>
 							<td valign="top" align="left">
@@ -61,70 +61,127 @@
 			</tr>
 			<tr>
 				<td colspan="2">
-				
 					<a4j:outputPanel id="recordsPanel">
-					<rich:dataTable id="records" value="#{reportMBean.records}" var="obj" rows="10" width="100%" rendered="#{reportMBean.records.size() > 0}">
+					<a4j:outputPanel id="recordsSubPanel" rendered="#{reportMBean.records.size() > 0}">
+					<div style="width:100%;height:350px;overflow:auto;">
+					<rich:dataTable id="records" value="#{reportMBean.records}" var="obj" rows="50" width="100%" rendered="#{reportMBean.records.size() > 0}">
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Region" />
+							</f:facet>
+							<h:outputText value="#{obj[14]}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Reg. Number" />
+							</f:facet>
+							<h:outputText value="#{obj[12]}" />
+						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[0]}">
-							<f:facet name="header">Transaction Date</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Transaction Date" />
+							</f:facet>
 							<h:outputText value="#{obj[0]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[1]}">
-							<f:facet name="header">Location</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Card Location" />
+							</f:facet>
+							<h:outputText value="#{obj[11]}" />
+						</rich:column>
+						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[1]}">
+							<f:facet name="header">
+								<h:outputText value="Tracker Location" />
+							</f:facet>
 							<h:outputText value="#{obj[1]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[2]}">
-							<f:facet name="header">Amount on Card</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Amount on Card" />
+							</f:facet>
 							<h:outputText value="#{obj[2]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[3]}">
-							<f:facet name="header">Previous Km Reading</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Previous Km Reading" />
+							</f:facet>
 							<h:outputText value="#{obj[3]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[4]}">
-							<f:facet name="header">Current Km Reading</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Current Km Reading" />
+							</f:facet>
 							<h:outputText value="#{obj[4]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[5]}">
-							<f:facet name="header">Kilometres Covered</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Kilometres Covered" />
+							</f:facet>
 							<h:outputText value="#{obj[5]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[6]}">
-							<f:facet name="header">Fuel Amount</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Fuel Value" />
+							</f:facet>
 							<h:outputText value="#{obj[6]}" />
 						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[9]}">
-							<f:facet name="header">Initial Fuel Lvl</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Initial Level" />
+							</f:facet>
 							<h:outputText value="#{obj[9]}" />
 						</rich:column>
-						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[10]}">
-							<f:facet name="header">Final Fuel Lvl</f:facet>
-							<h:outputText value="#{obj[10]}" />
-						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[7]}">
-							<f:facet name="header">Total Litres Bought</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Litres Bought" />
+							</f:facet>
 							<h:outputText value="#{obj[7]}" />
 						</rich:column>
+						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[10]}">
+							<f:facet name="header">
+								<h:outputText value="Final Level" />
+							</f:facet>
+							<h:outputText value="#{obj[10]}" />
+						</rich:column>
 						<rich:column style="vertical-align: top" rendered="#{reportMBean.recordsFields[8]}">
-							<f:facet name="header">Balance on Card</f:facet>
+							<f:facet name="header">
+								<h:outputText value="Balance on Card" />
+							</f:facet>
 							<h:outputText value="#{obj[8]}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Purchase by" />
+							</f:facet>
+							<h:outputText value="#{obj[13]}" />
 						</rich:column>
 					</rich:dataTable>
 					<rich:datascroller id="dsrecords" for="records" renderIfSinglePage="false" reRender="recordsPanel" />
 					<rich:spacer height="10" rendered="#{reportMBean.records.size() > 0}" />
-					<p:linechart title="Daily Fuel Log Sheet Chart" domainAxisLabel="Date" legend="true" rendered="#{reportMBean.records.size() > 0}">
+					<!--<p:linechart title="Daily Fuel Log Sheet Chart" domainAxisLabel="Date" legend="true" rendered="#{reportMBean.records.size() > 0}">
 						<p:series key="Amount Purchased">
 							<ui:repeat var="_c" value="#{reportMBean.records}">
 								<p:data key="#{_c[0]}" value="#{_c[6]}"/>
 							</ui:repeat>
 						</p:series>
-					</p:linechart>
+					</p:linechart>-->
+					</div>
 					</a4j:outputPanel>
-				
+					</a4j:outputPanel>
 					<div class="dialog">
 						<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+							<h:outputLabel for="region">Region </h:outputLabel>
+							<h:selectOneMenu id="region" value="#{reportMBean.region_id}" defaultLabel="Select a region...">
+								<f:selectItem itemLabel="All regions" itemValue="0" />
+								<f:selectItems value="#{carMBean.regions}" var="obj" itemLabel="#{obj.name}" itemValue="#{obj.id}" />
+								<a4j:support event="onchange" reRender="car" ajaxSingle="true" />
+							</h:selectOneMenu>
+							<rich:message for="region" style="color: red;"/>
+							
 							<h:outputLabel for="car">Vehicle </h:outputLabel>
 							<h:selectOneMenu id="car" value="#{reportMBean.vehicle_id}" defaultLabel="Select a vehicle...">
-								<f:selectItems value="#{dropdownMBean.allCars}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+								<f:selectItem itemLabel="All vehicles" itemValue="0" />
+								<f:selectItems value="#{dropdownMBean.RegionCars(reportMBean.region_id)}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
 							</h:selectOneMenu>
 							<rich:message for="car" style="color: red;"/>
 							
@@ -144,7 +201,7 @@
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[1]}" />
-									<h:outputText value="Location" />
+									<h:outputText value="Locations" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[2]}" />
@@ -168,15 +225,15 @@
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[9]}" />
-									<h:outputText value="Initial Fuel Level" />
-								</h:panelGrid>
-								<h:panelGrid columns="2">
-									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[10]}" />
-									<h:outputText value="Final Fuel Level" />
+									<h:outputText value="Initial Level" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[7]}" />
-									<h:outputText value="Total Litres Bought" />
+									<h:outputText value="Litres Bought" />
+								</h:panelGrid>
+								<h:panelGrid columns="2">
+									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[10]}" />
+									<h:outputText value="Final Level" />
 								</h:panelGrid>
 								<h:panelGrid columns="2">
 									<h:selectBooleanCheckbox value="#{reportMBean.recordsFields[8]}" />

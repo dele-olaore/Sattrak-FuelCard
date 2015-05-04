@@ -1,0 +1,106 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Cards</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Manage Vehicles')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width: 800px;height: 500px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="left">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Cards</span><br/>
+									<span style="font-size:16px;">See cards vehicles and balances</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<a4j:outputPanel id="dload_link" rendered="#{carMBean.carsWithBalance.size() > 0}">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<h:commandLink action="#{excelExporter.export('usersForm:cars')}" styleClass="image-command-link" style="color:#fff;text-decoration:none;"><h:outputText value="Download"/></h:commandLink>
+								</li>
+								</a4j:outputPanel>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div style="width:100%;height:350px;overflow:auto;">
+					<a4j:outputPanel id="tablePanel">
+					<rich:dataTable id="cars" value="#{carMBean.carsWithBalance}" var="obj" rows="20" width="100%" rendered="#{carMBean.carsWithBalance.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available cards" />
+					</f:facet>
+					
+					<rich:column sortBy="#{obj.cardPan}" filterBy="#{obj.cardPan}">
+						<f:facet name="header"><h:outputText value="Card Pan" /></f:facet>
+						<h:outputText value="#{obj.cardPan}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.regNumber}" filterBy="#{obj.regNumber}">
+						<f:facet name="header"><h:outputText value="Registration Number" /></f:facet>
+						<h:outputText value="#{obj.regNumber}" />
+					</rich:column>
+					<rich:column sortBy="#{obj.zonControlId}" filterBy="#{obj.zonControlId}">
+						<f:facet name="header"><h:outputText value="Tracker ID" /></f:facet>
+						<h:outputText value="#{obj.zonControlId}" />
+					</rich:column>
+					<rich:column sortBy="#{obj.region.name}" filterBy="#{obj.region.name}">
+						<f:facet name="header"><h:outputText value="Region" /></f:facet>
+						<h:outputText value="#{obj.region.name}" rendered="#{obj.region != null}"/>
+						<h:outputText value="N/A" rendered="#{obj.region == null}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.department.name}" filterBy="#{obj.department.name}">
+						<f:facet name="header"><h:outputText value="Dept." /></f:facet>
+						<h:outputText value="#{obj.department.name}" rendered="#{obj.department != null}"/>
+						<h:outputText value="N/A" rendered="#{obj.department == null}"/>
+					</rich:column>
+					<rich:column sortBy="#{obj.cardBalance}">
+						<f:facet name="header"><h:outputText value="Card Balance" /></f:facet>
+						<h:outputText value="#{obj.cardBalance}" />
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No card found" rendered="#{empty carMBean.carsWithBalance}"/>
+					<rich:datascroller id="dscars" for="cars" renderIfSinglePage="false" reRender="tablePanel" />
+					</a4j:outputPanel>
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

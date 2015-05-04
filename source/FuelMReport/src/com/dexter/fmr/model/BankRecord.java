@@ -1,7 +1,6 @@
 package com.dexter.fmr.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -30,8 +29,8 @@ public class BankRecord implements Serializable
 	private Date tranTime;
 	private String tranTimeStr;
 	private String tranType;
-	private BigDecimal tranAmt;
-	private BigDecimal tranFees;
+	private double tranAmt;
+	private double tranFees;
 	private String tranStatus;
 	private String cardPan;
 	private String cardStatus;
@@ -39,7 +38,9 @@ public class BankRecord implements Serializable
 	private String cardAcceptorId;
 	private String cardAcceptorLoc;
 	private String retrievalRefNum;
-	private BigDecimal cardBal;
+	private double cardBal;
+	
+	private double tranID;
 	
 	@ManyToOne
 	private Car vehicle;
@@ -98,19 +99,19 @@ public class BankRecord implements Serializable
 		this.tranType = tranType;
 	}
 
-	public BigDecimal getTranAmt() {
+	public double getTranAmt() {
 		return tranAmt;
 	}
 
-	public void setTranAmt(BigDecimal tranAmt) {
+	public void setTranAmt(double tranAmt) {
 		this.tranAmt = tranAmt;
 	}
 
-	public BigDecimal getTranFees() {
+	public double getTranFees() {
 		return tranFees;
 	}
 
-	public void setTranFees(BigDecimal tranFees) {
+	public void setTranFees(double tranFees) {
 		this.tranFees = tranFees;
 	}
 
@@ -170,12 +171,20 @@ public class BankRecord implements Serializable
 		this.retrievalRefNum = retrievalRefNum;
 	}
 
-	public BigDecimal getCardBal() {
+	public double getCardBal() {
 		return cardBal;
 	}
 
-	public void setCardBal(BigDecimal cardBal) {
+	public void setCardBal(double cardBal) {
 		this.cardBal = cardBal;
+	}
+
+	public double getTranID() {
+		return tranID;
+	}
+
+	public void setTranID(double tranID) {
+		this.tranID = tranID;
 	}
 
 	public Car getVehicle() {

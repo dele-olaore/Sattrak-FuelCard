@@ -35,6 +35,11 @@ public class DropDownMBean
 		return new CarDAO().getCars();
 	}
 	
+	public Vector<Car> RegionCars(long region_id)
+	{
+		return new CarDAO().getCarsByRegion(region_id);
+	}
+	
 	public Vector<User> getUsers()
 	{
 		return new UserDAO().getUsers();

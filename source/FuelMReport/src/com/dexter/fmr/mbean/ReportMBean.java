@@ -13,14 +13,18 @@ import org.jboss.seam.annotations.Name;
 import org.jboss.seam.annotations.Scope;
 
 import com.dexter.fmr.dao.AuditDAO;
+import com.dexter.fmr.dao.BankRecordDAO;
 import com.dexter.fmr.dao.CarDAO;
 import com.dexter.fmr.dao.FunctionDAO;
+import com.dexter.fmr.dao.RegionDAO;
 import com.dexter.fmr.dao.ReportDAO;
 import com.dexter.fmr.dao.RoleDAO;
 import com.dexter.fmr.dao.UserDAO;
 import com.dexter.fmr.model.AuditTrail;
+import com.dexter.fmr.model.BankRecord;
 import com.dexter.fmr.model.Car;
 import com.dexter.fmr.model.Function;
+import com.dexter.fmr.model.Region;
 import com.dexter.fmr.model.Role;
 import com.dexter.fmr.model.RoleFunction;
 import com.dexter.fmr.model.User;
@@ -33,15 +37,18 @@ import com.sun.faces.context.FacesContextImpl;
 public class ReportMBean implements java.io.Serializable
 {
 	private static final long serialVersionUID = 1L;
-
+	
 	private Date tranDate, tranDate2;
 	private int tranType;
 	
 	private long vehicle_id;
 	private int month;
+	private long region_id, department_id;
+	private String region_nm, department_nm;
 	private Car vehicle;
 	
-	private ArrayList<String[]> records, records2, recordsHC, recordsHP, recordsLD, recordsBE, recordsEX;
+	private Vector<BankRecord> bankTranList;
+	private ArrayList<String[]> records, records2, records22, recordsHC, recordsHP, recordsLD, recordsBE, recordsEX;
 	private Boolean[] recordsFields, records2Fields, recordsEXFields;
 	private boolean showTracker;
 	
@@ -110,39 +117,170 @@ public class ReportMBean implements java.io.Serializable
 		return "index";
 	}
 	
+	public void searchBankTrans()
+	{
+		AuditTrail audit = new AuditTrail();
+		
+		setRecords(null);
+		if(getTranDate() != null && getTranDate2() != null)
+		{
+			audit.setAuditTime(new java.util.Date());
+			audit.setActionPerformed("Searching for transaction notifications...");
+			audit.setEntity("TRANSACTIONS");
+			audit.setUsername(getActiveUser().getUsername());
+			
+			if(getRegion_id() > 0)
+			{
+				if(getVehicle_id() > 0)
+				{
+					Car c = new CarDAO().getCarById(getVehicle_id());
+					if(c != null)
+					{
+						setVehicle(c);
+						setBankTranList(new BankRecordDAO().search(getTranDate(), getTranDate2(), c));
+					}
+				}
+				else
+				{
+					Region region = new RegionDAO().getRegionById(getRegion_id());
+					setBankTranList(new BankRecordDAO().searchByRegion(getTranDate(), getTranDate2(), region));
+				}
+			}
+			else if(getVehicle_id() > 0)
+			{
+				Car c = new CarDAO().getCarById(getVehicle_id());
+				if(c != null)
+				{
+					setVehicle(c);
+					setBankTranList(new BankRecordDAO().search(getTranDate(), getTranDate2(), c));
+				}
+			}
+			else
+			{
+				setBankTranList(new BankRecordDAO().search(getTranDate(), getTranDate2(), null));
+			}
+			
+			FacesContext curContext = FacesContextImpl.getCurrentInstance();
+			audit.setActionPerformed(audit.getActionPerformed() + ". " + getBankTranList().size() + " record(s) found.");
+			if(getBankTranList().size() > 0)
+			{
+				audit.setSuccess(true);
+				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, Utils.getBundleMessage("search.success", new Object[] {getBankTranList().size()}), null));
+			}
+			else
+			{
+				audit.setSuccess(false);
+				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utils.getBundleMessage("search.failed", null), null));
+			}
+			
+			new AuditDAO().save(audit);
+		}
+	}
+	
 	public void searchDailyTransactions()
 	{
 		AuditTrail audit = new AuditTrail();
 		
 		setRecords(null);
-		if(getVehicle_id() > 0 && getTranDate() != null && getTranDate2() != null)
+		if(getTranDate() != null && getTranDate2() != null)
 		{
 			audit.setAuditTime(new java.util.Date());
 			audit.setActionPerformed("Searching for daily log sheet transactions...");
 			audit.setEntity("TRANSACTIONS");
 			audit.setUsername(getActiveUser().getUsername());
 			
-			Car c = new CarDAO().getCarById(getVehicle_id());
-			if(c != null)
+			if(getRegion_id() > 0)
 			{
-				FacesContext curContext = FacesContextImpl.getCurrentInstance();
-				
-				setVehicle(c);
-				
-				setRecords(new ReportDAO().searchDailyLogSheet(getTranDate(), getTranDate2(), getVehicle()));
-				if(getRecords().size() > 0)
+				if(getVehicle_id() > 0)
 				{
-					audit.setSuccess(true);
-					curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, Utils.getBundleMessage("search.success", new Object[] {getRecords().size()}), null));
+					Car c = new CarDAO().getCarById(getVehicle_id());
+					if(c != null)
+					{
+						setVehicle(c);
+						setRecords(new ReportDAO().searchDailyLogSheet(getTranDate(), getTranDate2(), c));
+					}
 				}
 				else
 				{
-					audit.setSuccess(false);
-					curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utils.getBundleMessage("search.failed", null), null));
+					Region region = new RegionDAO().getRegionById(getRegion_id());
+					setRecords(new ReportDAO().searchDailyLogSheetRegion(getTranDate(), getTranDate2(), region));
 				}
-				
-				audit.setActionPerformed(audit.getActionPerformed() + ". " + getRecords().size() + " record(s) found.");
 			}
+			else if(getVehicle_id() > 0)
+			{
+				Car c = new CarDAO().getCarById(getVehicle_id());
+				if(c != null)
+				{
+					setVehicle(c);
+					setRecords(new ReportDAO().searchDailyLogSheet(getTranDate(), getTranDate2(), c));
+				}
+			}
+			else
+			{
+				setRecords(new ReportDAO().searchDailyLogSheetRegion(getTranDate(), getTranDate2(), null));
+			}
+			
+			FacesContext curContext = FacesContextImpl.getCurrentInstance();
+			audit.setActionPerformed(audit.getActionPerformed() + ". " + getRecords().size() + " record(s) found.");
+			if(getRecords().size() > 0)
+			{
+				audit.setSuccess(true);
+				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, Utils.getBundleMessage("search.success", new Object[] {getRecords().size()}), null));
+			}
+			else
+			{
+				audit.setSuccess(false);
+				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utils.getBundleMessage("search.failed", null), null));
+			}
+			
+			new AuditDAO().save(audit);
+		}
+	}
+	
+	public void searchFuelPurchaseTransactionsSummary()
+	{
+		AuditTrail audit = new AuditTrail();
+		setRecords22(null);
+		if(getTranDate() != null && getTranDate2() != null)
+		{
+			audit.setAuditTime(new java.util.Date());
+			audit.setActionPerformed("Searching for summary fuel purchase transactions...");
+			audit.setEntity("TRANSACTIONS");
+			audit.setUsername(getActiveUser().getUsername());
+			
+			if(getRegion_id() > 0)
+			{
+				if(getVehicle_id() > 0)
+				{
+					setRecords22(new ReportDAO().searchFuelPurchaseReportSummary(getTranDate(), getTranDate2(), getVehicle_id()));
+				}
+				else
+				{
+					Region region = new RegionDAO().getRegionById(getRegion_id());
+					setRecords22(new ReportDAO().searchFuelPurchaseReportSummary(getTranDate(), getTranDate2(), region));
+				}
+			}
+			else if(getVehicle_id() > 0)
+			{
+				setRecords22(new ReportDAO().searchFuelPurchaseReportSummary(getTranDate(), getTranDate2(), getVehicle_id()));
+			}
+			else
+			{
+				setRecords22(new ReportDAO().searchFuelPurchaseReportSummary(getTranDate(), getTranDate2(), null));
+			}
+			
+			FacesContext curContext = FacesContextImpl.getCurrentInstance();
+			if(getRecords22().size() > 0)
+			{
+				audit.setSuccess(true);
+				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, Utils.getBundleMessage("search.success", new Object[] {getRecords22().size()}), null));
+			}
+			else
+			{
+				audit.setSuccess(false);
+				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utils.getBundleMessage("search.failed", null), null));
+			}
+			audit.setActionPerformed(audit.getActionPerformed() + ". " + getRecords22().size() + " record(s) found.");
 			
 			new AuditDAO().save(audit);
 		}
@@ -155,13 +293,32 @@ public class ReportMBean implements java.io.Serializable
 		if(getTranDate() != null && getTranDate2() != null)
 		{
 			audit.setAuditTime(new java.util.Date());
-			audit.setActionPerformed("Searching for daily log sheet transactions...");
+			audit.setActionPerformed("Searching for daily fuel purchase transactions...");
 			audit.setEntity("TRANSACTIONS");
 			audit.setUsername(getActiveUser().getUsername());
 			
-			FacesContext curContext = FacesContextImpl.getCurrentInstance();
+			if(getRegion_id() > 0)
+			{
+				if(getVehicle_id() > 0)
+				{
+					setRecords2(new ReportDAO().searchFuelPurchaseReport(getTranDate(), getTranDate2(), getVehicle_id()));
+				}
+				else
+				{
+					Region region = new RegionDAO().getRegionById(getRegion_id());
+					setRecords2(new ReportDAO().searchFuelPurchaseReport(getTranDate(), getTranDate2(), region));
+				}
+			}
+			else if(getVehicle_id() > 0)
+			{
+				setRecords2(new ReportDAO().searchFuelPurchaseReport(getTranDate(), getTranDate2(), getVehicle_id()));
+			}
+			else
+			{
+				setRecords2(new ReportDAO().searchFuelPurchaseReport(getTranDate(), getTranDate2(), null));
+			}
 			
-			setRecords2(new ReportDAO().searchFuelPurchaseReport(getTranDate(), getTranDate2()));
+			FacesContext curContext = FacesContextImpl.getCurrentInstance();
 			if(getRecords2().size() > 0)
 			{
 				audit.setSuccess(true);
@@ -172,8 +329,7 @@ public class ReportMBean implements java.io.Serializable
 				audit.setSuccess(false);
 				curContext.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, Utils.getBundleMessage("search.failed", null), null));
 			}
-			
-			audit.setActionPerformed(audit.getActionPerformed() + ". " + getRecords().size() + " record(s) found.");
+			audit.setActionPerformed(audit.getActionPerformed() + ". " + getRecords2().size() + " record(s) found.");
 			
 			new AuditDAO().save(audit);
 		}
@@ -192,7 +348,38 @@ public class ReportMBean implements java.io.Serializable
 			
 			FacesContext curContext = FacesContextImpl.getCurrentInstance();
 			
-			setRecordsEX(new ReportDAO().exceptionTransactions(getTranDate(), getTranDate2()));
+			if(getRegion_id() > 0)
+			{
+				if(getVehicle_id() > 0)
+				{
+					Car c = new CarDAO().getCarById(getVehicle_id());
+					if(c != null)
+					{
+						setVehicle(c);
+						setRecordsEX(new ReportDAO().exceptionTransactions(getTranDate(), getTranDate2(), c));
+					}
+				}
+				else
+				{
+					Region region = new RegionDAO().getRegionById(getRegion_id());
+					setRecordsEX(new ReportDAO().exceptionTransactionsRegion(getTranDate(), getTranDate2(), region));
+				}
+			}
+			else if(getVehicle_id() > 0)
+			{
+				Car c = new CarDAO().getCarById(getVehicle_id());
+				if(c != null)
+				{
+					setVehicle(c);
+					setRecordsEX(new ReportDAO().exceptionTransactions(getTranDate(), getTranDate2(), c));
+				}
+			}
+			else
+			{
+				setRecordsEX(new ReportDAO().exceptionTransactionsRegion(getTranDate(), getTranDate2(), null));
+			}
+			
+			//setRecordsEX(new ReportDAO().exceptionTransactions(getTranDate(), getTranDate2()));
 			if(getRecordsEX().size() > 0)
 			{
 				audit.setSuccess(true);
@@ -604,12 +791,54 @@ public class ReportMBean implements java.io.Serializable
 		this.month = month;
 	}
 
+	public long getRegion_id() {
+		return region_id;
+	}
+
+	public void setRegion_id(long region_id) {
+		this.region_id = region_id;
+	}
+
+	public long getDepartment_id() {
+		return department_id;
+	}
+
+	public void setDepartment_id(long department_id) {
+		this.department_id = department_id;
+	}
+
+	public String getRegion_nm() {
+		return region_nm;
+	}
+
+	public void setRegion_nm(String region_nm) {
+		this.region_nm = region_nm;
+	}
+
+	public String getDepartment_nm() {
+		return department_nm;
+	}
+
+	public void setDepartment_nm(String department_nm) {
+		this.department_nm = department_nm;
+	}
+
 	public Car getVehicle() {
 		return vehicle;
 	}
 
 	public void setVehicle(Car vehicle) {
 		this.vehicle = vehicle;
+	}
+
+	public Vector<BankRecord> getBankTranList() {
+		if(bankTranList == null)
+			bankTranList = new Vector<BankRecord>();
+		return bankTranList;
+	}
+
+	public void setBankTranList(Vector<BankRecord> bankTranList) {
+		this.bankTranList = bankTranList;
 	}
 
 	public ArrayList<String[]> getRecords() {
@@ -630,6 +859,16 @@ public class ReportMBean implements java.io.Serializable
 
 	public void setRecords2(ArrayList<String[]> records2) {
 		this.records2 = records2;
+	}
+
+	public ArrayList<String[]> getRecords22() {
+		if(records22 == null)
+			records22 = new ArrayList<String[]>();
+		return records22;
+	}
+
+	public void setRecords22(ArrayList<String[]> records22) {
+		this.records22 = records22;
 	}
 
 	public ArrayList<String[]> getRecordsHC() {

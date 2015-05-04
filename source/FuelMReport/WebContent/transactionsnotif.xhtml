@@ -1,0 +1,154 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:s="http://jboss.com/products/seam/taglib"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:rich="http://richfaces.org/rich"
+    xmlns:a4j="https://ajax4jsf.dev.java.net/ajax"
+    xmlns:a="http://richfaces.org/a4j"
+    xmlns:c="http://java.sun.com/jstl/core"
+    xmlns:p="http://jboss.com/products/seam/pdf"
+    template="WEB-INF/layout/basic_layout.xhtml">
+<ui:define name="pageTitle"> Transaction Notifications Report</ui:define>
+<ui:define name="body">
+	<a4j:outputPanel id="bodyPanel" rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}">
+	<h:form id="usersForm" rendered="#{reportMBean.authenticated}">
+		<div style="float:left;">
+			<!-- <img src="images/mtn_logo.jpg" height="100px" style="float: right;" /> -->
+		</div>
+		<div style="width:100%;height: 1000px" align="center">
+			<table width="100%" cellspacing="2" cellpadding="2">
+			<tr>
+				<td align="center">
+					<table>
+						<tr>
+							<td valign="top" align="left">
+								<p>
+									<span style="font-size:30px;font-weight:bold;color:#888;">Transaction Notifications Report</span><br/>
+									<span style="font-size:16px;">View purchase notification report by date range</span>
+								</p>
+							</td>
+							<td valign="bottom" align="right">
+								<a href="#" onclick="history.back(-1);return false;"><img src="images/back.png" style="float: right;" /></a>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<h:graphicImage url="/images/content_header_img_bk.jpg" width="100%" />
+								<div style="height:1.8em;margin:0;padding:0;width:100%">
+								<ul style="float:right;margin:0 0 0 0;padding:0;">
+								<a4j:outputPanel id="dload_link" rendered="#{reportMBean.bankTranList.size() > 0}">
+								<li style="background-color:#000000;color:#fff;float:left;font-size:1.0em;height:1.8em;list-style-type:none;margin:0 0 0 10px;padding:0;text-align:center;width:100px;">
+									<!-- <s:link view="/fuel_purchase_r_download.xhtml" styleClass="image-command-link" style="color:#fff;text-decoration:none;"><h:outputText value="Download"/></s:link> -->
+									<h:commandLink action="#{excelExporter.export('usersForm:records')}" styleClass="image-command-link" style="color:#fff;text-decoration:none;"><h:outputText value="Download"/></h:commandLink><!-- view="/logs_download.xhtml" -->
+								</li>
+								</a4j:outputPanel>
+								</ul>
+								</div>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<rich:spacer height="2" />
+					<a4j:outputPanel id="messagepanel">
+						<h:messages id="loginMessages" styleClass="message" errorClass="errormsg" infoClass="infomsg" warnClass="warnmsg"/>
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a4j:outputPanel id="recordsPanel">
+					<a4j:outputPanel id="recordsSubPanel" rendered="#{reportMBean.bankTranList.size() > 0}">
+					<div style="width:100%;height:350px;overflow:auto;">
+					<rich:dataTable id="records" value="#{reportMBean.bankTranList}" var="obj" rows="50" width="100%" rendered="#{reportMBean.bankTranList.size() > 0}">
+						<f:facet name="header"><h:commandLink value="Export" action="#{excelExporter.export('usersForm:records')}" /></f:facet>
+						
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Region" />
+							</f:facet>
+							<h:outputText value="#{obj.vehicle.region.name}" rendered="#{obj.vehicle.region != null}" />
+							<h:outputText value="N/A" rendered="#{obj.vehicle.region == null}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Registration Number" />
+							</f:facet>
+							<h:outputText value="#{obj.vehicle.regNumber}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Unit ID" />
+							</f:facet>
+							<h:outputText value="#{obj.vehicle.zonControlId}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Transaction Date" />
+							</f:facet>
+							<h:outputText value="#{obj.tranTimeStr}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Amount" />
+							</f:facet>
+							<h:outputText value="#{obj.tranAmt}" />
+						</rich:column>
+						<rich:column style="vertical-align: top">
+							<f:facet name="header">
+								<h:outputText value="Location" />
+							</f:facet>
+							<h:outputText value="#{obj.cardAcceptorLoc}" />
+						</rich:column>
+					</rich:dataTable>
+					<rich:datascroller id="dsrecords" for="records" renderIfSinglePage="false" reRender="recordsPanel" />
+					<rich:spacer height="10" rendered="#{reportMBean.bankTranList.size() > 0}" />
+					</div>
+					</a4j:outputPanel>
+					</a4j:outputPanel>
+					
+					<div class="dialog">
+						<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
+							<h:outputLabel for="region">Region </h:outputLabel>
+							<h:selectOneMenu id="region" value="#{reportMBean.region_id}" defaultLabel="Select a region...">
+								<f:selectItem itemLabel="All regions" itemValue="0" />
+								<f:selectItems value="#{carMBean.regions}" var="obj" itemLabel="#{obj.name}" itemValue="#{obj.id}" />
+								<a4j:support event="onchange" reRender="car" ajaxSingle="true" />
+							</h:selectOneMenu>
+							<rich:message for="region" style="color: red;"/>
+							
+							<h:outputLabel for="car">Vehicle </h:outputLabel>
+							<h:selectOneMenu id="car" value="#{reportMBean.vehicle_id}" defaultLabel="Select a vehicle...">
+								<f:selectItem itemLabel="All vehicles" itemValue="0" />
+								<f:selectItems value="#{dropdownMBean.RegionCars(reportMBean.region_id)}" var="cobj" itemLabel="#{cobj.regNumber}" itemValue="#{cobj.id}" />
+							</h:selectOneMenu>
+							<rich:message for="car" style="color: red;"/>
+						
+							<h:outputLabel for="dt">Start date</h:outputLabel>
+							<rich:calendar id="dt" value="#{reportMBean.tranDate}" locale="us" datePattern="yyyy-MM-dd"/>
+							<rich:message for="dt" style="color: red;"/>
+							
+							<h:outputLabel for="dt2">End date</h:outputLabel>
+							<rich:calendar id="dt2" value="#{reportMBean.tranDate2}" locale="us" datePattern="yyyy-MM-dd"/>
+							<rich:message for="dt2" style="color: red;"/>
+						</h:panelGrid>
+					</div>
+					<div class="actionButtons">
+						<rich:toolBar>
+							<rich:toolBarGroup>
+								<h:commandButton value="Search" action="#{reportMBean.searchBankTrans}" />
+							</rich:toolBarGroup>
+						</rich:toolBar>
+					</div>
+				</td>
+			</tr>
+		</table>
+		</div>
+	</h:form>
+	</a4j:outputPanel>
+</ui:define>
+</ui:composition>

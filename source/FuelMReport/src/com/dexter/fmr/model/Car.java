@@ -1,13 +1,16 @@
 package com.dexter.fmr.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -31,6 +34,29 @@ public class Car implements Serializable
 	
 	@OneToOne
 	private User assignedUser;
+	
+	private String cardPan;
+	
+	@ManyToOne
+	private Region region;
+	@ManyToOne
+	private Department department;
+	
+	private double vehicleCapacity;
+	private double calibratedCapacity;
+	
+	// =============================== //
+	
+	private BigDecimal minbalance;
+	private String thresholdAlertEmail;
+	
+	private String transactionAlertEmail;
+	private String expectionAlertEmail;
+	
+	private String alertMobileNumbers;
+	
+	@Transient
+	private BigDecimal cardBalance;
 	
 	public Car()
 	{}
@@ -81,6 +107,94 @@ public class Car implements Serializable
 
 	public void setAssignedUser(User assignedUser) {
 		this.assignedUser = assignedUser;
+	}
+
+	public String getCardPan() {
+		return cardPan;
+	}
+
+	public void setCardPan(String cardPan) {
+		this.cardPan = cardPan;
+	}
+
+	public Region getRegion() {
+		return region;
+	}
+
+	public void setRegion(Region region) {
+		this.region = region;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public double getVehicleCapacity() {
+		return vehicleCapacity;
+	}
+
+	public void setVehicleCapacity(double vehicleCapacity) {
+		this.vehicleCapacity = vehicleCapacity;
+	}
+
+	public double getCalibratedCapacity() {
+		return calibratedCapacity;
+	}
+
+	public void setCalibratedCapacity(double calibratedCapacity) {
+		this.calibratedCapacity = calibratedCapacity;
+	}
+
+	public BigDecimal getMinbalance() {
+		return minbalance;
+	}
+
+	public void setMinbalance(BigDecimal minbalance) {
+		this.minbalance = minbalance;
+	}
+
+	public String getThresholdAlertEmail() {
+		return thresholdAlertEmail;
+	}
+
+	public void setThresholdAlertEmail(String thresholdAlertEmail) {
+		this.thresholdAlertEmail = thresholdAlertEmail;
+	}
+
+	public String getTransactionAlertEmail() {
+		return transactionAlertEmail;
+	}
+
+	public void setTransactionAlertEmail(String transactionAlertEmail) {
+		this.transactionAlertEmail = transactionAlertEmail;
+	}
+
+	public String getExpectionAlertEmail() {
+		return expectionAlertEmail;
+	}
+
+	public void setExpectionAlertEmail(String expectionAlertEmail) {
+		this.expectionAlertEmail = expectionAlertEmail;
+	}
+
+	public String getAlertMobileNumbers() {
+		return alertMobileNumbers;
+	}
+
+	public void setAlertMobileNumbers(String alertMobileNumbers) {
+		this.alertMobileNumbers = alertMobileNumbers;
+	}
+
+	public BigDecimal getCardBalance() {
+		return cardBalance;
+	}
+
+	public void setCardBalance(BigDecimal cardBalance) {
+		this.cardBalance = cardBalance;
 	}
 	
 }

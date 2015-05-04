@@ -1,7 +1,6 @@
 package com.dexter.fmr.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -28,16 +27,16 @@ public class TrackerRecord implements Serializable
 	private String unitName;
 	@Temporal(value=TemporalType.TIMESTAMP)
 	private Date tranTime;
-	private BigDecimal initFuelLvl;
-	private BigDecimal quantity;
-	private BigDecimal finalFuelLvl;
+	private double initFuelLvl;
+	private double quantity;
+	private double finalFuelLvl;
 	private String address;
 	private String model;
 	private String comp;
 	private String year;
 	private String tranType;
-	private BigDecimal odometer;
-	private BigDecimal cost;
+	private double odometer;
+	private double cost;
 	
 	@ManyToOne
 	private Car vehicle;
@@ -80,27 +79,27 @@ public class TrackerRecord implements Serializable
 		this.tranTime = tranTime;
 	}
 
-	public BigDecimal getInitFuelLvl() {
+	public double getInitFuelLvl() {
 		return initFuelLvl;
 	}
 
-	public void setInitFuelLvl(BigDecimal initFuelLvl) {
+	public void setInitFuelLvl(double initFuelLvl) {
 		this.initFuelLvl = initFuelLvl;
 	}
 
-	public BigDecimal getQuantity() {
+	public double getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(BigDecimal quantity) {
+	public void setQuantity(double quantity) {
 		this.quantity = quantity;
 	}
 
-	public BigDecimal getFinalFuelLvl() {
+	public double getFinalFuelLvl() {
 		return finalFuelLvl;
 	}
 
-	public void setFinalFuelLvl(BigDecimal finalFuelLvl) {
+	public void setFinalFuelLvl(double finalFuelLvl) {
 		this.finalFuelLvl = finalFuelLvl;
 	}
 
@@ -144,19 +143,19 @@ public class TrackerRecord implements Serializable
 		this.tranType = tranType;
 	}
 
-	public BigDecimal getOdometer() {
+	public double getOdometer() {
 		return odometer;
 	}
 
-	public void setOdometer(BigDecimal odometer) {
+	public void setOdometer(double odometer) {
 		this.odometer = odometer;
 	}
 
-	public BigDecimal getCost() {
+	public double getCost() {
 		return cost;
 	}
 
-	public void setCost(BigDecimal cost) {
+	public void setCost(double cost) {
 		this.cost = cost;
 	}
 

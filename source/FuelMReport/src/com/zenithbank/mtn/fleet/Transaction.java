@@ -1,955 +1,680 @@
-/**
- * Transaction.java
- *
- * This file was auto-generated from WSDL
- * by the Apache Axis 1.4 Apr 22, 2006 (06:55:48 PDT) WSDL2Java emitter.
- */
 
 package com.zenithbank.mtn.fleet;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
-@Entity
-@Table(name="ZENBK_TRAN_TB")
-public class Transaction implements java.io.Serializable
-{
-	private static final long serialVersionUID = 1L;
-	
-	@Id
-    @NotNull
-    @GeneratedValue
-	private Long id;
-	
-    private java.lang.String transactionType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-    private java.lang.String transactionDate;
 
-    private java.math.BigDecimal amount;
+/**
+ * <p>Java class for Transaction complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType name="Transaction">
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element name="TransactionType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="TransactionDate" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Amount" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="Fees" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="Surcharge" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="Pan" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="TransactionStatus" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="SettlementStatus" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="ResponseCode" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="ResponseDescription" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="RetrievalReference" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="Stan" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="CardAcceptorID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="CardAcceptorLocation" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="TerminalID" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="SchemeOwnerName" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="TransID" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="AccountNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="AccountType" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="OpeningBalance" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="ClosingBalance" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="AvailBalance" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *         &lt;element name="Curbalance" type="{http://www.w3.org/2001/XMLSchema}decimal"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "Transaction", propOrder = {
+    "transactionType",
+    "transactionDate",
+    "amount",
+    "fees",
+    "surcharge",
+    "pan",
+    "transactionStatus",
+    "settlementStatus",
+    "responseCode",
+    "responseDescription",
+    "retrievalReference",
+    "stan",
+    "cardAcceptorID",
+    "cardAcceptorLocation",
+    "terminalID",
+    "schemeOwnerName",
+    "transID",
+    "accountNumber",
+    "accountType",
+    "openingBalance",
+    "closingBalance",
+    "availBalance",
+    "curbalance"
+})
+public class Transaction {
 
-    private java.math.BigDecimal fees;
+    @XmlElement(name = "TransactionType")
+    protected String transactionType;
+    @XmlElement(name = "TransactionDate")
+    protected String transactionDate;
+    @XmlElement(name = "Amount", required = true)
+    protected double amount;
+    @XmlElement(name = "Fees", required = true)
+    protected double fees;
+    @XmlElement(name = "Surcharge", required = true)
+    protected double surcharge;
+    @XmlElement(name = "Pan")
+    protected String pan;
+    @XmlElement(name = "TransactionStatus")
+    protected String transactionStatus;
+    @XmlElement(name = "SettlementStatus")
+    protected String settlementStatus;
+    @XmlElement(name = "ResponseCode")
+    protected String responseCode;
+    @XmlElement(name = "ResponseDescription")
+    protected String responseDescription;
+    @XmlElement(name = "RetrievalReference")
+    protected String retrievalReference;
+    @XmlElement(name = "Stan")
+    protected String stan;
+    @XmlElement(name = "CardAcceptorID")
+    protected String cardAcceptorID;
+    @XmlElement(name = "CardAcceptorLocation")
+    protected String cardAcceptorLocation;
+    @XmlElement(name = "TerminalID")
+    protected String terminalID;
+    @XmlElement(name = "SchemeOwnerName")
+    protected String schemeOwnerName;
+    @XmlElement(name = "TransID", required = true)
+    protected BigDecimal transID;
+    @XmlElement(name = "AccountNumber")
+    protected String accountNumber;
+    @XmlElement(name = "AccountType")
+    protected String accountType;
+    @XmlElement(name = "OpeningBalance", required = true)
+    protected double openingBalance;
+    @XmlElement(name = "ClosingBalance", required = true)
+    protected double closingBalance;
+    @XmlElement(name = "AvailBalance", required = true)
+    protected double availBalance;
+    @XmlElement(name = "Curbalance", required = true)
+    protected double curbalance;
 
-    private java.math.BigDecimal surcharge;
-
-    private java.lang.String pan;
-
-    private java.lang.String transactionStatus;
-
-    private java.lang.String settlementStatus;
-
-    private java.lang.String responseCode;
-
-    private java.lang.String responseDescription;
-
-    private java.lang.String retrievalReference;
-
-    private java.lang.String stan;
-
-    private java.lang.String cardAcceptorID;
-
-    private java.lang.String cardAcceptorLocation;
-
-    private java.lang.String terminalID;
-
-    private java.lang.String schemeOwnerName;
-
-    private java.math.BigDecimal transID;
-
-    private java.lang.String accountNumber;
-
-    private java.lang.String accountType;
-
-    private java.math.BigDecimal openingBalance;
-
-    private java.math.BigDecimal closingBalance;
-
-    private java.math.BigDecimal availBalance;
-
-    private java.math.BigDecimal curbalance;
-
-    public Transaction() {
-    }
-
-    public Transaction(
-           java.lang.String transactionType,
-           java.lang.String transactionDate,
-           java.math.BigDecimal amount,
-           java.math.BigDecimal fees,
-           java.math.BigDecimal surcharge,
-           java.lang.String pan,
-           java.lang.String transactionStatus,
-           java.lang.String settlementStatus,
-           java.lang.String responseCode,
-           java.lang.String responseDescription,
-           java.lang.String retrievalReference,
-           java.lang.String stan,
-           java.lang.String cardAcceptorID,
-           java.lang.String cardAcceptorLocation,
-           java.lang.String terminalID,
-           java.lang.String schemeOwnerName,
-           java.math.BigDecimal transID,
-           java.lang.String accountNumber,
-           java.lang.String accountType,
-           java.math.BigDecimal openingBalance,
-           java.math.BigDecimal closingBalance,
-           java.math.BigDecimal availBalance,
-           java.math.BigDecimal curbalance) {
-           this.transactionType = transactionType;
-           this.transactionDate = transactionDate;
-           this.amount = amount;
-           this.fees = fees;
-           this.surcharge = surcharge;
-           this.pan = pan;
-           this.transactionStatus = transactionStatus;
-           this.settlementStatus = settlementStatus;
-           this.responseCode = responseCode;
-           this.responseDescription = responseDescription;
-           this.retrievalReference = retrievalReference;
-           this.stan = stan;
-           this.cardAcceptorID = cardAcceptorID;
-           this.cardAcceptorLocation = cardAcceptorLocation;
-           this.terminalID = terminalID;
-           this.schemeOwnerName = schemeOwnerName;
-           this.transID = transID;
-           this.accountNumber = accountNumber;
-           this.accountType = accountType;
-           this.openingBalance = openingBalance;
-           this.closingBalance = closingBalance;
-           this.availBalance = availBalance;
-           this.curbalance = curbalance;
-    }
-
-    public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	/**
-     * Gets the transactionType value for this Transaction.
+    /**
+     * Gets the value of the transactionType property.
      * 
-     * @return transactionType
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getTransactionType() {
+    public String getTransactionType() {
         return transactionType;
     }
 
-
     /**
-     * Sets the transactionType value for this Transaction.
+     * Sets the value of the transactionType property.
      * 
-     * @param transactionType
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setTransactionType(java.lang.String transactionType) {
-        this.transactionType = transactionType;
+    public void setTransactionType(String value) {
+        this.transactionType = value;
     }
 
-
     /**
-     * Gets the transactionDate value for this Transaction.
+     * Gets the value of the transactionDate property.
      * 
-     * @return transactionDate
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getTransactionDate() {
+    public String getTransactionDate() {
         return transactionDate;
     }
 
-
     /**
-     * Sets the transactionDate value for this Transaction.
+     * Sets the value of the transactionDate property.
      * 
-     * @param transactionDate
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setTransactionDate(java.lang.String transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setTransactionDate(String value) {
+        this.transactionDate = value;
     }
 
-
     /**
-     * Gets the amount value for this Transaction.
+     * Gets the value of the amount property.
      * 
-     * @return amount
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-
     /**
-     * Sets the amount value for this Transaction.
+     * Sets the value of the amount property.
      * 
-     * @param amount
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setAmount(java.math.BigDecimal amount) {
-        this.amount = amount;
+    public void setAmount(double value) {
+        this.amount = value;
     }
 
-
     /**
-     * Gets the fees value for this Transaction.
+     * Gets the value of the fees property.
      * 
-     * @return fees
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getFees() {
+    public double getFees() {
         return fees;
     }
 
-
     /**
-     * Sets the fees value for this Transaction.
+     * Sets the value of the fees property.
      * 
-     * @param fees
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setFees(java.math.BigDecimal fees) {
-        this.fees = fees;
+    public void setFees(double value) {
+        this.fees = value;
     }
 
-
     /**
-     * Gets the surcharge value for this Transaction.
+     * Gets the value of the surcharge property.
      * 
-     * @return surcharge
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getSurcharge() {
+    public double getSurcharge() {
         return surcharge;
     }
 
-
     /**
-     * Sets the surcharge value for this Transaction.
+     * Sets the value of the surcharge property.
      * 
-     * @param surcharge
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setSurcharge(java.math.BigDecimal surcharge) {
-        this.surcharge = surcharge;
+    public void setSurcharge(double value) {
+        this.surcharge = value;
     }
 
-
     /**
-     * Gets the pan value for this Transaction.
+     * Gets the value of the pan property.
      * 
-     * @return pan
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getPan() {
+    public String getPan() {
         return pan;
     }
 
-
     /**
-     * Sets the pan value for this Transaction.
+     * Sets the value of the pan property.
      * 
-     * @param pan
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setPan(java.lang.String pan) {
-        this.pan = pan;
+    public void setPan(String value) {
+        this.pan = value;
     }
 
-
     /**
-     * Gets the transactionStatus value for this Transaction.
+     * Gets the value of the transactionStatus property.
      * 
-     * @return transactionStatus
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getTransactionStatus() {
+    public String getTransactionStatus() {
         return transactionStatus;
     }
 
-
     /**
-     * Sets the transactionStatus value for this Transaction.
+     * Sets the value of the transactionStatus property.
      * 
-     * @param transactionStatus
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setTransactionStatus(java.lang.String transactionStatus) {
-        this.transactionStatus = transactionStatus;
+    public void setTransactionStatus(String value) {
+        this.transactionStatus = value;
     }
 
-
     /**
-     * Gets the settlementStatus value for this Transaction.
+     * Gets the value of the settlementStatus property.
      * 
-     * @return settlementStatus
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getSettlementStatus() {
+    public String getSettlementStatus() {
         return settlementStatus;
     }
 
-
     /**
-     * Sets the settlementStatus value for this Transaction.
+     * Sets the value of the settlementStatus property.
      * 
-     * @param settlementStatus
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setSettlementStatus(java.lang.String settlementStatus) {
-        this.settlementStatus = settlementStatus;
+    public void setSettlementStatus(String value) {
+        this.settlementStatus = value;
     }
 
-
     /**
-     * Gets the responseCode value for this Transaction.
+     * Gets the value of the responseCode property.
      * 
-     * @return responseCode
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getResponseCode() {
+    public String getResponseCode() {
         return responseCode;
     }
 
-
     /**
-     * Sets the responseCode value for this Transaction.
+     * Sets the value of the responseCode property.
      * 
-     * @param responseCode
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setResponseCode(java.lang.String responseCode) {
-        this.responseCode = responseCode;
+    public void setResponseCode(String value) {
+        this.responseCode = value;
     }
 
-
     /**
-     * Gets the responseDescription value for this Transaction.
+     * Gets the value of the responseDescription property.
      * 
-     * @return responseDescription
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getResponseDescription() {
+    public String getResponseDescription() {
         return responseDescription;
     }
 
-
     /**
-     * Sets the responseDescription value for this Transaction.
+     * Sets the value of the responseDescription property.
      * 
-     * @param responseDescription
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setResponseDescription(java.lang.String responseDescription) {
-        this.responseDescription = responseDescription;
+    public void setResponseDescription(String value) {
+        this.responseDescription = value;
     }
 
-
     /**
-     * Gets the retrievalReference value for this Transaction.
+     * Gets the value of the retrievalReference property.
      * 
-     * @return retrievalReference
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getRetrievalReference() {
+    public String getRetrievalReference() {
         return retrievalReference;
     }
 
-
     /**
-     * Sets the retrievalReference value for this Transaction.
+     * Sets the value of the retrievalReference property.
      * 
-     * @param retrievalReference
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setRetrievalReference(java.lang.String retrievalReference) {
-        this.retrievalReference = retrievalReference;
+    public void setRetrievalReference(String value) {
+        this.retrievalReference = value;
     }
 
-
     /**
-     * Gets the stan value for this Transaction.
+     * Gets the value of the stan property.
      * 
-     * @return stan
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getStan() {
+    public String getStan() {
         return stan;
     }
 
-
     /**
-     * Sets the stan value for this Transaction.
+     * Sets the value of the stan property.
      * 
-     * @param stan
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setStan(java.lang.String stan) {
-        this.stan = stan;
+    public void setStan(String value) {
+        this.stan = value;
     }
 
-
     /**
-     * Gets the cardAcceptorID value for this Transaction.
+     * Gets the value of the cardAcceptorID property.
      * 
-     * @return cardAcceptorID
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getCardAcceptorID() {
+    public String getCardAcceptorID() {
         return cardAcceptorID;
     }
 
-
     /**
-     * Sets the cardAcceptorID value for this Transaction.
+     * Sets the value of the cardAcceptorID property.
      * 
-     * @param cardAcceptorID
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setCardAcceptorID(java.lang.String cardAcceptorID) {
-        this.cardAcceptorID = cardAcceptorID;
+    public void setCardAcceptorID(String value) {
+        this.cardAcceptorID = value;
     }
 
-
     /**
-     * Gets the cardAcceptorLocation value for this Transaction.
+     * Gets the value of the cardAcceptorLocation property.
      * 
-     * @return cardAcceptorLocation
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getCardAcceptorLocation() {
+    public String getCardAcceptorLocation() {
         return cardAcceptorLocation;
     }
 
-
     /**
-     * Sets the cardAcceptorLocation value for this Transaction.
+     * Sets the value of the cardAcceptorLocation property.
      * 
-     * @param cardAcceptorLocation
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setCardAcceptorLocation(java.lang.String cardAcceptorLocation) {
-        this.cardAcceptorLocation = cardAcceptorLocation;
+    public void setCardAcceptorLocation(String value) {
+        this.cardAcceptorLocation = value;
     }
 
-
     /**
-     * Gets the terminalID value for this Transaction.
+     * Gets the value of the terminalID property.
      * 
-     * @return terminalID
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getTerminalID() {
+    public String getTerminalID() {
         return terminalID;
     }
 
-
     /**
-     * Sets the terminalID value for this Transaction.
+     * Sets the value of the terminalID property.
      * 
-     * @param terminalID
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setTerminalID(java.lang.String terminalID) {
-        this.terminalID = terminalID;
+    public void setTerminalID(String value) {
+        this.terminalID = value;
     }
 
-
     /**
-     * Gets the schemeOwnerName value for this Transaction.
+     * Gets the value of the schemeOwnerName property.
      * 
-     * @return schemeOwnerName
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getSchemeOwnerName() {
+    public String getSchemeOwnerName() {
         return schemeOwnerName;
     }
 
-
     /**
-     * Sets the schemeOwnerName value for this Transaction.
+     * Sets the value of the schemeOwnerName property.
      * 
-     * @param schemeOwnerName
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setSchemeOwnerName(java.lang.String schemeOwnerName) {
-        this.schemeOwnerName = schemeOwnerName;
+    public void setSchemeOwnerName(String value) {
+        this.schemeOwnerName = value;
     }
 
-
     /**
-     * Gets the transID value for this Transaction.
+     * Gets the value of the transID property.
      * 
-     * @return transID
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getTransID() {
+    public BigDecimal getTransID() {
         return transID;
     }
 
-
     /**
-     * Sets the transID value for this Transaction.
+     * Sets the value of the transID property.
      * 
-     * @param transID
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setTransID(java.math.BigDecimal transID) {
-        this.transID = transID;
+    public void setTransID(BigDecimal value) {
+        this.transID = value;
     }
 
-
     /**
-     * Gets the accountNumber value for this Transaction.
+     * Gets the value of the accountNumber property.
      * 
-     * @return accountNumber
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getAccountNumber() {
+    public String getAccountNumber() {
         return accountNumber;
     }
 
-
     /**
-     * Sets the accountNumber value for this Transaction.
+     * Sets the value of the accountNumber property.
      * 
-     * @param accountNumber
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setAccountNumber(java.lang.String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setAccountNumber(String value) {
+        this.accountNumber = value;
     }
 
-
     /**
-     * Gets the accountType value for this Transaction.
+     * Gets the value of the accountType property.
      * 
-     * @return accountType
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
      */
-    public java.lang.String getAccountType() {
+    public String getAccountType() {
         return accountType;
     }
 
-
     /**
-     * Sets the accountType value for this Transaction.
+     * Sets the value of the accountType property.
      * 
-     * @param accountType
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
      */
-    public void setAccountType(java.lang.String accountType) {
-        this.accountType = accountType;
+    public void setAccountType(String value) {
+        this.accountType = value;
     }
 
-
     /**
-     * Gets the openingBalance value for this Transaction.
+     * Gets the value of the openingBalance property.
      * 
-     * @return openingBalance
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getOpeningBalance() {
+    public double getOpeningBalance() {
         return openingBalance;
     }
 
-
     /**
-     * Sets the openingBalance value for this Transaction.
+     * Sets the value of the openingBalance property.
      * 
-     * @param openingBalance
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setOpeningBalance(java.math.BigDecimal openingBalance) {
-        this.openingBalance = openingBalance;
+    public void setOpeningBalance(double value) {
+        this.openingBalance = value;
     }
 
-
     /**
-     * Gets the closingBalance value for this Transaction.
+     * Gets the value of the closingBalance property.
      * 
-     * @return closingBalance
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getClosingBalance() {
+    public double getClosingBalance() {
         return closingBalance;
     }
 
-
     /**
-     * Sets the closingBalance value for this Transaction.
+     * Sets the value of the closingBalance property.
      * 
-     * @param closingBalance
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setClosingBalance(java.math.BigDecimal closingBalance) {
-        this.closingBalance = closingBalance;
+    public void setClosingBalance(double value) {
+        this.closingBalance = value;
     }
 
-
     /**
-     * Gets the availBalance value for this Transaction.
+     * Gets the value of the availBalance property.
      * 
-     * @return availBalance
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getAvailBalance() {
+    public double getAvailBalance() {
         return availBalance;
     }
 
-
     /**
-     * Sets the availBalance value for this Transaction.
+     * Sets the value of the availBalance property.
      * 
-     * @param availBalance
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setAvailBalance(java.math.BigDecimal availBalance) {
-        this.availBalance = availBalance;
+    public void setAvailBalance(double value) {
+        this.availBalance = value;
     }
 
-
     /**
-     * Gets the curbalance value for this Transaction.
+     * Gets the value of the curbalance property.
      * 
-     * @return curbalance
+     * @return
+     *     possible object is
+     *     {@link BigDecimal }
+     *     
      */
-    public java.math.BigDecimal getCurbalance() {
+    public double getCurbalance() {
         return curbalance;
     }
 
-
     /**
-     * Sets the curbalance value for this Transaction.
+     * Sets the value of the curbalance property.
      * 
-     * @param curbalance
+     * @param value
+     *     allowed object is
+     *     {@link BigDecimal }
+     *     
      */
-    public void setCurbalance(java.math.BigDecimal curbalance) {
-        this.curbalance = curbalance;
-    }
-
-    @Transient
-    private java.lang.Object __equalsCalc = null;
-    public synchronized boolean equals(java.lang.Object obj) {
-        if (!(obj instanceof Transaction)) return false;
-        Transaction other = (Transaction) obj;
-        if (obj == null) return false;
-        if (this == obj) return true;
-        if (__equalsCalc != null) {
-            return (__equalsCalc == obj);
-        }
-        __equalsCalc = obj;
-        boolean _equals;
-        _equals = true && 
-            ((this.transactionType==null && other.getTransactionType()==null) || 
-             (this.transactionType!=null &&
-              this.transactionType.equals(other.getTransactionType()))) &&
-            ((this.transactionDate==null && other.getTransactionDate()==null) || 
-             (this.transactionDate!=null &&
-              this.transactionDate.equals(other.getTransactionDate()))) &&
-            ((this.amount==null && other.getAmount()==null) || 
-             (this.amount!=null &&
-              this.amount.equals(other.getAmount()))) &&
-            ((this.fees==null && other.getFees()==null) || 
-             (this.fees!=null &&
-              this.fees.equals(other.getFees()))) &&
-            ((this.surcharge==null && other.getSurcharge()==null) || 
-             (this.surcharge!=null &&
-              this.surcharge.equals(other.getSurcharge()))) &&
-            ((this.pan==null && other.getPan()==null) || 
-             (this.pan!=null &&
-              this.pan.equals(other.getPan()))) &&
-            ((this.transactionStatus==null && other.getTransactionStatus()==null) || 
-             (this.transactionStatus!=null &&
-              this.transactionStatus.equals(other.getTransactionStatus()))) &&
-            ((this.settlementStatus==null && other.getSettlementStatus()==null) || 
-             (this.settlementStatus!=null &&
-              this.settlementStatus.equals(other.getSettlementStatus()))) &&
-            ((this.responseCode==null && other.getResponseCode()==null) || 
-             (this.responseCode!=null &&
-              this.responseCode.equals(other.getResponseCode()))) &&
-            ((this.responseDescription==null && other.getResponseDescription()==null) || 
-             (this.responseDescription!=null &&
-              this.responseDescription.equals(other.getResponseDescription()))) &&
-            ((this.retrievalReference==null && other.getRetrievalReference()==null) || 
-             (this.retrievalReference!=null &&
-              this.retrievalReference.equals(other.getRetrievalReference()))) &&
-            ((this.stan==null && other.getStan()==null) || 
-             (this.stan!=null &&
-              this.stan.equals(other.getStan()))) &&
-            ((this.cardAcceptorID==null && other.getCardAcceptorID()==null) || 
-             (this.cardAcceptorID!=null &&
-              this.cardAcceptorID.equals(other.getCardAcceptorID()))) &&
-            ((this.cardAcceptorLocation==null && other.getCardAcceptorLocation()==null) || 
-             (this.cardAcceptorLocation!=null &&
-              this.cardAcceptorLocation.equals(other.getCardAcceptorLocation()))) &&
-            ((this.terminalID==null && other.getTerminalID()==null) || 
-             (this.terminalID!=null &&
-              this.terminalID.equals(other.getTerminalID()))) &&
-            ((this.schemeOwnerName==null && other.getSchemeOwnerName()==null) || 
-             (this.schemeOwnerName!=null &&
-              this.schemeOwnerName.equals(other.getSchemeOwnerName()))) &&
-            ((this.transID==null && other.getTransID()==null) || 
-             (this.transID!=null &&
-              this.transID.equals(other.getTransID()))) &&
-            ((this.accountNumber==null && other.getAccountNumber()==null) || 
-             (this.accountNumber!=null &&
-              this.accountNumber.equals(other.getAccountNumber()))) &&
-            ((this.accountType==null && other.getAccountType()==null) || 
-             (this.accountType!=null &&
-              this.accountType.equals(other.getAccountType()))) &&
-            ((this.openingBalance==null && other.getOpeningBalance()==null) || 
-             (this.openingBalance!=null &&
-              this.openingBalance.equals(other.getOpeningBalance()))) &&
-            ((this.closingBalance==null && other.getClosingBalance()==null) || 
-             (this.closingBalance!=null &&
-              this.closingBalance.equals(other.getClosingBalance()))) &&
-            ((this.availBalance==null && other.getAvailBalance()==null) || 
-             (this.availBalance!=null &&
-              this.availBalance.equals(other.getAvailBalance()))) &&
-            ((this.curbalance==null && other.getCurbalance()==null) || 
-             (this.curbalance!=null &&
-              this.curbalance.equals(other.getCurbalance())));
-        __equalsCalc = null;
-        return _equals;
-    }
-
-    @Transient
-    private boolean __hashCodeCalc = false;
-    public synchronized int hashCode() {
-        if (__hashCodeCalc) {
-            return 0;
-        }
-        __hashCodeCalc = true;
-        int _hashCode = 1;
-        if (getTransactionType() != null) {
-            _hashCode += getTransactionType().hashCode();
-        }
-        if (getTransactionDate() != null) {
-            _hashCode += getTransactionDate().hashCode();
-        }
-        if (getAmount() != null) {
-            _hashCode += getAmount().hashCode();
-        }
-        if (getFees() != null) {
-            _hashCode += getFees().hashCode();
-        }
-        if (getSurcharge() != null) {
-            _hashCode += getSurcharge().hashCode();
-        }
-        if (getPan() != null) {
-            _hashCode += getPan().hashCode();
-        }
-        if (getTransactionStatus() != null) {
-            _hashCode += getTransactionStatus().hashCode();
-        }
-        if (getSettlementStatus() != null) {
-            _hashCode += getSettlementStatus().hashCode();
-        }
-        if (getResponseCode() != null) {
-            _hashCode += getResponseCode().hashCode();
-        }
-        if (getResponseDescription() != null) {
-            _hashCode += getResponseDescription().hashCode();
-        }
-        if (getRetrievalReference() != null) {
-            _hashCode += getRetrievalReference().hashCode();
-        }
-        if (getStan() != null) {
-            _hashCode += getStan().hashCode();
-        }
-        if (getCardAcceptorID() != null) {
-            _hashCode += getCardAcceptorID().hashCode();
-        }
-        if (getCardAcceptorLocation() != null) {
-            _hashCode += getCardAcceptorLocation().hashCode();
-        }
-        if (getTerminalID() != null) {
-            _hashCode += getTerminalID().hashCode();
-        }
-        if (getSchemeOwnerName() != null) {
-            _hashCode += getSchemeOwnerName().hashCode();
-        }
-        if (getTransID() != null) {
-            _hashCode += getTransID().hashCode();
-        }
-        if (getAccountNumber() != null) {
-            _hashCode += getAccountNumber().hashCode();
-        }
-        if (getAccountType() != null) {
-            _hashCode += getAccountType().hashCode();
-        }
-        if (getOpeningBalance() != null) {
-            _hashCode += getOpeningBalance().hashCode();
-        }
-        if (getClosingBalance() != null) {
-            _hashCode += getClosingBalance().hashCode();
-        }
-        if (getAvailBalance() != null) {
-            _hashCode += getAvailBalance().hashCode();
-        }
-        if (getCurbalance() != null) {
-            _hashCode += getCurbalance().hashCode();
-        }
-        __hashCodeCalc = false;
-        return _hashCode;
-    }
-
-    // Type metadata
-    @Transient
-    private static org.apache.axis.description.TypeDesc typeDesc =
-        new org.apache.axis.description.TypeDesc(Transaction.class, true);
-
-    static {
-        typeDesc.setXmlType(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Transaction"));
-        org.apache.axis.description.ElementDesc elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("transactionType");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "TransactionType"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("transactionDate");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "TransactionDate"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("amount");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Amount"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("fees");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Fees"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("surcharge");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Surcharge"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("pan");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Pan"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("transactionStatus");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "TransactionStatus"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("settlementStatus");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "SettlementStatus"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("responseCode");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "ResponseCode"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("responseDescription");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "ResponseDescription"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("retrievalReference");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "RetrievalReference"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("stan");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Stan"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("cardAcceptorID");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "CardAcceptorID"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("cardAcceptorLocation");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "CardAcceptorLocation"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("terminalID");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "TerminalID"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("schemeOwnerName");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "SchemeOwnerName"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("transID");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "TransID"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("accountNumber");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "AccountNumber"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("accountType");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "AccountType"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "string"));
-        elemField.setMinOccurs(0);
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("openingBalance");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "OpeningBalance"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("closingBalance");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "ClosingBalance"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("availBalance");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "AvailBalance"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-        elemField = new org.apache.axis.description.ElementDesc();
-        elemField.setFieldName("curbalance");
-        elemField.setXmlName(new javax.xml.namespace.QName("http://zenithbank.com/mtn/fleet", "Curbalance"));
-        elemField.setXmlType(new javax.xml.namespace.QName("http://www.w3.org/2001/XMLSchema", "decimal"));
-        elemField.setNillable(false);
-        typeDesc.addFieldDesc(elemField);
-    }
-
-    /**
-     * Return type metadata object
-     */
-    public static org.apache.axis.description.TypeDesc getTypeDesc() {
-        return typeDesc;
-    }
-
-    /**
-     * Get Custom Serializer
-     */
-    @Transient
-    public static org.apache.axis.encoding.Serializer getSerializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanSerializer(
-            _javaType, _xmlType, typeDesc);
-    }
-
-    /**
-     * Get Custom Deserializer
-     */
-    @Transient
-    public static org.apache.axis.encoding.Deserializer getDeserializer(
-           java.lang.String mechType, 
-           java.lang.Class _javaType,  
-           javax.xml.namespace.QName _xmlType) {
-        return 
-          new  org.apache.axis.encoding.ser.BeanDeserializer(
-            _javaType, _xmlType, typeDesc);
+    public void setCurbalance(double value) {
+        this.curbalance = value;
     }
 
 }

@@ -49,15 +49,112 @@
 			</tr>
 			<tr>
 				<td colspan="2">
+					<a4j:outputPanel id="tablePanel">
+					<rich:dataTable id="cars" value="#{cardBalanceMBean.settings}" var="obj" rows="20" width="100%" rendered="#{cardBalanceMBean.settings.size() > 0}">
+					<f:facet name="header">
+						<h:outputText value="Displaying available settings" />
+					</f:facet>
+					<rich:column sortBy="#{obj.region.name}" filterBy="#{obj.region.name}">
+						<f:facet name="header">Region</f:facet>
+						<h:outputText value="#{obj.region.name}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:selectOneMenu value="#{cardBalanceMBean.selCardBal.new_region_id}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}">
+							<f:selectItems value="#{carMBean.regions}" var="rw" itemLabel="#{rw.name}" itemValue="#{rw.id}" />
+						</h:selectOneMenu>
+					</rich:column>
+					<rich:column sortBy="#{obj.minbalance}">
+						<f:facet name="header">Card Threshold</f:facet>
+						<h:outputText value="#{obj.minbalance}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.minbalance}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					<rich:column sortBy="#{obj.thresholdAlertEmail}">
+						<f:facet name="header">Threshold Alert Email(s)</f:facet>
+						<h:outputText value="#{obj.thresholdAlertEmail}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.thresholdAlertEmail}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{obj.alertMobileNumbers}">
+						<f:facet name="header">Transaction Alert Mobile(s)</f:facet>
+						<h:outputText value="#{obj.alertMobileNumbers}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.alertMobileNumbers}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{obj.transactionAlertEmail}">
+						<f:facet name="header">Transaction Alert Email(s)</f:facet>
+						<h:outputText value="#{obj.transactionAlertEmail}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.transactionAlertEmail}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					<rich:column sortBy="#{obj.expectionAlertEmail}">
+						<f:facet name="header">Exception Alert Email(s)</f:facet>
+						<h:outputText value="#{obj.expectionAlertEmail}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.expectionAlertEmail}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					
+					<rich:column sortBy="#{obj.petrolUnitPrice}">
+						<f:facet name="header">Petrol Unit Price</f:facet>
+						<h:outputText value="#{obj.petrolUnitPrice}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.petrolUnitPrice}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					<rich:column sortBy="#{obj.disealUnitPrice}">
+						<f:facet name="header">Diesel Unit Price</f:facet>
+						<h:outputText value="#{obj.disealUnitPrice}" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}" />
+						<h:inputText value="#{cardBalanceMBean.selCardBal.disealUnitPrice}" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					
+					<rich:column>
+						<f:facet name="header">Update</f:facet>
+						<a4j:commandLink reRender="cars,tablePanel" value="Update" rendered="#{obj.id != cardBalanceMBean.selCardBal.id}">
+							<f:setPropertyActionListener value="#{obj}" target="#{cardBalanceMBean.selCardBal}"/>
+						</a4j:commandLink>
+						
+						<a4j:commandLink reRender="cars,tablePanel,messagepanel" action="#{cardBalanceMBean.update}" value="SAVE" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+						
+						<h:outputText value=" - " rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+						
+						<a4j:commandLink reRender="cars,tablePanel" action="#{cardBalanceMBean.setSelCardBal(null)}" value="CANCEL" rendered="#{obj.id == cardBalanceMBean.selCardBal.id}" />
+					</rich:column>
+					</rich:dataTable>
+					<h:outputText value="No setting found" rendered="#{empty cardBalanceMBean.settings}"/>
+					<rich:datascroller id="dscars" for="cars" renderIfSinglePage="false" reRender="tablePanel" />
+					</a4j:outputPanel>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
 					<div class="dialog">
 					<h:panelGrid columns="3" rowClasses="prop" columnClasses="name,value,validatormsg">
-						<h:outputLabel for="bal">Balance </h:outputLabel>
-						<h:inputText id="bal" value="#{cardBalanceMBean.cardBal.minbalance}" required="true" />
+						<h:outputLabel for="region">Region </h:outputLabel>
+						<h:selectOneMenu id="region" value="#{cardBalanceMBean.region_id}" defaultLabel="Select a region...">
+							<f:selectItems value="#{carMBean.regions}" var="obj" itemLabel="#{obj.name}" itemValue="#{obj.id}" />
+						</h:selectOneMenu>
+						<rich:message for="region" style="color: red;"/>
+					
+						<h:outputLabel for="bal">Threshold Balance </h:outputLabel>
+						<h:inputText id="bal" value="#{cardBalanceMBean.cardBal.minbalance}" />
 						<rich:message for="bal" style="color: red;"/>
 						
-						<h:outputLabel for="emai">Notification Email(s) </h:outputLabel>
-						<h:inputText id="emai" value="#{cardBalanceMBean.cardBal.email}" required="true" />
+						<h:outputLabel for="emai">Threshold Notification Email(s) </h:outputLabel>
+						<h:inputText id="emai" value="#{cardBalanceMBean.cardBal.thresholdAlertEmail}" />
 						<h:outputText value="Separate multiple emails with comma" />
+						
+						<h:outputLabel for="mobile">Transaction Mobile Number(s) </h:outputLabel>
+						<h:inputText id="mobile" value="#{cardBalanceMBean.cardBal.alertMobileNumbers}" />
+						<h:outputText value="Separate multiple mobile number(s) with comma. Use prefix 234." />
+						
+						<h:outputLabel for="emai2">Transaction Notification Email(s) </h:outputLabel>
+						<h:inputText id="emai2" value="#{cardBalanceMBean.cardBal.transactionAlertEmail}" />
+						<h:outputText value="Separate multiple emails with comma" />
+						
+						<h:outputLabel for="emai3">Exception Notification Email(s) </h:outputLabel>
+						<h:inputText id="emai3" value="#{cardBalanceMBean.cardBal.expectionAlertEmail}" />
+						<h:outputText value="Separate multiple emails with comma" />
+						
+						<h:outputLabel for="petup">Petrol Unit Price </h:outputLabel>
+						<h:inputText id="petup" value="#{cardBalanceMBean.cardBal.petrolUnitPrice}" />
+						<h:outputText value="Enter the unit price for PETROL" />
+						
+						<h:outputLabel for="diseal">Diesel Unit Price </h:outputLabel>
+						<h:inputText id="diseal" value="#{cardBalanceMBean.cardBal.disealUnitPrice}" />
+						<h:outputText value="Enter the unit price for DIESEL" />
 						
 					</h:panelGrid>
 					</div>

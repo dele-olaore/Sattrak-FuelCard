@@ -44,6 +44,9 @@ public class DriverRecord implements Serializable
 	private String regNumber;
 	private String refNumber;
 	
+	@Temporal(value=TemporalType.TIMESTAMP)
+	private Date crt_dt;
+	
 	public DriverRecord()
 	{}
 
@@ -149,6 +152,14 @@ public class DriverRecord implements Serializable
 
 	public void setRefNumber(String refNumber) {
 		this.refNumber = refNumber;
+	}
+
+	public Date getCrt_dt() {
+		return crt_dt;
+	}
+
+	public void setCrt_dt(Date crt_dt) {
+		this.crt_dt = crt_dt;
 	}
 	
 }

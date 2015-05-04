@@ -60,7 +60,20 @@
 							<span style="font-size:12px;text-align:justify;">View purchase report by date range</span>
 						</p>
 					</a4j:outputPanel>
-					
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}">
+						<p>
+							<s:link view="/fuel_purchase_r_summary.xhtml" value="Fuel Purchase Summary Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View purchase summary report by date range</span>
+						</p>
+					</a4j:outputPanel>
+					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Fuel Purchase Report')}">
+						<p>
+							<s:link view="/transactionsnotif.xhtml" value="Transaction Notifications Report" style="font-size:22px;font-weight:bold;" />
+							<br/>
+							<span style="font-size:12px;text-align:justify;">View purchase notification report by date range</span>
+						</p>
+					</a4j:outputPanel>
 					<a4j:outputPanel rendered="#{reportMBean.isFunctionAllowed('Exception Report')}">
 						<p>
 							<s:link view="/exception_purchase_r.xhtml" value="Exception Report" style="font-size:22px;font-weight:bold;" />

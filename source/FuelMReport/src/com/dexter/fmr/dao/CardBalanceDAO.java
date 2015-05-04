@@ -85,6 +85,25 @@ public class CardBalanceDAO
     	return ret;
     }
     
+    @SuppressWarnings("unchecked")
+	public Vector<CardBalanceNotification> getSettings()
+    {
+    	Vector<CardBalanceNotification> list = new Vector<CardBalanceNotification>();
+    	try
+    	{
+    		Query q = em.createQuery("Select e from CardBalanceNotification e");
+    		Object obj = q.getResultList();
+    		if(obj != null)
+    			list = (Vector<CardBalanceNotification>) obj;
+    	}
+    	catch(Exception ex)
+    	{
+    		logger.log(Level.SEVERE, "Retieve failed for card notification settings. " + ex);
+    	}
+    	
+    	return list;
+    }
+    
     public CardBalanceNotification getBalanceNotification()
     {
     	CardBalanceNotification e = null;
@@ -96,7 +115,7 @@ public class CardBalanceDAO
     		Query q = em.createQuery("Select e from CardBalanceNotification e");
     		Object obj = q.getResultList();
     		if(obj != null)
-			list = (Vector<CardBalanceNotification>) obj;
+    			list = (Vector<CardBalanceNotification>) obj;
 			
 			e = list.get(0);
     	}

@@ -29,8 +29,8 @@ public class ReceiveDataWS
 			e1.printStackTrace();
 		}
 		e.setTranType(transactionType);
-		e.setTranAmt(new BigDecimal(transactionAmount));
-		e.setTranFees(new BigDecimal(transactionFee));
+		e.setTranAmt(transactionAmount);
+		e.setTranFees(transactionFee);
 		e.setTranStatus(transactionStatus);
 		e.setCardPan(cardPan);
 		e.setCardStatus(cardStatus);
@@ -38,7 +38,7 @@ public class ReceiveDataWS
 		e.setCardAcceptorId(cardAcceptorId);
 		e.setCardAcceptorLoc(cardAcceptorLocation);
 		e.setRetrievalRefNum(retRefNumber);
-		e.setCardBal(new BigDecimal(cardBalance));
+		e.setCardBal(cardBalance);
 		
 		boolean ret = new BankRecordDAO().createBankRecord(e);
 		

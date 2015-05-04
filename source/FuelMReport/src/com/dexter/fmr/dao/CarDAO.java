@@ -145,6 +145,32 @@ public class CarDAO
     	return list;
     }
     
+    public Vector<Car> getCarsByRegion(long region_id)
+    {
+    	Vector<Car> list = new Vector<Car>();
+    	
+    	try
+    	{
+    		if(region_id > 0)
+    		{
+	    		Query q = em.createQuery("Select e from Car e where e.region.id=:region_id order by e.regNumber");
+	    		q.setParameter("region_id", region_id);
+				list = (Vector<Car>) q.getResultList();
+    		}
+    		else
+    		{
+    			Query q = em.createQuery("Select e from Car e order by e.regNumber");
+    			list = (Vector<Car>) q.getResultList();
+    		}
+    	}
+    	catch(Exception ex)
+    	{
+    		logger.log(Level.SEVERE, "Retieve failed for cars. " + ex);
+    	}
+    	
+    	return list;
+    }
+    
     public Vector<Car> getCarsNotAssigned()
     {
     	Vector<Car> list = new Vector<Car>();
